@@ -1,9 +1,10 @@
-import { ReactNode } from 'react'
+import { ReactElement } from 'react'
 
+// TODO: реализация логики приватного роута
 type Props = {
-  children: ReactNode
+  children: ReactElement
 }
 
-export const RoleRoute = ({ children }: Props) => {
+export const RoleRoute = ({ children }: Props): ReactElement => {
   return children
 }

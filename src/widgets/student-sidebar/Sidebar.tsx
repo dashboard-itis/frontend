@@ -1,32 +1,20 @@
-import styles from "./Sidebar.module.css";
-import SidebarInfoCard from "./SidebarInfoCard";
-import SidebarButton from "../admin-sidebar/SidebarButton";
+import SidebarInfoCard from './SidebarInfoCard'
 
-const Sidebar = () => {
-    const ratingPlace: number = 5;
-    const averageScore: number = 4.7;
+import { Sidebar } from '@/shared/ui/Sidebar'
 
-    return (
-        <div className={styles.sidebar}>
-            <SidebarInfoCard
-                label="Место в рейтинге:"
-                value={ratingPlace}
-            />
+const StudentSidebar = () => {
+  //TODO: меняем моковые данные на данные с бэка
+  const ratingPlace: number = 5
+  const averageScore: number = 4.7
 
-            <SidebarInfoCard
-                label="Ваш средний балл:"
-                value={averageScore}
-            />
+  const headerContent = (
+    <>
+      <SidebarInfoCard label='Место в рейтинге:' value={ratingPlace} />
+      <SidebarInfoCard label='Ваш средний балл:' value={averageScore} />
+    </>
+  )
 
-            <div className={styles.bottom}>
-                <SidebarButton
-                    text="Выйти из аккаунта"
-                    variant="danger"
-                    onClick={() => alert("Выход")}
-                />
-            </div>
-        </div>
-    );
-};
+  return <Sidebar items={[]} headerContent={headerContent} showLogout={true} />
+}
 
-export default Sidebar;
+export default StudentSidebar

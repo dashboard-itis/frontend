@@ -1,5 +1,5 @@
 function Analytics() {
-    return <h1>Динамика</h1>;
+  return <h1>Динамика</h1>
 }
 
-export default Analytics;
+export default Analytics

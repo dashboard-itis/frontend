@@ -1,42 +1,30 @@
-import styles from "./Sidebar.module.css";
-import SidebarButton from "../admin-sidebar/SidebarButton";
-import SidebarInfoCard from "../student-sidebar/SidebarInfoCard";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom'
 
-function Sidebar() {
-    const navigate = useNavigate();
-    const location = useLocation();
+import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
+import SidebarInfoCard from '@/widgets/student-sidebar/SidebarInfoCard'
 
-    const averageGroupScore: number = 4.3;
+function CuratorSidebar() {
+  const navigate = useNavigate()
+  const location = useLocation()
 
-    return (
-        <div className={styles.sidebar}>
-            <SidebarInfoCard
-                label="Средний балл группы:"
-                value={averageGroupScore}
-            />
+  const averageGroupScore: number = 4.3
 
-            <SidebarButton
-                text="Распределение оценок"
-                active={location.pathname.includes("distribution")}
-                onClick={() => navigate("/curator/distribution")}
-            />
+  const items: SidebarItem[] = [
+    {
+      label: 'Распределение оценок',
+      isActive: location.pathname.includes('distribution'),
+      onClick: () => navigate('/curator/distribution'),
+    },
+    {
+      label: 'Динамика',
+      isActive: location.pathname.includes('analytics'),
+      onClick: () => navigate('/curator/analytics'),
+    },
+  ]
 
-            <SidebarButton
-                text="Динамика"
-                active={location.pathname.includes("analytics")}
-                onClick={() => navigate("/curator/analytics")}
-            />
-
-            <div className={styles.bottom}>
-                <SidebarButton
-                    text="Выйти из аккаунта"
-                    variant="danger"
-                    onClick={() => alert("Выход")}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <Sidebar items={items} headerContent={<SidebarInfoCard label='Средний балл группы:' value={averageGroupScore} />} />
+  )
 }
 
-export default Sidebar;
+export default CuratorSidebar

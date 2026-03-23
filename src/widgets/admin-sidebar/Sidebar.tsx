@@ -1,34 +1,25 @@
-import SidebarButton from "./SidebarButton";
-import styles from "./Sidebar.module.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom'
 
-const Sidebar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
 
-    return (
-        <div className={styles.sidebar}>
-            <SidebarButton
-                text="Импорт данных"
-                active={location.pathname.includes("/admin/import")}
-                onClick={() => navigate("/admin/import")}
-            />
+const AdminSidebar = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
 
-            <SidebarButton
-                text="Управление пользователями"
-                active={location.pathname.includes("/admin/users")}
-                onClick={() => navigate("/admin/users")}
-            />
+  const items: SidebarItem[] = [
+    {
+      label: 'Импорт данных',
+      isActive: location.pathname.includes('/admin/import'),
+      onClick: () => navigate('/admin/import'),
+    },
+    {
+      label: 'Управление пользователями',
+      isActive: location.pathname.includes('/admin/users'),
+      onClick: () => navigate('/admin/users'),
+    },
+  ]
 
-            <div className={styles.bottom}>
-                <SidebarButton
-                    text="Выйти из аккаунта"
-                    variant="danger"
-                    onClick={() => alert("Выход")}
-                />
-            </div>
-        </div>
-    );
-};
+  return <Sidebar items={items} />
+}
 
-export default Sidebar;
+export default AdminSidebar

@@ -1,9 +1,8 @@
 import AppRouter from './providers/router/router'
 
-
 export const App = () => {
   return (
-    <div className='app'>
+    <div>
       <AppRouter />
     </div>
   )

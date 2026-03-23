@@ -1,3 +1,5 @@
+import { CuratorDashboard } from '@/widgets/dashboard-layout'
+
 export const CuratorDashboardPage = () => {
-  return <div>Curator Dashboard</div>
+  return <CuratorDashboard tab='dynamics' />
 }

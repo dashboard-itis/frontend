@@ -1,5 +1,5 @@
 function Users() {
-    return <h1>Управление пользователями</h1>;
+  return <h1>Управление пользователями</h1>
 }
 
-export default Users;
+export default Users

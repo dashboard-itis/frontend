@@ -1,0 +1,27 @@
+.button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: none;
+    background: #e5e5e5;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background: #d4d4d4;
+}
+
+.active {
+    background: #cfcfcf;
+    font-weight: bold;
+}
+
+.danger {
+    background: #f28b82;
+}
+
+.danger:hover {
+    background: #e57373;
+}

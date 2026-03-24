@@ -1,0 +1,124 @@
+.dw-widget {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin: 0 auto;
+  max-width: 700px;
+}
+.dw-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.dw-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 18px 0 8px 0;
+}
+.dw-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: #f5f6fa;
+  border-radius: 8px;
+  padding: 16px 20px;
+  min-width: 160px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.stat-dynamics {
+  font-size: 0.95rem;
+  color: #2e9e4c;
+  margin-top: 6px;
+}
+.dw-privacy {
+  margin: 12px 0;
+  font-size: 0.95rem;
+  color: #888;
+}
+.dw-filters {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+.filter {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #fafafa;
+}
+.chart-placeholder {
+  background: #e0e0e0;
+  color: #555;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  margin: 16px 0;
+  font-size: 1rem;
+}
+.dw-caption {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 8px;
+}
+.dw-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+.dw-table th, .dw-table td {
+  border: 1px solid #d1d1d1;
+  padding: 8px 12px;
+  text-align: left;
+}
+.dw-table th {
+  background: #f0f0f0;
+  font-weight: 500;
+}
+.dw-import-block {
+  margin-bottom: 18px;
+}
+.dw-file-input {
+  margin: 10px 0;
+}
+.dw-import-btn {
+  background: #2e9e4c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.dw-import-btn:hover {
+  background: #23803a;
+}
+.dw-import-last {
+  background: #f5f6fa;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #555;
+  font-size: 0.95rem;
+}
+.dw-loading {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #888;
+  padding: 32px 0;
+}

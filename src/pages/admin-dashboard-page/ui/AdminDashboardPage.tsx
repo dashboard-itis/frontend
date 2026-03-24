@@ -1,3 +1,5 @@
+import { AdminDashboard } from '@/widgets/dashboard-layout'
+
 export const AdminDashboardPage = () => {
-  return <div>Admin Dashboard</div>
+  return <AdminDashboard tab='users' />
 }

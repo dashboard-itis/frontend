@@ -1,23 +1,62 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Navigate, BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { PrivateRoute } from './ProtectedRoute'
+
 import { RoleRoute } from './RoleRoute'
 
 import { AdminDashboardPage } from '@/pages/admin-dashboard-page/ui/AdminDashboardPage'
+import Import from '@/pages/admin-sidebar-import-page/ui/Import'
+import Analytics from '@/pages/admin-sidebar-users-page/ui/Analytics'
+import Users from '@/pages/admin-sidebar-users-page/ui/Users'
 import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorDashboardPage'
-import { LoginPage } from '@/pages/login-page/ui/LoginPage'
-import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
+import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribution'
 import { StudentDashboardPage } from '@/pages/student-dashboard-page/ui/StudentDashboardPage'
 
-export const AppRouter = () => {
+import StudentPage from '@/pages/student-sidebar-page/ui/StudentPage'
+
+import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
+import LoginForm from '@/widgets/auth/LoginForm'
+import RegisterForm from '@/widgets/auth/RegisterForm'
+import { CuratorLayout } from '@/widgets/curator-layout/CuratorLayout'
+
+// import { LoginPage } from '@/pages/login-page/ui/LoginPage'
+// import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
+
+const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* public/общие */}
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
+        <Route path='/login' element={<LoginForm />} />
+        <Route path='/register' element={<RegisterForm />} />
 
-        {/* student/студент */}
+        <Route
+          path='/admin'
+          element={
+            <PrivateRoute>
+              <RoleRoute roles={['admin']}>
+                <AdminLayout />
+              </RoleRoute>
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Navigate to='dashboard' />} />
+          <Route path='dashboard' element={<AdminDashboardPage />} />
+          <Route path='users' element={<Users />} />
+          <Route path='import' element={<Import />} />
+        </Route>
+
+        {/*студент*/}
+        <Route
+          path='/student/*'
+          element={
+            <PrivateRoute>
+              <RoleRoute>
+                <StudentPage />
+              </RoleRoute>
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path='/student/dashboard'
           element={
@@ -29,30 +68,24 @@ export const AppRouter = () => {
           }
         />
 
-        {/* curator/куратор */}
+        {/*куратор*/}
         <Route
-          path='/curator/dashboard'
+          path='/curator'
           element={
             <PrivateRoute>
               <RoleRoute>
-                <CuratorDashboardPage />
+                <CuratorLayout />
               </RoleRoute>
             </PrivateRoute>
           }
-        />
-
-        {/* admin/админ */}
-        <Route
-          path='/admin/dashboard'
-          element={
-            <PrivateRoute>
-              <RoleRoute>
-                <AdminDashboardPage />
-              </RoleRoute>
-            </PrivateRoute>
-          }
-        />
+        >
+          <Route index element={<Navigate to='distribution' />} />
+          <Route path='distribution' element={<Distribution />} />
+          <Route path='analytics' element={<Analytics />} />
+          <Route path='dashboard' element={<CuratorDashboardPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
 }
+export default AppRouter

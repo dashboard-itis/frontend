@@ -1,3 +1,5 @@
+import { StudentDashboard } from '@/widgets/dashboard-layout'
+
 export const StudentDashboardPage = () => {
-  return <div>Student Dashboard</div>
+  return <StudentDashboard isAnonymous={false} />
 }

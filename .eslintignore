@@ -1,0 +1,23 @@
+node_modules
+dist
+build
+coverage
+
+# сборка / кэш
+.next
+out
+.cache
+
+# логи
+*.log
+
+# системные файлы
+.DS_Store
+
+# IDE
+.idea
+.vscode
+
+# env
+.env
+.env.*

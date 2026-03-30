@@ -13,6 +13,7 @@ import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribut
 import { StudentDashboardPage } from '@/pages/student-dashboard-page/ui/StudentDashboardPage'
 
 import StudentPage from '@/pages/student-sidebar-page/ui/StudentPage'
+import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
 import LoginForm from '@/widgets/auth/LoginForm'
@@ -25,66 +26,71 @@ import { CuratorLayout } from '@/widgets/curator-layout/CuratorLayout'
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<LoginForm />} />
-        <Route path='/register' element={<RegisterForm />} />
+      <AuthProvider>
+        <Routes>
+          <Route path='/login' element={<LoginForm />} />
+          <Route path='/register' element={<RegisterForm />} />
 
-        <Route
-          path='/admin'
-          element={
-            <PrivateRoute>
-              <RoleRoute roles={['admin']}>
-                <AdminLayout />
-              </RoleRoute>
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Navigate to='dashboard' />} />
-          <Route path='dashboard' element={<AdminDashboardPage />} />
-          <Route path='users' element={<Users />} />
-          <Route path='import' element={<Import />} />
-        </Route>
+          <Route
+            path='/admin'
+            element={
+              <PrivateRoute>
+                <RoleRoute roles={['ADMIN']}>
+                  <AdminLayout />
+                </RoleRoute>
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Navigate to='dashboard' />} />
+            <Route path='dashboard' element={<AdminDashboardPage />} />
+            <Route path='users' element={<Users />} />
+            <Route path='import' element={<Import />} />
+          </Route>
 
-        {/*студент*/}
-        <Route
-          path='/student/*'
-          element={
-            <PrivateRoute>
-              <RoleRoute>
-                <StudentPage />
-              </RoleRoute>
-            </PrivateRoute>
-          }
-        />
+          {/*студент*/}
+          <Route
+            path='/student/*'
+            element={
+              <PrivateRoute>
+                <RoleRoute>
+                  <StudentPage />
+                </RoleRoute>
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path='/student/dashboard'
-          element={
-            <PrivateRoute>
-              <RoleRoute>
-                <StudentDashboardPage />
-              </RoleRoute>
-            </PrivateRoute>
-          }
-        />
+          <Route
+            path='/student/dashboard'
+            element={
+              <PrivateRoute>
+                <RoleRoute>
+                  <StudentDashboardPage />
+                </RoleRoute>
+              </PrivateRoute>
+            }
+          />
 
-        {/*куратор*/}
-        <Route
-          path='/curator'
-          element={
-            <PrivateRoute>
-              <RoleRoute>
-                <CuratorLayout />
-              </RoleRoute>
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Navigate to='distribution' />} />
-          <Route path='distribution' element={<Distribution />} />
-          <Route path='analytics' element={<Analytics />} />
-          <Route path='dashboard' element={<CuratorDashboardPage />} />
-        </Route>
-      </Routes>
+          {/*куратор*/}
+          <Route
+            path='/curator'
+            element={
+              <PrivateRoute>
+                <RoleRoute>
+                  <CuratorLayout />
+                </RoleRoute>
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Navigate to='distribution' />} />
+            <Route path='distribution' element={<Distribution />} />
+            <Route path='analytics' element={<Analytics />} />
+            <Route path='dashboard' element={<CuratorDashboardPage />} />
+          </Route>
+
+          {/* Редирект с корневого пути */}
+          <Route path='/' element={<Navigate to='/login' />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

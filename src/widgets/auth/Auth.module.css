@@ -37,6 +37,24 @@
   background: #bbb;
 }
 
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-bottom: 8px;
+  margin-top: -8px;
+  text-align: left;
+}
+
 .link {
   margin-top: 10px;
   font-size: 20px;

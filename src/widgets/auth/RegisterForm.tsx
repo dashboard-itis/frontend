@@ -3,15 +3,19 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './Auth.module.css'
 
+import { useAuth } from '@/shared/hooks/useAuth'
+
 const RegisterForm = () => {
   const navigate = useNavigate()
+  const { register } = useAuth()
 
   const [lastName, setLastName] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
-  const [middleName, setMiddleName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [error, setError] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -22,6 +26,7 @@ const RegisterForm = () => {
         placeholder='Фамилия'
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}
+        disabled={isLoading}
       />
 
       <input
@@ -29,16 +34,17 @@ const RegisterForm = () => {
         placeholder='Имя'
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
+        disabled={isLoading}
       />
 
       <input
         className={styles.input}
-        placeholder='Отчество'
-        value={middleName}
-        onChange={(e) => setMiddleName(e.target.value)}
+        placeholder='Почта'
+        type='email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={isLoading}
       />
-
-      <input className={styles.input} placeholder='Почта' value={email} onChange={(e) => setEmail(e.target.value)} />
 
       <input
         className={styles.input}
@@ -46,6 +52,7 @@ const RegisterForm = () => {
         placeholder='Пароль'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={isLoading}
       />
 
       <input
@@ -54,26 +61,51 @@ const RegisterForm = () => {
         placeholder='Повторите пароль'
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        disabled={isLoading}
       />
+
+      {error && <div className={styles.error}>{error}</div>}
 
       <button
         className={styles.button}
-        onClick={() => {
-          if (password !== confirmPassword) {
-            alert('Пароли не совпадают')
+        onClick={async () => {
+          setError('')
+          if (!lastName.trim() || !firstName.trim() || !email.trim()) {
+            setError('Заполните все поля')
             return
           }
-
-          // потом тут будет регистрация
-          navigate('/login')
+          if (password.length < 8) {
+            setError('Пароль минимум 8 символов')
+            return
+          }
+          if (password !== confirmPassword) {
+            setError('Пароли не совпадают')
+            return
+          }
+          setIsLoading(true)
+          try {
+            await register({
+              email,
+              password,
+              first_name: firstName,
+              last_name: lastName,
+              role: 'STUDENT', //пока хардкодим, потом нужно будет поговорить с бэками, что не клиент должен отправлять роль, а условно все при регистрации студенты а уже потом бэк отправляет точные данные по ролям
+            })
+            navigate('/login')
+          } catch (e: any) {
+            setError(e.message || 'Ошибка при регистрации')
+          } finally {
+            setIsLoading(false)
+          }
         }}
+        disabled={isLoading}
       >
-        Зарегистрироваться
+        {isLoading ? 'Загрузка...' : 'Зарегистрироваться'}
       </button>
 
       <div className={styles.link}>
         Уже есть аккаунт?{' '}
-        <span className={styles.linkAction} onClick={() => navigate('/login')}>
+        <span className={styles.linkAction} onClick={() => !isLoading && navigate('/login')}>
           Войти
         </span>
       </div>

@@ -1,3 +1,5 @@
+import RegisterForm from '@/widgets/auth/RegisterForm'
+
 export const RegisterPage = () => {
-  return <div>Register Page</div>
+  return <RegisterForm />
 }

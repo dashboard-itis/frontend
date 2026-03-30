@@ -1,124 +1,177 @@
 .dw-widget {
-  background: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: var(--color-bg-primary);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   margin: 0 auto;
   max-width: 700px;
+  font-family: var(--font-body);
 }
+
 .dw-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 18px;
+  font-family: var(--font-title);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-accent);
 }
+
 .dw-subtitle {
-  font-size: 1.1rem;
+  font-family: var(--font-subtitle);
+  font-size: var(--font-size-subtitle);
   font-weight: 500;
-  margin: 18px 0 8px 0;
+  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
 }
+
 .dw-cards {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
+
 .stat-card {
-  background: #f5f6fa;
-  border-radius: 8px;
-  padding: 16px 20px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   min-width: 160px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
+
 .stat-label {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 6px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
 }
+
 .stat-value {
-  font-size: 1.2rem;
+  font-family: var(--font-subtitle);
+  font-size: var(--font-size-h4);
   font-weight: 600;
+  color: var(--color-accent);
 }
+
 .stat-dynamics {
-  font-size: 0.95rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
   color: #2e9e4c;
-  margin-top: 6px;
+  margin-top: var(--spacing-xs);
 }
+
 .dw-privacy {
-  margin: 12px 0;
-  font-size: 0.95rem;
-  color: #888;
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-small);
+  color: var(--color-text-light);
 }
+
 .dw-filters {
   display: flex;
-  gap: 12px;
-  margin: 16px 0;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
 }
+
 .filter {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  background: #fafafa;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
+
+.filter:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
 .chart-placeholder {
-  background: #e0e0e0;
-  color: #555;
-  border-radius: 8px;
-  padding: 24px;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
   text-align: center;
-  margin: 16px 0;
-  font-size: 1rem;
+  margin: var(--spacing-md) 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
 }
+
 .dw-caption {
-  font-size: 0.9rem;
-  color: #888;
-  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
+  color: var(--color-text-light);
+  margin-top: var(--spacing-xs);
 }
+
 .dw-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 18px;
+  margin-top: var(--spacing-md);
 }
-.dw-table th, .dw-table td {
-  border: 1px solid #d1d1d1;
-  padding: 8px 12px;
+
+.dw-table th,
+.dw-table td {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-xs) var(--spacing-sm);
   text-align: left;
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
 }
+
 .dw-table th {
-  background: #f0f0f0;
-  font-weight: 500;
+  background: var(--color-bg-secondary);
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  color: var(--color-text-primary);
 }
+
+.dw-table td {
+  color: var(--color-text-primary);
+}
+
 .dw-import-block {
-  margin-bottom: 18px;
+  margin-bottom: var(--spacing-md);
 }
+
 .dw-file-input {
-  margin: 10px 0;
+  margin: var(--spacing-sm) 0;
+  font-family: var(--font-body);
 }
+
 .dw-import-btn {
-  background: #2e9e4c;
-  color: #fff;
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
   border: none;
-  border-radius: 6px;
-  padding: 8px 18px;
-  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: var(--spacing-xs);
+  transition: opacity 0.2s ease;
 }
+
 .dw-import-btn:hover {
-  background: #23803a;
+  opacity: 0.85;
 }
+
 .dw-import-last {
-  background: #f5f6fa;
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: #555;
-  font-size: 0.95rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-light);
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
 }
+
 .dw-loading {
   text-align: center;
-  font-size: 1.1rem;
-  color: #888;
-  padding: 32px 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  color: var(--color-text-light);
+  padding: var(--spacing-xl) 0;
 }

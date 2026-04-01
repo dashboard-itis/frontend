@@ -10,26 +10,24 @@ import Analytics from '@/pages/admin-sidebar-users-page/ui/Analytics'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
 import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorDashboardPage'
 import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribution'
+import { ForbiddenPage } from '@/pages/forbidden-page/ui/ForbiddenPage'
+import { LoginPage } from '@/pages/login-page/ui/LoginPage'
+import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
 import { StudentDashboardPage } from '@/pages/student-dashboard-page/ui/StudentDashboardPage'
 
 import StudentPage from '@/pages/student-sidebar-page/ui/StudentPage'
 import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
-import LoginForm from '@/widgets/auth/LoginForm'
-import RegisterForm from '@/widgets/auth/RegisterForm'
 import { CuratorLayout } from '@/widgets/curator-layout/CuratorLayout'
-
-// import { LoginPage } from '@/pages/login-page/ui/LoginPage'
-// import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path='/login' element={<LoginForm />} />
-          <Route path='/register' element={<RegisterForm />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
 
           <Route
             path='/admin'
@@ -49,33 +47,25 @@ const AppRouter = () => {
 
           {/*студент*/}
           <Route
-            path='/student/*'
+            path='/student'
             element={
               <PrivateRoute>
-                <RoleRoute>
+                <RoleRoute roles={['STUDENT']}>
                   <StudentPage />
                 </RoleRoute>
               </PrivateRoute>
             }
-          />
-
-          <Route
-            path='/student/dashboard'
-            element={
-              <PrivateRoute>
-                <RoleRoute>
-                  <StudentDashboardPage />
-                </RoleRoute>
-              </PrivateRoute>
-            }
-          />
+          >
+            <Route index element={<Navigate to='dashboard' />} />
+            <Route path='dashboard' element={<StudentDashboardPage />} />
+          </Route>
 
           {/*куратор*/}
           <Route
             path='/curator'
             element={
               <PrivateRoute>
-                <RoleRoute>
+                <RoleRoute roles={['CURATOR']}>
                   <CuratorLayout />
                 </RoleRoute>
               </PrivateRoute>
@@ -89,6 +79,8 @@ const AppRouter = () => {
 
           {/* Редирект с корневого пути */}
           <Route path='/' element={<Navigate to='/login' />} />
+
+          <Route path='/403' element={<ForbiddenPage />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

@@ -12,7 +12,7 @@ export const RoleRoute = ({ children, roles }: Props) => {
   const { roles: userRoles } = useAuth()
 
   if (roles && !roles.some((role) => userRoles.includes(role))) {
-    return <Navigate to='/login' />
+    return <Navigate to='/403' />
   }
 
   return children

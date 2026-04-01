@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { AuthContext } from './AuthContext'
 
 import { login as apiLogin, register as apiRegister } from '../api/auth'
+
+import { Role } from '../types/role'
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | null>(() => {
@@ -11,19 +13,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [roles, setRoles] = useState<string[]>(() => {
     const savedRoles = localStorage.getItem('user_roles')
-    return savedRoles ? JSON.parse(savedRoles) : []
-  })
-
-  useEffect(() => {
-    const savedToken = localStorage.getItem('access_token')
-    const savedRoles = localStorage.getItem('user_roles')
-    if (savedToken) {
-      setAccessToken(savedToken)
-      if (savedRoles) {
-        setRoles(JSON.parse(savedRoles))
-      }
+    if (!savedRoles) return []
+    try {
+      return JSON.parse(savedRoles)
+    } catch {
+      return []
     }
-  }, [])
+  })
 
   const login = async (email: string, password: string) => {
     const data = await apiLogin(email, password)
@@ -43,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     password: string
     first_name: string
     last_name: string
-    role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
+    role?: Role
   }) => {
     await apiRegister({ ...data, role: data.role || 'STUDENT' }) // если роли нет то ты студент по умолчанию (ого как стих почти)
   }

@@ -33,8 +33,12 @@ const LoginForm = () => {
       } else {
         navigate('/login')
       }
-    } catch (e: any) {
-      setError(e.message || 'Ошибка при входе')
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message)
+      } else {
+        setError('Ошибка при входе')
+      }
     } finally {
       setIsLoading(false)
     }

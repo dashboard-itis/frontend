@@ -1,3 +1,5 @@
+import LoginForm from '@/widgets/auth/LoginForm'
+
 export const LoginPage = () => {
-  return <div>Login Page</div>
+  return <LoginForm />
 }

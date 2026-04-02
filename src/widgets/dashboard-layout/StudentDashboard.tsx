@@ -1,7 +1,6 @@
 import { Table, Typography } from 'antd'
 import React, { useState, useEffect } from 'react'
 
-//не забываем тут удалить моковые и поменять на реальные данные
 import { MOCK_STATS } from './dashboard-types'
 
 const { Title, Text } = Typography

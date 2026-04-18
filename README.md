@@ -6,9 +6,9 @@
 
 ## Технологический стек
 
-* React
-* CRA
-* TypeScript
+- React
+- CRA
+- TypeScript
 
 ## Запуск проекта
 

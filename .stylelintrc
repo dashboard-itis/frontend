@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-clean-order"
-  ],
+  "extends": ["stylelint-config-standard", "stylelint-config-clean-order"],
   "customSyntax": "@stylelint/postcss-css-in-js",
   "plugins": ["stylelint-order"],
   "rules": {

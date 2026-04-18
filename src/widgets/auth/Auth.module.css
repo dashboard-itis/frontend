@@ -1,72 +1,110 @@
 .container {
-  width: 400px;
-  margin: 250px auto;
-  padding: 20px;
-  border-radius: 16px;
+  display: flex;
+  min-height: 100vh;
   background: var(--color-bg-primary);
+}
+
+.leftColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-2xl);
+  background: var(--color-bg-secondary);
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-2xl);
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
   text-align: center;
 }
 
 .title {
-  font-size: 30px;
-  margin-bottom: 15px;
+  font-size: var(--font-size-h2);
+  font-family: var(--font-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
 }
 
 .input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  border: 1px solid #999;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
   box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
 }
 
 .button {
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
   border: none;
   background: var(--color-accent);
   cursor: pointer;
-  font-size: 20px;
-  font-family: 'Montserrat';
-  color: var(--color-bg-primary);
+  font-size: var(--font-size-subtitle);
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  color: var(--color-text-on-accent);
+  transition: opacity 0.2s;
 }
 
 .button:hover {
-  background: #bbb;
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.error {
-  color: #d32f2f;
-  font-size: 12px;
-  margin-bottom: 8px;
-  margin-top: -8px;
-  text-align: left;
+  opacity: 0.9;
 }
 
 .link {
-  margin-top: 10px;
-  font-size: 20px;
+  margin-top: var(--spacing-lg);
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  color: var(--color-text-light);
 }
 
 .linkAction {
-  color: #600000;
+  color: var(--color-accent);
   cursor: pointer;
+  font-weight: 600;
   text-decoration: underline;
-  font-size: 20px;
 }
 
 .linkAction:hover {
   opacity: 0.8;
+}
+
+.welcomeBlock {
+  text-align: center;
+  max-width: 400px;
+}
+
+.welcomeTitle {
+  font-size: 48px;
+  font-family: var(--font-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.welcomeSubtitle {
+  font-size: var(--font-size-subtitle);
+  font-family: var(--font-body);
+  color: var(--color-text-light);
+  line-height: 1.5;
 }

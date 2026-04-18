@@ -46,37 +46,51 @@ const LoginForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Вход</h2>
+      <div className={styles.leftColumn}>
+        <div className={styles.welcomeBlock}>
+          <div className={styles.welcomeTitle}>
+            С возвращением
+            <br />в SECCUR
+          </div>
+          <div className={styles.welcomeSubtitle}>Рады видеть вас снова!</div>
+        </div>
+      </div>
 
-      <input
-        className={styles.input}
-        placeholder='Почта'
-        type='email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={isLoading}
-      />
+      <div className={styles.rightColumn}>
+        <div className={styles.formContainer}>
+          <h2 className={styles.title}>Вход</h2>
 
-      <input
-        className={styles.input}
-        type='password'
-        placeholder='Пароль'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={isLoading}
-      />
+          <input
+            className={styles.input}
+            placeholder='Почта'
+            type='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+          />
 
-      {error && <div className={styles.error}>{error}</div>}
+          <input
+            className={styles.input}
+            type='password'
+            placeholder='Пароль'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+          />
 
-      <button className={styles.button} onClick={handleLogin} disabled={isLoading}>
-        {isLoading ? 'Загрузка...' : 'Войти'}
-      </button>
+          {error && <div className={styles.error}>{error}</div>}
 
-      <div className={styles.link}>
-        Нет аккаунта?{' '}
-        <span className={styles.linkAction} onClick={() => navigate('/register')}>
-          Зарегистрироваться
-        </span>
+          <button className={styles.button} onClick={handleLogin} disabled={isLoading}>
+            {isLoading ? 'Загрузка...' : 'Войти'}
+          </button>
+
+          <div className={styles.link}>
+            Нет аккаунта?{' '}
+            <span className={styles.linkAction} onClick={() => navigate('/register')}>
+              Зарегистрироваться
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   )

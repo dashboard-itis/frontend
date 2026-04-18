@@ -1,5 +1,7 @@
-function Users() {
-  return <h1>Управление пользователями</h1>
+import { AdminDashboard } from '@/widgets/dashboard-layout'
+
+const Users = () => {
+  return <AdminDashboard tab='users' />
 }
 
 export default Users

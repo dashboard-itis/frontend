@@ -1,5 +1,6 @@
 import { Navigate, BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import { GuestRoute } from './GuestRoute'
 import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
@@ -26,8 +27,22 @@ const AppRouter = () => {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
+          <Route
+            path='/login'
+            element={
+              <GuestRoute>
+                <LoginPage />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path='/register'
+            element={
+              <GuestRoute>
+                <RegisterPage />
+              </GuestRoute>
+            }
+          />
 
           <Route
             path='/admin'

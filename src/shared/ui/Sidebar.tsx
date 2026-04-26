@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom'
+
 import styles from './Sidebar.module.css'
 
+import { useAuth } from '@/shared/hooks/useAuth'
 import SidebarButton from '@/widgets/admin-sidebar/SidebarButton'
 
 export type SidebarItem = {
@@ -16,12 +19,19 @@ interface SharedSidebarProps {
   onLogout?: () => void //функция при выходе
 }
 
-export const Sidebar = ({
-  items,
-  headerContent,
-  showLogout = true,
-  onLogout = () => alert('Выход'),
-}: SharedSidebarProps) => {
+export const Sidebar = ({ items, headerContent, showLogout = true, onLogout }: SharedSidebarProps) => {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout()
+      return
+    }
+
+    logout()
+    navigate('/login', { replace: true })
+  }
   return (
     <div className={styles.sidebar}>
       {headerContent && <div className={styles.header}>{headerContent}</div>}
@@ -40,7 +50,7 @@ export const Sidebar = ({
 
       {showLogout && (
         <div className={styles.bottom}>
-          <SidebarButton text='Выйти из аккаунта' variant='danger' onClick={onLogout} />
+          <SidebarButton text='Выйти из аккаунта' variant='danger' onClick={handleLogout} />
         </div>
       )}
     </div>

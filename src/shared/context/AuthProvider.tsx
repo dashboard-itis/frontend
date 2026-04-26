@@ -25,6 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setAccessToken(data.access_token)
     localStorage.setItem('access_token', data.access_token)
 
+    //TODO refresh_token не храним в localStorage, изменяем на куку после реализации бэка
     if (data.refresh_token) {
       localStorage.setItem('refresh_token', data.refresh_token)
     }

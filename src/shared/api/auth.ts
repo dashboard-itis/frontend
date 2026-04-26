@@ -2,6 +2,7 @@ import { Role } from '../types/role'
 
 const API_URL = process.env.REACT_APP_API_URL || ''
 
+//TODO: удалить перед релизом
 const USE_MOCK_AUTH = true
 
 const createMockToken = (role: string) => {
@@ -9,6 +10,7 @@ const createMockToken = (role: string) => {
 }
 
 export const login = async (email: string, password: string) => {
+  //TODO: удалить перед релизом
   if (USE_MOCK_AUTH) {
     await new Promise((res) => setTimeout(res, 500))
 
@@ -52,6 +54,7 @@ export const login = async (email: string, password: string) => {
 }
 
 export const refreshToken = async (token: string) => {
+  //TODO: удалить перед релизом
   if (USE_MOCK_AUTH) {
     await new Promise((res) => setTimeout(res, 300))
 
@@ -94,6 +97,7 @@ export const register = async (data: {
   last_name: string
   role: Role
 }) => {
+  //TODO: удалить перед релизом
   if (USE_MOCK_AUTH) {
     await new Promise((res) => setTimeout(res, 500))
     return { success: true }

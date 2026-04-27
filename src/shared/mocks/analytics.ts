@@ -18,3 +18,11 @@ export const groupAnalytics = {
     { period: '3 семестр', average_score: 4.7 },
   ],
 }
+
+export const studentAnalytics = {
+  student_id: 1,
+  average_score: 4.7,
+  rank: 5,
+  attendance_rate: 0.93,
+  submission_rate: 0.95,
+}

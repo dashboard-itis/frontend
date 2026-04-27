@@ -1,9 +1,8 @@
+//TODO: удалить перед релизом
+import { USE_MOCKS } from '../config/config'
 import { Role } from '../types/role'
 
 const API_URL = process.env.REACT_APP_API_URL || ''
-
-//TODO: удалить перед релизом
-const USE_MOCK_AUTH = true
 
 const createMockToken = (role: string) => {
   return `mock-token-${role}-${Date.now()}`
@@ -11,7 +10,7 @@ const createMockToken = (role: string) => {
 
 export const login = async (email: string, password: string) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 500))
 
     if (password !== '12345678') {
@@ -55,7 +54,7 @@ export const login = async (email: string, password: string) => {
 
 export const refreshToken = async (token: string) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 300))
 
     const role = token.includes('admin') ? 'admin' : token.includes('curator') ? 'curator' : 'student'
@@ -98,7 +97,7 @@ export const register = async (data: {
   role: Role
 }) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 500))
     return { success: true }
   }

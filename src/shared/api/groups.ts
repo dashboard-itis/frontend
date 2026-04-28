@@ -6,6 +6,7 @@ import { USE_MOCKS } from '../config/config'
 import { groups as groupsMock } from '../mocks/groups'
 
 export const getGroups = async () => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return groupsMock
 
   const res = await api.groups.groupsList()
@@ -14,6 +15,7 @@ export const getGroups = async () => {
 }
 
 export const getGroupById = async (groupId: number) => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return groupsMock.find((group) => group.id === groupId)
 
   const res = await api.groups.groupsDetail(groupId)
@@ -22,18 +24,21 @@ export const getGroupById = async (groupId: number) => {
 }
 
 export const createGroup = async (data: CreateGroupRequest) => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return true
 
   return api.groups.groupsCreate(data)
 }
 
 export const updateGroup = async (groupId: number, data: UpdateGroupRequest) => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return true
 
   return api.groups.groupsUpdate(groupId, data)
 }
 
 export const deleteGroup = async (groupId: number) => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return true
 
   return api.groups.groupsDelete(groupId)

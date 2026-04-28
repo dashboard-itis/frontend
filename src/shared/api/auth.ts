@@ -41,12 +41,13 @@ export const login = async (email: string, password: string) => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    credentials: 'include',
     body: formData,
   })
 
   if (!response.ok) {
     const errorData = await response.json()
-    throw new Error(errorData.message || 'Failed to login')
+    throw new Error(errorData?.message || 'Failed to login')
   }
 
   return response.json()
@@ -78,6 +79,7 @@ export const refreshToken = async (token: string) => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    credentials: 'include',
     body: formData,
   })
 
@@ -107,6 +109,7 @@ export const register = async (data: {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 

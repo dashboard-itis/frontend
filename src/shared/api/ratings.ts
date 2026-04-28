@@ -11,6 +11,7 @@ type RatingParams = {
 }
 
 export const getRatings = async (groupId: number, params?: RatingParams) => {
+  //TODO: удалить перед релизом
   if (USE_MOCKS) return ratingsMock
 
   const res = await api.groups.ratingsList(groupId, params)

@@ -1,9 +1,8 @@
+//TODO: удалить перед релизом
+import { USE_MOCKS } from '../config/config'
 import { Role } from '../types/role'
 
 const API_URL = process.env.REACT_APP_API_URL || ''
-
-//TODO: удалить перед релизом
-const USE_MOCK_AUTH = true
 
 const createMockToken = (role: string) => {
   return `mock-token-${role}-${Date.now()}`
@@ -11,7 +10,7 @@ const createMockToken = (role: string) => {
 
 export const login = async (email: string, password: string) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 500))
 
     if (password !== '12345678') {
@@ -42,12 +41,13 @@ export const login = async (email: string, password: string) => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    credentials: 'include',
     body: formData,
   })
 
   if (!response.ok) {
     const errorData = await response.json()
-    throw new Error(errorData.message || 'Failed to login')
+    throw new Error(errorData?.message || 'Failed to login')
   }
 
   return response.json()
@@ -55,7 +55,7 @@ export const login = async (email: string, password: string) => {
 
 export const refreshToken = async (token: string) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 300))
 
     const role = token.includes('admin') ? 'admin' : token.includes('curator') ? 'curator' : 'student'
@@ -79,6 +79,7 @@ export const refreshToken = async (token: string) => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    credentials: 'include',
     body: formData,
   })
 
@@ -98,7 +99,7 @@ export const register = async (data: {
   role: Role
 }) => {
   //TODO: удалить перед релизом
-  if (USE_MOCK_AUTH) {
+  if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 500))
     return { success: true }
   }
@@ -108,6 +109,7 @@ export const register = async (data: {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 

@@ -7,7 +7,6 @@ import { RoleRoute } from './RoleRoute'
 
 import { AdminDashboardPage } from '@/pages/admin-dashboard-page/ui/AdminDashboardPage'
 import Import from '@/pages/admin-sidebar-import-page/ui/Import'
-import Dynamics from '@/pages/admin-sidebar-users-page/ui/Dynamics'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
 import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorDashboardPage'
 import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribution'
@@ -21,6 +20,7 @@ import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
 import { CuratorLayout } from '@/widgets/curator-layout/CuratorLayout'
+import { CuratorDynamicsTab } from '@/widgets/dashboard-layout/CuratorDynamicsTab'
 
 const AppRouter = () => {
   return (
@@ -88,7 +88,7 @@ const AppRouter = () => {
           >
             <Route index element={<Navigate to='distribution' />} />
             <Route path='distribution' element={<Distribution />} />
-            <Route path='dynamics' element={<Dynamics />} />
+            <Route path='analytics' element={<CuratorDynamicsTab groupId={1} />} />
             <Route path='dashboard' element={<CuratorDashboardPage />} />
           </Route>
 

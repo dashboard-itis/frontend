@@ -1,38 +1,234 @@
-import { Card, Select, Typography } from 'antd'
-import React from 'react'
+import { Select, Table, Spin, Alert } from 'antd'
+import React, { useEffect, useState } from 'react'
 
-const { Title, Text } = Typography
+import styles from './DashboardWidget.module.css'
 
-export const CuratorDynamicsTab: React.FC = () => {
+import { getStudentGrades } from '../../shared/api/grades'
+import { getRatings } from '../../shared/api/ratings'
+
+interface CuratorDynamicsTabProps {
+  groupId: number
+}
+
+const subjects = [
+  'ОРИС',
+  'Курс по выбору',
+  'Инновационная экономика',
+  'Английский',
+  'Финансовая грамотность',
+  'ТВИС',
+  'Командная разработка',
+]
+
+const semesterMapping: Record<number, { semester: 'SPRING' | 'FALL'; year: number; label: string }> = {
+  1: { semester: 'FALL', year: 2024, label: 'Осень 2024 (1 семестр)' },
+  2: { semester: 'SPRING', year: 2025, label: 'Весна 2025 (2 семестр)' },
+  3: { semester: 'FALL', year: 2025, label: 'Осень 2025 (3 семестр)' },
+  4: { semester: 'SPRING', year: 2026, label: 'Весна 2026 (4 семестр)' },
+  5: { semester: 'FALL', year: 2026, label: 'Осень 2026 (5 семестр)' },
+  6: { semester: 'SPRING', year: 2027, label: 'Весна 2027 (6 семестр)' },
+  7: { semester: 'FALL', year: 2027, label: 'Осень 2027 (7 семестр)' },
+  8: { semester: 'SPRING', year: 2028, label: 'Весна 2028 (8 семестр)' },
+}
+
+const DEFAULT_SEMESTER = 4
+
+export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId }) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [studentsList, setStudentsList] = useState<{ student_id: number; full_name: string }[]>([])
+
+  const [currentSemesterScores, setCurrentSemesterScores] = useState<Map<number, Record<string, number>>>(new Map())
+
+  const [selectedSemesterScores, setSelectedSemesterScores] = useState<Map<number, Record<string, number>>>(new Map())
+
+  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0]) // по умолчанию первый предмет
+  const [selectedSemester, setSelectedSemester] = useState<number>(DEFAULT_SEMESTER)
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const params = semesterMapping[DEFAULT_SEMESTER]
+        const ratings = await getRatings(groupId, params)
+        const students = ratings.map((s: any) => ({
+          student_id: s.student_id,
+          full_name: s.full_name || s.fullName,
+        }))
+        setStudentsList(students)
+      } catch (err) {
+        console.error(err)
+        setError('Не удалось загрузить список студентов')
+      }
+    }
+    fetchStudents()
+  }, [groupId])
+
+  // текущий сем
+  useEffect(() => {
+    const fetchCurrentSemesterScores = async () => {
+      if (studentsList.length === 0) return
+
+      setLoading(true)
+      try {
+        const params = semesterMapping[DEFAULT_SEMESTER]
+        const scoresMap = new Map<number, Record<string, number>>()
+
+        await Promise.all(
+          studentsList.map(async (student) => {
+            const grades = await getStudentGrades(student.student_id, params)
+            const subjectScores: Record<string, number> = {}
+            subjects.forEach((subj) => (subjectScores[subj] = 0))
+            grades.forEach((grade: any) => {
+              if (subjects.includes(grade.course_name)) {
+                subjectScores[grade.course_name] += grade.score
+              }
+            })
+            scoresMap.set(student.student_id, subjectScores)
+          }),
+        )
+        setCurrentSemesterScores(scoresMap)
+      } catch (err) {
+        console.error(err)
+        setError('Не удалось загрузить оценки за текущий семестр')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchCurrentSemesterScores()
+  }, [studentsList])
+
+  // выбранный сем
+
+  useEffect(() => {
+    const fetchSelectedSemesterScores = async () => {
+      if (studentsList.length === 0) return
+
+      setLoading(true)
+      try {
+        const params = semesterMapping[selectedSemester]
+        const scoresMap = new Map<number, Record<string, number>>()
+
+        await Promise.all(
+          studentsList.map(async (student) => {
+            const grades = await getStudentGrades(student.student_id, params)
+            const subjectScores: Record<string, number> = {}
+            subjects.forEach((subj) => (subjectScores[subj] = 0))
+            grades.forEach((grade: any) => {
+              if (subjects.includes(grade.course_name)) {
+                subjectScores[grade.course_name] += grade.score
+              }
+            })
+            scoresMap.set(student.student_id, subjectScores)
+          }),
+        )
+        setSelectedSemesterScores(scoresMap)
+      } catch (err) {
+        console.error(err)
+        setError('Не удалось загрузить оценки за выбранный семестр')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchSelectedSemesterScores()
+  }, [studentsList, selectedSemester])
+
+  const tableData = studentsList
+    .map((student) => {
+      const currentScores = currentSemesterScores.get(student.student_id)
+      const selectedScores = selectedSemesterScores.get(student.student_id)
+
+      if (!currentScores || !selectedScores) return null
+
+      const currentSubjectScore = currentScores[selectedSubject] || 0
+      const selectedSemesterScore = selectedScores[selectedSubject] || 0
+
+      return {
+        key: student.student_id,
+        fullName: student.full_name,
+        currentSubjectScore,
+        selectedSemesterScore,
+      }
+    })
+    .filter(
+      (item): item is { key: number; fullName: string; currentSubjectScore: number; selectedSemesterScore: number } =>
+        item !== null,
+    )
+    .sort((a, b) => a.fullName.localeCompare(b.fullName))
+
+  const columns = [
+    {
+      title: 'ФИО студента',
+      dataIndex: 'fullName',
+      width: 250,
+    },
+    {
+      title: `${selectedSubject} (${semesterMapping[DEFAULT_SEMESTER].label})`,
+      dataIndex: 'currentSubjectScore',
+      align: 'center' as const,
+      render: (val: number) => <strong style={{ color: '#1e3a8a' }}>{val}</strong>,
+    },
+    {
+      title: `${selectedSubject} (${semesterMapping[selectedSemester].label})`,
+      dataIndex: 'selectedSemesterScore',
+      align: 'center' as const,
+      render: (val: number) => <strong>{val}</strong>,
+    },
+  ]
+
+  const semesterOptions = Object.entries(semesterMapping).map(([num, data]) => ({
+    value: Number(num),
+    label: data.label,
+  }))
+
+  const subjectOptions = subjects.map((s) => ({ value: s, label: s }))
+
+  if (loading && studentsList.length > 0) return <Spin tip='Загрузка...' style={{ width: '100%', margin: '32px 0' }} />
+  if (error) return <Alert message={error} type='error' showIcon />
+
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto' }}>
-      <Title level={3}>Статистика моей группы</Title>
-      <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+    <div className={styles['dw-widget']} style={{ padding: '24px' }}>
+      <h2 className={styles['dw-title']}>Статистика моей группы</h2>
+      <h3 className={styles['dw-subtitle']}>Динамика успеваемости</h3>
+
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
         <Select
-          defaultValue='Все'
-          style={{ minWidth: 160 }}
-          options={[
-            { value: 'Все', label: 'Дисциплина: Все' },
-            { value: 'Математика', label: 'Линейная алгебра' },
-            { value: 'Программирование', label: 'ОРИС' },
-            { value: 'Физика', label: 'Фронтенд' },
-          ]}
+          placeholder='Выберите предмет'
+          style={{ minWidth: 200 }}
+          value={selectedSubject}
+          onChange={setSelectedSubject}
+          options={subjectOptions}
         />
         <Select
-          defaultValue='Семестр'
-          style={{ minWidth: 160 }}
-          options={[
-            { value: 'Семестр', label: 'Период: Семестр' },
-            { value: 'Месяц', label: 'Месяц' },
-            { value: 'Год', label: 'Год' },
-          ]}
+          placeholder='Выберите семестр для сравнения'
+          style={{ minWidth: 250 }}
+          value={selectedSemester}
+          onChange={setSelectedSemester}
+          options={semesterOptions}
         />
       </div>
-      <Title level={4} style={{ marginBottom: 8 }}>
-        Распределение оценок
-      </Title>
-      <Card style={{ background: '#e0e0e0', textAlign: 'center', marginBottom: 8 }}>[График распределения]</Card>
-      <Text type='secondary'>График относительно всех студентов по выбранной дисциплине и периоду</Text>
+
+      <Table
+        dataSource={tableData}
+        columns={columns}
+        pagination={false}
+        bordered={false}
+        size='middle'
+        rowClassName={(_, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
+      />
+
+      <style>{`
+        .table-row-light { background-color: #ffffff; }
+        .table-row-dark { background-color: #f9fafb; }
+        .ant-table-thead > tr > th {
+          background-color: #f1f5f9;
+          font-weight: 600;
+          color: #1e293b;
+          border-bottom: 2px solid #e2e8f0;
+        }
+        .ant-table-tbody > tr:hover > td {
+          background-color: #eef2ff !important;
+        }
+      `}</style>
     </div>
   )
 }

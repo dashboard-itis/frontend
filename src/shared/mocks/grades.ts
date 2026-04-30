@@ -1,6 +1,5 @@
 export const studentGrades = [
-  // ========== Студент 1 ==========
-  // ОРИС:
+  // TODO: course_name нет в api.ts, сказать бэкам добавить
   {
     id: 1,
     student_id: 1,
@@ -28,7 +27,6 @@ export const studentGrades = [
     created_at: '2026-04-24T10:00:00Z',
     course_name: 'ОРИС',
   },
-  // Курс по выбору:
   {
     id: 4,
     student_id: 1,
@@ -56,7 +54,6 @@ export const studentGrades = [
     created_at: '2026-04-25T10:00:00Z',
     course_name: 'Курс по выбору',
   },
-  // Инновационная экономика:
   {
     id: 7,
     student_id: 1,
@@ -75,7 +72,6 @@ export const studentGrades = [
     created_at: '2026-04-19T10:00:00Z',
     course_name: 'Инновационная экономика',
   },
-  // Английский:
   {
     id: 9,
     student_id: 1,
@@ -103,7 +99,6 @@ export const studentGrades = [
     created_at: '2026-04-27T10:00:00Z',
     course_name: 'Английский',
   },
-  // Финансовая грамотность:
   {
     id: 12,
     student_id: 1,
@@ -122,7 +117,6 @@ export const studentGrades = [
     created_at: '2026-04-21T10:00:00Z',
     course_name: 'Финансовая грамотность',
   },
-  // ТВИС:
   {
     id: 14,
     student_id: 1,
@@ -141,7 +135,6 @@ export const studentGrades = [
     created_at: '2026-04-22T10:00:00Z',
     course_name: 'ТВИС',
   },
-  // Командная разработка:
   {
     id: 16,
     student_id: 1,
@@ -160,9 +153,6 @@ export const studentGrades = [
     created_at: '2026-04-23T10:00:00Z',
     course_name: 'Командная разработка',
   },
-
-  // ========== Студент 2 ==========
-  // ОРИС:
   {
     id: 18,
     student_id: 2,
@@ -181,7 +171,6 @@ export const studentGrades = [
     created_at: '2026-04-17T10:00:00Z',
     course_name: 'ОРИС',
   },
-  // Курс по выбору:
   {
     id: 20,
     student_id: 2,
@@ -200,7 +189,6 @@ export const studentGrades = [
     created_at: '2026-04-18T10:00:00Z',
     course_name: 'Курс по выбору',
   },
-  // Инновационная экономика:
   {
     id: 22,
     student_id: 2,
@@ -219,7 +207,6 @@ export const studentGrades = [
     created_at: '2026-04-19T10:00:00Z',
     course_name: 'Инновационная экономика',
   },
-  // Английский:
   {
     id: 24,
     student_id: 2,
@@ -238,7 +225,6 @@ export const studentGrades = [
     created_at: '2026-04-20T10:00:00Z',
     course_name: 'Английский',
   },
-  // Финансовая грамотность:
   {
     id: 26,
     student_id: 2,
@@ -257,7 +243,6 @@ export const studentGrades = [
     created_at: '2026-04-21T10:00:00Z',
     course_name: 'Финансовая грамотность',
   },
-  // ТВИС:
   {
     id: 28,
     student_id: 2,
@@ -276,7 +261,6 @@ export const studentGrades = [
     created_at: '2026-04-22T10:00:00Z',
     course_name: 'ТВИС',
   },
-  // Командная разработка:
   {
     id: 30,
     student_id: 2,
@@ -295,9 +279,6 @@ export const studentGrades = [
     created_at: '2026-04-23T10:00:00Z',
     course_name: 'Командная разработка',
   },
-
-  // ========== Студент 3 ==========
-  // ОРИС:
   {
     id: 32,
     student_id: 3,
@@ -316,7 +297,6 @@ export const studentGrades = [
     created_at: '2026-04-17T10:00:00Z',
     course_name: 'ОРИС',
   },
-  // Курс по выбору:
   {
     id: 34,
     student_id: 3,
@@ -335,7 +315,6 @@ export const studentGrades = [
     created_at: '2026-04-18T10:00:00Z',
     course_name: 'Курс по выбору',
   },
-  // Инновационная экономика:
   {
     id: 36,
     student_id: 3,
@@ -354,7 +333,6 @@ export const studentGrades = [
     created_at: '2026-04-19T10:00:00Z',
     course_name: 'Инновационная экономика',
   },
-  // Английский:
   {
     id: 38,
     student_id: 3,
@@ -373,7 +351,6 @@ export const studentGrades = [
     created_at: '2026-04-20T10:00:00Z',
     course_name: 'Английский',
   },
-  // Финансовая грамотность:
   {
     id: 40,
     student_id: 3,
@@ -392,7 +369,6 @@ export const studentGrades = [
     created_at: '2026-04-21T10:00:00Z',
     course_name: 'Финансовая грамотность',
   },
-  // ТВИС:
   {
     id: 42,
     student_id: 3,
@@ -411,7 +387,6 @@ export const studentGrades = [
     created_at: '2026-04-22T10:00:00Z',
     course_name: 'ТВИС',
   },
-  // Командная разработка:
   {
     id: 44,
     student_id: 3,

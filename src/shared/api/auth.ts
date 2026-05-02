@@ -52,7 +52,8 @@ export const login = async (email: string, password: string) => {
 
   return response.json()
 }
-
+// TODO: после backend update убрать аргумент token.
+// refreshToken() без параметров
 export const refreshToken = async (token: string) => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) {
@@ -72,6 +73,8 @@ export const refreshToken = async (token: string) => {
   const formData = new URLSearchParams()
 
   formData.append('grant_type', 'refresh_token')
+  // TODO: удалить после перехода backend на cookie refresh token.
+  // Token должен приходить автоматически через HttpOnly cookie
   formData.append('refresh_token', token)
 
   const response = await fetch(`${API_URL}/api/auth/refresh`, {

@@ -25,7 +25,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setAccessToken(data.access_token)
     localStorage.setItem('access_token', data.access_token)
 
-    //TODO refresh_token не храним в localStorage, изменяем на куку после реализации бэка
+    // TODO: refresh_token временно храним в localStorage.
+    // После готовности backend перенести в HttpOnly cookie.
     if (data.refresh_token) {
       localStorage.setItem('refresh_token', data.refresh_token)
     }
@@ -56,12 +57,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setAccessToken(null)
     setRoles([])
     localStorage.removeItem('access_token')
+    // TODO: после перехода на cookie удалить logout endpoint / очистку cookie на backend.
     localStorage.removeItem('refresh_token')
     localStorage.removeItem('user_roles')
   }
 
   const restoreSession = async () => {
     const access = localStorage.getItem('access_token')
+    // TODO: после перехода на HttpOnly cookie refresh token не читать из JS.
+    // Просто вызывать /auth/refresh с credentials: include.
     const refresh = localStorage.getItem('refresh_token')
 
     if (access) {

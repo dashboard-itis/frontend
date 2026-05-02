@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 
 import styles from './DashboardWidget.module.css'
 
-import { getStudentGrades } from '../../shared/api/grades'
-import { getRatings } from '../../shared/api/ratings'
+import { getStudentGrades } from '@/shared/api/grades'
+import { getRatings } from '@/shared/api/ratings'
+
+import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
 
 interface CuratorDynamicsTabProps {
   groupId: number
@@ -50,9 +52,9 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
       try {
         const params = semesterMapping[DEFAULT_SEMESTER]
         const ratings = await getRatings(groupId, params)
-        const students = ratings.map((s: any) => ({
+        const students = (ratings as RatingStudent[]).map((s) => ({
           student_id: s.student_id,
-          full_name: s.full_name || s.fullName,
+          full_name: s.full_name,
         }))
         setStudentsList(students)
       } catch (err) {
@@ -78,9 +80,11 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
             const grades = await getStudentGrades(student.student_id, params)
             const subjectScores: Record<string, number> = {}
             subjects.forEach((subj) => (subjectScores[subj] = 0))
-            grades.forEach((grade: any) => {
-              if (subjects.includes(grade.course_name)) {
-                subjectScores[grade.course_name] += grade.score
+            grades.forEach((grade: StudentGrade) => {
+              const course = grade.course_name
+
+              if (course && subjects.includes(course)) {
+                subjectScores[course] += grade.score
               }
             })
             scoresMap.set(student.student_id, subjectScores)
@@ -113,9 +117,11 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
             const grades = await getStudentGrades(student.student_id, params)
             const subjectScores: Record<string, number> = {}
             subjects.forEach((subj) => (subjectScores[subj] = 0))
-            grades.forEach((grade: any) => {
-              if (subjects.includes(grade.course_name)) {
-                subjectScores[grade.course_name] += grade.score
+            grades.forEach((grade: StudentGrade) => {
+              const course = grade.course_name
+
+              if (course && subjects.includes(course)) {
+                subjectScores[course] += grade.score
               }
             })
             scoresMap.set(student.student_id, subjectScores)
@@ -165,7 +171,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
       title: `${selectedSubject} (${semesterMapping[DEFAULT_SEMESTER].label})`,
       dataIndex: 'currentSubjectScore',
       align: 'center' as const,
-      render: (val: number) => <strong style={{ color: '#1e3a8a' }}>{val}</strong>,
+      render: (val: number) => <strong className={styles.scoreValue}>{val}</strong>,
     },
     {
       title: `${selectedSubject} (${semesterMapping[selectedSemester].label})`,
@@ -186,21 +192,21 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
   if (error) return <Alert message={error} type='error' showIcon />
 
   return (
-    <div className={styles['dw-widget']} style={{ padding: '24px' }}>
-      <h2 className={styles['dw-title']}>Статистика моей группы</h2>
-      <h3 className={styles['dw-subtitle']}>Динамика успеваемости</h3>
+    <div className={styles.dwWidget}>
+      <h2 className={styles.dwTitle}>Статистика моей группы</h2>
+      <h3 className={styles.dwSubtitle}>Динамика успеваемости</h3>
 
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+      <div className={styles.filtersRow}>
         <Select
           placeholder='Выберите предмет'
-          style={{ minWidth: 200 }}
+          className={styles.subjectSelect}
           value={selectedSubject}
           onChange={setSelectedSubject}
           options={subjectOptions}
         />
         <Select
           placeholder='Выберите семестр для сравнения'
-          style={{ minWidth: 250 }}
+          className={styles.semesterSelect}
           value={selectedSemester}
           onChange={setSelectedSemester}
           options={semesterOptions}
@@ -213,22 +219,8 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
         pagination={false}
         bordered={false}
         size='middle'
-        rowClassName={(_, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
+        rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
       />
-
-      <style>{`
-        .table-row-light { background-color: #ffffff; }
-        .table-row-dark { background-color: #f9fafb; }
-        .ant-table-thead > tr > th {
-          background-color: #f1f5f9;
-          font-weight: 600;
-          color: #1e293b;
-          border-bottom: 2px solid #e2e8f0;
-        }
-        .ant-table-tbody > tr:hover > td {
-          background-color: #eef2ff !important;
-        }
-      `}</style>
     </div>
   )
 }

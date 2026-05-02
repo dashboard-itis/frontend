@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 
 import styles from './DashboardWidget.module.css'
 
-import { getStudentGrades } from '../../shared/api/grades'
+import { getStudentGrades } from '@/shared/api/grades'
 
-import { getRatings } from '../../shared/api/ratings'
+import { getRatings } from '@/shared/api/ratings'
+
+import { RatingStudent, StudentGrade, TableRow } from '@/shared/types/dashboard'
 
 const disciplines = [
   'ОРИС',
@@ -30,7 +32,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
 }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [tableData, setTableData] = useState<any[]>([])
+  const [tableData, setTableData] = useState<TableRow[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,22 +45,26 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
         }
 
         const studentsWithScores = await Promise.all(
-          ratings.map(async (student: any) => {
+          (ratings as RatingStudent[]).map(async (student) => {
             const grades = await getStudentGrades(student.student_id, { semester })
 
-            const scores: Record<string, number> = {}
-            disciplines.forEach((d) => (scores[d] = 0))
+            const scores = disciplines.reduce<Record<string, number>>((acc, discipline) => {
+              acc[discipline] = 0
+              return acc
+            }, {})
 
-            grades.forEach((grade: any) => {
+            const total = grades.reduce((sum, grade: StudentGrade) => {
               const course = grade.course_name
-              if (disciplines.includes(course)) {
-                scores[course] += grade.score
-              }
-            })
 
-            let total = 0
-            disciplines.forEach((d) => (total += scores[d]))
-            const average = disciplines.length ? Math.round(total / disciplines.length) : 0
+              if (course && disciplines.includes(course)) {
+                scores[course] += grade.score
+                return sum + grade.score
+              }
+
+              return sum
+            }, 0)
+
+            const average = disciplines.length > 0 ? Math.round(total / disciplines.length) : 0
 
             return {
               student_id: student.student_id,
@@ -112,7 +118,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
       dataIndex: 'averageScore',
       width: 110,
       align: 'center' as const,
-      render: (avg: number) => <strong style={{ color: '#1e3a8a' }}>{avg}</strong>,
+      render: (avg: number) => <strong className={styles.averageScore}>{avg}</strong>,
     },
     ...disciplines.map((d) => ({
       title: d,
@@ -124,9 +130,9 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
   ]
 
   return (
-    <div className={styles['dw-widget']} style={{ padding: '24px' }}>
-      <h2 className={styles['dw-title']}>Статистика моей группы</h2>
-      <h3 className={styles['dw-subtitle']}>Рейтинг студентов (по убыванию среднего балла)</h3>
+    <div className={styles.dwWidget}>
+      <h2 className={styles.dwTitle}>Статистика моей группы</h2>
+      <h3 className={styles.dwSubtitle}>Рейтинг студентов (по убыванию среднего балла)</h3>
       <Table
         dataSource={tableData}
         columns={columns}
@@ -134,21 +140,8 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
         bordered={false}
         size='middle'
         scroll={{ x: 'max-content' }}
-        rowClassName={(_, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
+        rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
       />
-      <style>{`
-        .table-row-light { background-color: #ffffff; }
-        .table-row-dark { background-color: #f9fafb; }
-        .ant-table-thead > tr > th {
-          background-color: #f1f5f9;
-          font-weight: 600;
-          color: #1e293b;
-          border-bottom: 2px solid #e2e8f0;
-        }
-        .ant-table-tbody > tr:hover > td {
-          background-color: #eef2ff !important;
-        }
-      `}</style>
     </div>
   )
 }

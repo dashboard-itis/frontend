@@ -1,10 +1,31 @@
+import { Select } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
+import { groups } from '@/shared/mocks/groups'
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
 
 const AdminSidebar = () => {
   const navigate = useNavigate()
   const location = useLocation()
+
+  const [group, setGroup] = useState<string>('all')
+  useEffect(() => {
+    const saved = localStorage.getItem('selectedGroup')
+
+    if (saved) {
+      setGroup(saved)
+    } else {
+      localStorage.setItem('selectedGroup', 'all')
+      setGroup('all')
+    }
+  }, [])
+
+  const handleChange = (value: string) => {
+    setGroup(value)
+    localStorage.setItem('selectedGroup', value)
+    window.dispatchEvent(new Event('groupChanged'))
+  }
 
   const items: SidebarItem[] = [
     {
@@ -16,6 +37,41 @@ const AdminSidebar = () => {
       label: 'Управление пользователями',
       isActive: location.pathname.includes('/admin/users'),
       onClick: () => navigate('/admin/users'),
+    },
+    {
+      label: 'Текущие оценки',
+      isActive: location.pathname.includes('/admin/grades'),
+      onClick: () => navigate('/admin/grades'),
+    },
+    {
+      label: (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
+          <span>Группы</span>
+
+          <Select
+            size='small'
+            value={group}
+            onChange={handleChange}
+            style={{ width: 120 }}
+            options={[
+              { value: 'all', label: 'Все' },
+              ...groups.map((g) => ({
+                value: String(g.id),
+                label: g.name,
+              })),
+            ]}
+          />
+        </div>
+      ),
+      isActive: false,
+      onClick: () => {},
     },
   ]
 

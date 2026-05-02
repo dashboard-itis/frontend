@@ -1,7 +1,7 @@
 export const users = [
   {
     id: 1,
-    email: 'student@test.ru',
+    email: 'student1@test.ru',
     first_name: 'Арина',
     last_name: 'Иванова',
     role: 'STUDENT',
@@ -10,6 +10,24 @@ export const users = [
   },
   {
     id: 2,
+    email: 'student2@test.ru',
+    first_name: 'Юля',
+    last_name: 'Орешкина',
+    role: 'STUDENT',
+    group_id: 3,
+    created_at: '2026-04-01T10:00:00Z',
+  },
+  {
+    id: 3,
+    email: 'student3@test.ru',
+    first_name: 'Дамир',
+    last_name: 'Гильманов',
+    role: 'STUDENT',
+    group_id: 2,
+    created_at: '2026-04-01T10:00:00Z',
+  },
+  {
+    id: 4,
     email: 'curator@test.ru',
     first_name: 'Иван',
     last_name: 'Петров',
@@ -18,7 +36,7 @@ export const users = [
     created_at: '2026-04-01T10:00:00Z',
   },
   {
-    id: 3,
+    id: 5,
     email: 'admin@test.ru',
     first_name: 'Админ',
     last_name: 'Системный',

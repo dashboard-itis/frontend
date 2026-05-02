@@ -6,6 +6,8 @@ import { PrivateRoute } from './ProtectedRoute'
 import { RoleRoute } from './RoleRoute'
 
 import { AdminDashboardPage } from '@/pages/admin-dashboard-page/ui/AdminDashboardPage'
+import Grades from '@/pages/admin-sidebar-grades-page/ui/Grades'
+import Groups from '@/pages/admin-sidebar-groups-page/ui/Groups'
 import Import from '@/pages/admin-sidebar-import-page/ui/Import'
 import Dynamics from '@/pages/admin-sidebar-users-page/ui/Dynamics'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
@@ -43,7 +45,7 @@ const AppRouter = () => {
               </GuestRoute>
             }
           />
-
+          {/*админ*/}
           <Route
             path='/admin'
             element={
@@ -58,6 +60,8 @@ const AppRouter = () => {
             <Route path='dashboard' element={<AdminDashboardPage />} />
             <Route path='users' element={<Users />} />
             <Route path='import' element={<Import />} />
+            <Route path='grades' element={<Grades />} />
+            <Route path='groups' element={<Groups />} />
           </Route>
 
           {/*студент*/}

@@ -12,7 +12,7 @@ export const studentGrades = [
   },
   {
     id: 2,
-    student_id: 1,
+    student_id: 2,
     assignment_id: 12,
     score: 4,
     comment: 'Хорошо',
@@ -22,10 +22,30 @@ export const studentGrades = [
   },
   {
     id: 3,
-    student_id: 1,
+    student_id: 2,
     assignment_id: 13,
     score: 5,
     comment: 'Сильно',
+    created_at: '2026-04-14T10:00:00Z',
+
+    course_name: 'Математика',
+  },
+  {
+    id: 3,
+    student_id: 3,
+    assignment_id: 13,
+    score: 5,
+    comment: 'Сильно',
+    created_at: '2026-04-14T10:00:00Z',
+
+    course_name: 'Математика',
+  },
+  {
+    id: 3,
+    student_id: 1,
+    assignment_id: 13,
+    score: 5,
+    comment: 'МегаСильно',
     created_at: '2026-04-14T10:00:00Z',
 
     course_name: 'Математика',

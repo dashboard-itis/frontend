@@ -4,6 +4,10 @@
   --color-bg-secondary: #cac425; /* горчичный/жёлтый */
   --color-accent: #8c84ff; /* мягкий фиолетовый */
   --color-dark: #222223; /* почти чёрный для текста */
+  --color-error: #f8705e; /* красный для предупреждений */
+  --color-bg-table: #f1f5f9;
+  --color-table-row-dark: #f9fafb;
+  --color-border-table: #e2e8f0;
 
   /* Дополнительные оттенки */
   --color-text-primary: #222223;

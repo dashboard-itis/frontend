@@ -2,10 +2,11 @@ import { ReactElement } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { useAuth } from '@/shared/hooks/useAuth'
+import { Role } from '@/shared/types/role'
 
 type Props = {
   children: ReactElement
-  roles?: string[]
+  roles?: Role[]
 }
 
 export const RoleRoute = ({ children, roles }: Props) => {

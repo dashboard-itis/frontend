@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { AuthContext } from './AuthContext'
 
-import { login as apiLogin, register as apiRegister, refreshToken as apiRefresh } from '../api/auth'
+import { AuthResponse, login as apiLogin, register as apiRegister, refreshToken as apiRefresh } from '../api/auth'
 
 import { Role } from '../types/role'
 
@@ -11,7 +11,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return localStorage.getItem('access_token')
   })
 
-  const [roles, setRoles] = useState<string[]>(() => {
+  const [roles, setRoles] = useState<Role[]>(() => {
     const savedRoles = localStorage.getItem('user_roles')
     if (!savedRoles) return []
     try {
@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   })
 
-  const saveAuth = (data: any) => {
+  const saveAuth = (data: AuthResponse) => {
     setAccessToken(data.access_token)
     localStorage.setItem('access_token', data.access_token)
 
@@ -31,16 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('refresh_token', data.refresh_token)
     }
 
-    const rolesFromScope = data.scope.split(' ').map((r: string) => r.toUpperCase())
+    const rolesFromScope = data.scope.split(' ').map((r: string) => r.toUpperCase() as Role)
 
     setRoles(rolesFromScope)
     localStorage.setItem('user_roles', JSON.stringify(rolesFromScope))
   }
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<void> => {
     const data = await apiLogin(email, password)
     saveAuth(data)
-    return data
   }
 
   const register = async (data: {
@@ -68,18 +67,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Просто вызывать /auth/refresh с credentials: include.
     const refresh = localStorage.getItem('refresh_token')
 
-    if (access) {
-      setAccessToken(access)
-      return
-    }
-
     if (refresh) {
       try {
         const data = await apiRefresh(refresh)
         saveAuth(data)
+        return
       } catch {
         logout()
+        return
       }
+    }
+    if (access) {
+      setAccessToken(access)
     }
   }
 

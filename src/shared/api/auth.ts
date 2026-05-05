@@ -1,14 +1,24 @@
+import { customFetch } from './client'
+
 //TODO: удалить перед релизом
 import { USE_MOCKS } from '../config/config'
 import { Role } from '../types/role'
 
 const API_URL = process.env.REACT_APP_API_URL || ''
 
+export type AuthResponse = {
+  access_token: string
+  refresh_token: string
+  token_type?: string
+  expires_in: number
+  scope: string
+}
+
 const createMockToken = (role: string) => {
   return `mock-token-${role}-${Date.now()}`
 }
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<AuthResponse> => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 500))
@@ -36,7 +46,7 @@ export const login = async (email: string, password: string) => {
   formData.append('password', password)
   formData.append('grant_type', 'password') //для тиммейтов: это из OAuth2, что говорит бэку "я логинюсь через пароль"
 
-  const response = await fetch(`${API_URL}/api/auth/token`, {
+  const response = await customFetch(`${API_URL}/api/auth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -50,11 +60,11 @@ export const login = async (email: string, password: string) => {
     throw new Error(errorData?.message || 'Failed to login')
   }
 
-  return response.json()
+  return (await response.json()) as AuthResponse
 }
 // TODO: после backend update убрать аргумент token.
 // refreshToken() без параметров
-export const refreshToken = async (token: string) => {
+export const refreshToken = async (token: string): Promise<AuthResponse> => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) {
     await new Promise((res) => setTimeout(res, 300))
@@ -77,7 +87,7 @@ export const refreshToken = async (token: string) => {
   // Token должен приходить автоматически через HttpOnly cookie
   formData.append('refresh_token', token)
 
-  const response = await fetch(`${API_URL}/api/auth/refresh`, {
+  const response = await customFetch(`${API_URL}/api/auth/refresh`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -91,7 +101,7 @@ export const refreshToken = async (token: string) => {
     throw new Error(errorData.message || 'Refresh failed')
   }
 
-  return response.json()
+  return (await response.json()) as AuthResponse
 }
 
 export const register = async (data: {
@@ -107,7 +117,7 @@ export const register = async (data: {
     return { success: true }
   }
 
-  const response = await fetch(`${API_URL}/api/users`, {
+  const response = await customFetch(`${API_URL}/api/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

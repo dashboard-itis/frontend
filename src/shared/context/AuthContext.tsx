@@ -4,10 +4,10 @@ import { Role } from '../types/role'
 
 type AuthContextValue = {
   accessToken: string | null
-  roles: string[]
+  roles: Role[]
   isAuth: boolean
 
-  login: (email: string, password: string) => Promise<any>
+  login: (email: string, password: string) => Promise<void>
   register: (data: {
     email: string
     password: string

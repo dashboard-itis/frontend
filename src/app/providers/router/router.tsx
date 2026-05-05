@@ -88,7 +88,7 @@ const AppRouter = () => {
           >
             <Route index element={<Navigate to='distribution' />} />
             <Route path='distribution' element={<Distribution />} />
-            <Route path='analytics' element={<CuratorDynamicsTab groupId={1} />} />
+            <Route path='dynamics' element={<CuratorDynamicsTab groupId={1} />} />
             <Route path='dashboard' element={<CuratorDashboardPage />} />
           </Route>
 

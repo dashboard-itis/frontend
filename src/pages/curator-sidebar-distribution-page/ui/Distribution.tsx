@@ -1,7 +1,7 @@
 import { CuratorDashboard } from '@/widgets/dashboard-layout'
 
 const Distribution = () => {
-  return <CuratorDashboard tab='distribution' />
+  return <CuratorDashboard />
 }
 
 export default Distribution

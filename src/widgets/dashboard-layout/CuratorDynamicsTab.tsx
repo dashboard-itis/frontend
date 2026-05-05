@@ -8,6 +8,11 @@ import { getRatings } from '@/shared/api/ratings'
 
 import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
 
+type Params = {
+  semester: 'SPRING' | 'FALL'
+  year: number
+}
+
 interface CuratorDynamicsTabProps {
   groupId: number
 }
@@ -47,6 +52,31 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
   const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0]) // по умолчанию первый предмет
   const [selectedSemester, setSelectedSemester] = useState<number>(DEFAULT_SEMESTER)
 
+  const fetchScores = async (students: { student_id: number; full_name: string }[], params: Params) => {
+    const scoresMap = new Map<number, Record<string, number>>()
+
+    await Promise.all(
+      students.map(async (student) => {
+        const grades = await getStudentGrades(student.student_id, params)
+
+        const subjectScores: Record<string, number> = {}
+        subjects.forEach((subj) => (subjectScores[subj] = 0))
+
+        grades.forEach((grade: StudentGrade) => {
+          const course = grade.course_name
+
+          if (course && subjects.includes(course)) {
+            subjectScores[course] += grade.score
+          }
+        })
+
+        scoresMap.set(student.student_id, subjectScores)
+      }),
+    )
+
+    return scoresMap
+  }
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -67,30 +97,14 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
 
   // текущий сем
   useEffect(() => {
-    const fetchCurrentSemesterScores = async () => {
+    const run = async () => {
       if (studentsList.length === 0) return
 
       setLoading(true)
       try {
         const params = semesterMapping[DEFAULT_SEMESTER]
-        const scoresMap = new Map<number, Record<string, number>>()
-
-        await Promise.all(
-          studentsList.map(async (student) => {
-            const grades = await getStudentGrades(student.student_id, params)
-            const subjectScores: Record<string, number> = {}
-            subjects.forEach((subj) => (subjectScores[subj] = 0))
-            grades.forEach((grade: StudentGrade) => {
-              const course = grade.course_name
-
-              if (course && subjects.includes(course)) {
-                subjectScores[course] += grade.score
-              }
-            })
-            scoresMap.set(student.student_id, subjectScores)
-          }),
-        )
-        setCurrentSemesterScores(scoresMap)
+        const result = await fetchScores(studentsList, params)
+        setCurrentSemesterScores(result)
       } catch (err) {
         console.error(err)
         setError('Не удалось загрузить оценки за текущий семестр')
@@ -98,36 +112,21 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
         setLoading(false)
       }
     }
-    fetchCurrentSemesterScores()
+
+    run()
   }, [studentsList])
 
   // выбранный сем
 
   useEffect(() => {
-    const fetchSelectedSemesterScores = async () => {
+    const run = async () => {
       if (studentsList.length === 0) return
 
       setLoading(true)
       try {
         const params = semesterMapping[selectedSemester]
-        const scoresMap = new Map<number, Record<string, number>>()
-
-        await Promise.all(
-          studentsList.map(async (student) => {
-            const grades = await getStudentGrades(student.student_id, params)
-            const subjectScores: Record<string, number> = {}
-            subjects.forEach((subj) => (subjectScores[subj] = 0))
-            grades.forEach((grade: StudentGrade) => {
-              const course = grade.course_name
-
-              if (course && subjects.includes(course)) {
-                subjectScores[course] += grade.score
-              }
-            })
-            scoresMap.set(student.student_id, subjectScores)
-          }),
-        )
-        setSelectedSemesterScores(scoresMap)
+        const result = await fetchScores(studentsList, params)
+        setSelectedSemesterScores(result)
       } catch (err) {
         console.error(err)
         setError('Не удалось загрузить оценки за выбранный семестр')
@@ -135,7 +134,8 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
         setLoading(false)
       }
     }
-    fetchSelectedSemesterScores()
+
+    run()
   }, [studentsList, selectedSemester])
 
   const tableData = studentsList

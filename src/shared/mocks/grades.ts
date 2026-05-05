@@ -31,7 +31,7 @@ export const studentGrades = [
     course_name: 'Математика',
   },
   {
-    id: 3,
+    id: 4,
     student_id: 3,
     assignment_id: 13,
     score: 5,
@@ -41,7 +41,7 @@ export const studentGrades = [
     course_name: 'Математика',
   },
   {
-    id: 3,
+    id: 5,
     student_id: 1,
     assignment_id: 13,
     score: 5,

@@ -1,17 +1,24 @@
 import { Table, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import { studentGrades } from '@/shared/mocks/grades'
-import { users as mockUsers } from '@/shared/mocks/users'
+import { getStudentGrades } from '@/shared/api/grades'
+
+import { getUsers } from '@/shared/api/users'
+
+import type { User } from '@/shared/api/api'
+import type { StudentGrade } from '@/shared/types/dashboard'
 
 const { Title } = Typography
 
 export const AdminGradesTab: React.FC = () => {
-  const [grades, setGrades] = useState<any[]>([])
+  const [grades, setGrades] = useState<StudentGrade[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [group, setGroup] = useState<string>('all')
+
   useEffect(() => {
-    setGrades(studentGrades)
+    getUsers().then(setUsers)
   }, [])
+
   useEffect(() => {
     const updateGroup = () => {
       setGroup(localStorage.getItem('selectedGroup') || 'all')
@@ -22,17 +29,38 @@ export const AdminGradesTab: React.FC = () => {
 
     return () => window.removeEventListener('groupChanged', updateGroup)
   }, [])
-  const users = JSON.parse(localStorage.getItem('users') || 'null') || mockUsers
+
+  useEffect(() => {
+    const fetchGrades = async () => {
+      try {
+        const students = users.filter((u) => u.role === 'STUDENT')
+
+        const allGrades = await Promise.all(students.map((student) => getStudentGrades(student.id)))
+        const flatGrades = allGrades.flat()
+
+        setGrades(flatGrades)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (users.length > 0) {
+      fetchGrades()
+    }
+  }, [users])
+
   const students = users.filter((u) => u.role === 'STUDENT')
-  const getStudentName = (id: number) => {
-    const user = users.find((u: any) => u.id === id)
-    return user ? `${user.first_name} ${user.last_name}` : `ID: ${id}`
-  }
   const filteredStudents = group === 'all' ? students : students.filter((u) => String(u.group_id) === group)
 
   const studentIds = filteredStudents.map((u) => u.id)
 
   const filteredGrades = grades.filter((g) => studentIds.includes(g.student_id))
+
+  const getStudentName = (id: number) => {
+    const user = users.find((u) => u.id === id)
+    return user ? `${user.first_name} ${user.last_name}` : `ID: ${id}`
+  }
+
   return (
     <div style={{ maxWidth: 900, margin: '0 auto' }}>
       <Title level={3}>Текущие оценки</Title>

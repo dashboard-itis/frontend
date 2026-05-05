@@ -1,4 +1,5 @@
-export const users = [
+import type { User } from '@/shared/api/api'
+export const users: User[] = [
   {
     id: 1,
     email: 'student1@test.ru',

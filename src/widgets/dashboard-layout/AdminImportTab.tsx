@@ -39,7 +39,7 @@ export const AdminImportTab: React.FC = () => {
     setFile(null)
     setFileName(null)
   }
-
+  // TODO: отправить файл на сервер в handleImport
   const handleImport = () => {
     if (!file) {
       message.error('Выберите файл заново')

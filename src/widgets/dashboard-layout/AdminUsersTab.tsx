@@ -1,41 +1,83 @@
-import { Table, Typography, Select } from 'antd'
-import React, { useState, useEffect } from 'react'
+import { Table, Typography, Select, Button, Popconfirm } from 'antd'
+import React, { useEffect, useState } from 'react'
 
-import { MOCK_STATS } from './dashboard-types'
+import { groups } from '@/shared/mocks/groups'
+import { users as mockUsers } from '@/shared/mocks/users'
 
 const { Title } = Typography
 
 export const AdminUsersTab: React.FC = () => {
-  const [stats, setStats] = useState<any>(null)
+  const [users, setUsers] = useState<any[]>([])
+  const [group, setGroup] = useState<string>('all')
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      setStats(MOCK_STATS)
-    }, 800)
+    const saved = localStorage.getItem('users')
+
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setUsers(parsed)
+          setIsLoaded(true)
+          return
+        }
+      } catch {}
+    }
+
+    setUsers(mockUsers)
+    setIsLoaded(true)
   }, [])
 
-  if (!stats) return null
+  useEffect(() => {
+    if (!isLoaded) return
+    localStorage.setItem('users', JSON.stringify(users))
+  }, [users, isLoaded])
+
+  useEffect(() => {
+    const updateGroup = () => {
+      setGroup(localStorage.getItem('selectedGroup') || 'all')
+    }
+
+    updateGroup()
+    window.addEventListener('groupChanged', updateGroup)
+
+    return () => window.removeEventListener('groupChanged', updateGroup)
+  }, [])
+
+  const filteredUsers = group === 'all' ? users : users.filter((u) => String(u.group_id) === group)
+
+  const getGroupName = (id: number | null) => {
+    if (!id) return '-'
+    return groups.find((g) => g.id === id)?.name || '-'
+  }
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
       <Title level={3}>Управление пользователями</Title>
+
       <Table
-        dataSource={stats.users.map((u: any, idx: number) => ({ key: idx, ...u }))}
+        dataSource={filteredUsers.map((u) => ({
+          key: u.id,
+          ...u,
+        }))}
         columns={[
-          { title: 'Фамилия', dataIndex: 'surname', key: 'surname' },
-          { title: 'Имя', dataIndex: 'name', key: 'name' },
-          { title: 'Отчество', dataIndex: 'patronymic', key: 'patronymic' },
-          { title: 'Группа', dataIndex: 'group', key: 'group' },
-          { title: 'Почта', dataIndex: 'email', key: 'email' },
+          { title: 'Фамилия', dataIndex: 'last_name' },
+          { title: 'Имя', dataIndex: 'first_name' },
+          {
+            title: 'Группа',
+            render: (_: any, record: any) => getGroupName(record.group_id),
+          },
+          { title: 'Почта', dataIndex: 'email' },
           {
             title: 'Доступ',
-            dataIndex: 'access',
-            key: 'access',
-            render: (access: string) => (
+            render: (_: any, record: any) => (
               <Select
-                value={access}
-                style={{ minWidth: 100 }}
-                disabled
+                value={record.access || 'Общий'}
+                style={{ width: 140 }}
+                onChange={(value) =>
+                  setUsers((prev) => prev.map((u) => (u.id === record.id ? { ...u, access: value } : u)))
+                }
                 options={[
                   { value: 'Анонимный', label: 'Анонимный' },
                   { value: 'Общий', label: 'Общий' },
@@ -45,19 +87,34 @@ export const AdminUsersTab: React.FC = () => {
           },
           {
             title: 'Роль',
-            dataIndex: 'role',
-            key: 'role',
-            render: (role: string) => (
+            render: (_: any, record: any) => (
               <Select
-                value={role}
-                style={{ minWidth: 100 }}
-                disabled
+                value={record.role}
+                style={{ width: 140 }}
+                onChange={(value) =>
+                  setUsers((prev) => prev.map((u) => (u.id === record.id ? { ...u, role: value } : u)))
+                }
                 options={[
-                  { value: 'Студент', label: 'Студент' },
-                  { value: 'Куратор', label: 'Куратор' },
-                  { value: 'Админ', label: 'Админ' },
+                  { value: 'STUDENT', label: 'Студент' },
+                  { value: 'CURATOR', label: 'Куратор' },
+                  { value: 'ADMIN', label: 'Админ' },
                 ]}
               />
+            ),
+          },
+          {
+            title: 'Действия',
+            render: (_: any, record: any) => (
+              <Popconfirm
+                title='Удалить пользователя?'
+                onConfirm={() => setUsers((prev) => prev.filter((u) => u.id !== record.id))}
+                okText='Да'
+                cancelText='Нет'
+              >
+                <Button type='link' danger>
+                  Удалить
+                </Button>
+              </Popconfirm>
             ),
           },
         ]}

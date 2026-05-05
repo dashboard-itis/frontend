@@ -1,5 +1,5 @@
-import { AdminDashboard } from '@/widgets/dashboard-layout'
+import { useState } from 'react'
 
 export const AdminDashboardPage = () => {
-  return <AdminDashboard tab='users' />
+  const [tab, setTab] = useState<'users' | 'import' | 'grades'>('users')
 }

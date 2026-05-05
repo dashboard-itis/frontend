@@ -5,7 +5,7 @@ import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
 
-import { AdminDashboardPage } from '@/pages/admin-dashboard-page/ui/AdminDashboardPage'
+import Grades from '@/pages/admin-sidebar-grades-page/ui/Grades'
 import Import from '@/pages/admin-sidebar-import-page/ui/Import'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
 import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorDashboardPage'
@@ -43,7 +43,7 @@ const AppRouter = () => {
               </GuestRoute>
             }
           />
-
+          {/*админ*/}
           <Route
             path='/admin'
             element={
@@ -54,10 +54,10 @@ const AppRouter = () => {
               </PrivateRoute>
             }
           >
-            <Route index element={<Navigate to='dashboard' />} />
-            <Route path='dashboard' element={<AdminDashboardPage />} />
+            {/* <Route index element={<Navigate to='dashboard' />} /> */}
             <Route path='users' element={<Users />} />
             <Route path='import' element={<Import />} />
+            <Route path='grades' element={<Grades />} />
           </Route>
 
           {/*студент*/}

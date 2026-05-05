@@ -1,11 +1,12 @@
-import { UpdateUserRequest, CreateUserRequest } from './api'
+import { User, UpdateUserRequest, CreateUserRequest } from './api'
+
 import { api } from './client'
 
 import { USE_MOCKS } from '../config/config'
 
 import { users as usersMock } from '../mocks/users'
 
-export const getUsers = async () => {
+export const getUsers = async (): Promise<User[]> => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) return usersMock
 
@@ -13,14 +14,13 @@ export const getUsers = async () => {
   return res.data.results
 }
 
-export const getUserById = async (id: number) => {
+export const getUserById = async (id: number): Promise<User | undefined> => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) {
     return usersMock.find((user) => user.id === id)
   }
 
   const res = await api.users.usersDetail(id)
-
   return res.data
 }
 export const createUser = async (data: CreateUserRequest) => {

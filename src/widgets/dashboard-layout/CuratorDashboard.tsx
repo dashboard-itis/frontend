@@ -1,18 +1,18 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { CuratorDistributionTab } from './CuratorDistributionTab'
 import { CuratorDynamicsTab } from './CuratorDynamicsTab'
 
-type CuratorTab = 'distribution' | 'dynamics'
+export const CuratorDashboard: React.FC = () => {
+  const { tab } = useParams<{ tab?: string }>()
 
-interface CuratorDashboardProps {
-  tab?: CuratorTab
-}
+  const currentTab = tab === 'analytics' ? 'dynamics' : 'distribution'
+  const groupId = 1
 
-export const CuratorDashboard: React.FC<CuratorDashboardProps> = ({ tab = 'distribution' }) => {
-  if (tab === 'dynamics') {
-    return <CuratorDynamicsTab />
+  if (currentTab === 'dynamics') {
+    return <CuratorDynamicsTab groupId={groupId} />
   }
 
-  return <CuratorDistributionTab />
+  return <CuratorDistributionTab groupId={groupId} />
 }

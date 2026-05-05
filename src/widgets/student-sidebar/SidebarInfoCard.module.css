@@ -3,7 +3,7 @@
   padding: 12px;
   margin-bottom: 12px;
   border-radius: 14px;
-  background: #dcdcdc;
+  background: var(--color-border);
   box-sizing: border-box;
 }
 
@@ -13,6 +13,6 @@
 }
 
 .value {
-  font-size: 18px;
+  font-size: var(--font-size-subtitle);
   font-weight: bold;
 }

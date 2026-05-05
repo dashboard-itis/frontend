@@ -6,7 +6,9 @@ const BASE_URL = process.env.REACT_APP_API_URL || ''
 
 const customFetch: typeof fetch = async (input, init = {}) => {
   const headers = new Headers(init.headers || {})
-  //TODO: удалить перед релизом
+
+  // TODO: после полного перехода на backend убрать USE_MOCKS (только блок If).
+  // Authorization Bearer header должен добавляться всегда, не только для моков.
   if (USE_MOCKS) {
     const token = localStorage.getItem('access_token')
 

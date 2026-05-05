@@ -6,6 +6,7 @@ import { getStudentGrades } from '@/shared/api/grades'
 import { getUsers } from '@/shared/api/users'
 
 import type { User } from '@/shared/api/api'
+
 import type { StudentGrade } from '@/shared/types/dashboard'
 
 const { Title } = Typography
@@ -25,6 +26,7 @@ export const AdminGradesTab: React.FC = () => {
     }
 
     updateGroup()
+    // TODO: заменить на context или state management
     window.addEventListener('groupChanged', updateGroup)
 
     return () => window.removeEventListener('groupChanged', updateGroup)

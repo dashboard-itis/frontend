@@ -1,11 +1,12 @@
 import { Table, Typography, Select } from 'antd'
 import React from 'react'
 
+import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
 const { Title, Text } = Typography
 
 interface StudentDashboardProps {
-  ratings: any[]
-  grades: any[]
+  ratings: RatingStudent[]
+  grades: StudentGrade[]
   tab: 'stats' | 'grades'
   onTabChange: (tab: 'stats' | 'grades') => void
   course: string | null
@@ -31,9 +32,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
     score: r.average_score,
   }))
 
-  const filteredGrades = course ? grades.filter((g) => g.course_name === course) : grades
-
-  const courses = [...new Set(grades.map((g) => g.course_name))]
+  // const courses = [...new Set(grades.map((g) => g.course_name))]
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
@@ -85,7 +84,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           {/*/>*/}
 
           <Table
-            dataSource={filteredGrades.map((g) => ({
+            dataSource={grades.map((g) => ({
               key: g.id,
               course: g.course_name,
               score: g.score,

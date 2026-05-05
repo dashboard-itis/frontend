@@ -1,7 +1,9 @@
+import { ReactNode } from 'react'
+
 import styles from './SidebarButton.module.css'
 
 type Props = {
-  text: string
+  text: ReactNode
   onClick?: () => void
   active?: boolean
   variant?: 'default' | 'danger'

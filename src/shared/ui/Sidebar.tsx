@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './Sidebar.module.css'
@@ -6,7 +7,7 @@ import { useAuth } from '@/shared/hooks/useAuth'
 import SidebarButton from '@/widgets/admin-sidebar/SidebarButton'
 
 export type SidebarItem = {
-  label: string //текст кнопки
+  label: ReactNode //текст кнопки
   isActive: boolean //активна ли кнопка
   onClick: () => void //функция при клике
   variant?: 'default' | 'danger' //вариант кнопки стиль

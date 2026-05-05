@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { groups } from '@/shared/mocks/groups'
 import { users as mockUsers } from '@/shared/mocks/users'
 
+import type { User } from '@/shared/api/api'
+
 const { Title } = Typography
 
 export const AdminUsersTab: React.FC = () => {
-  const [users, setUsers] = useState<any[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [group, setGroup] = useState<string>('all')
   const [isLoaded, setIsLoaded] = useState(false)
 

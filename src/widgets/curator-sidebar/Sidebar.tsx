@@ -17,8 +17,8 @@ function CuratorSidebar() {
     },
     {
       label: 'Динамика',
-      isActive: location.pathname.includes('analytics'),
-      onClick: () => navigate('/curator/analytics'),
+      isActive: location.pathname.includes('dynamics'),
+      onClick: () => navigate('/curator/dynamics'),
     },
   ]
 

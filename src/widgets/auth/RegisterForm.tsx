@@ -41,8 +41,12 @@ const RegisterForm = () => {
         role: 'STUDENT',
       })
       navigate('/login')
-    } catch (e: any) {
-      setError(e.message || 'Ошибка при регистрации')
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message)
+      } else {
+        setError('Ошибка при регистрации')
+      }
     } finally {
       setIsLoading(false)
     }

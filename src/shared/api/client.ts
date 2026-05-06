@@ -4,7 +4,7 @@ import { USE_MOCKS } from '../config/config'
 
 const BASE_URL = process.env.REACT_APP_API_URL || ''
 
-const customFetch: typeof fetch = async (input, init = {}) => {
+export const customFetch: typeof fetch = async (input, init = {}) => {
   const headers = new Headers(init.headers || {})
 
   // TODO: после полного перехода на backend убрать USE_MOCKS (только блок If).

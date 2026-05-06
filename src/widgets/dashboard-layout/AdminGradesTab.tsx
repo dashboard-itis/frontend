@@ -25,6 +25,7 @@ export const AdminGradesTab: React.FC = () => {
     }
 
     updateGroup()
+    // TODO: заменить на context или state management
     window.addEventListener('groupChanged', updateGroup)
 
     return () => window.removeEventListener('groupChanged', updateGroup)

@@ -7,7 +7,7 @@ import { useAuth } from '@/shared/hooks/useAuth'
 
 const LoginForm = () => {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, roles } = useAuth()
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -22,14 +22,13 @@ const LoginForm = () => {
     }
     setIsLoading(true)
     try {
-      const response = await login(email, password)
-      const rolesFromScope = response.scope.split(' ').map((r: string) => r.toUpperCase())
-      if (rolesFromScope.includes('ADMIN')) {
-        navigate('/admin/dashboard')
-      } else if (rolesFromScope.includes('CURATOR')) {
+      await login(email, password)
+      if (roles.includes('ADMIN')) {
+        navigate('/admin')
+      } else if (roles.includes('CURATOR')) {
         navigate('/curator')
-      } else if (rolesFromScope.includes('STUDENT')) {
-        navigate('/student/dashboard')
+      } else if (roles.includes('STUDENT')) {
+        navigate('/student')
       } else {
         navigate('/login')
       }

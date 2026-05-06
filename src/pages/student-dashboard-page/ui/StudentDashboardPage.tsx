@@ -18,6 +18,7 @@ export const StudentDashboardPage = () => {
   const [course, setCourse] = useState<string | null>(() => {
     return localStorage.getItem('student_course')
   })
+  // TODO: заменить на реальный id пользователя из auth
   const studentId = 1
   const groupId = 1
   useEffect(() => {
@@ -54,10 +55,11 @@ export const StudentDashboardPage = () => {
     }
   }, [tab])
 
+  const filteredGrades = course ? grades.filter((g) => g.course_name === course) : grades
   return (
     <StudentDashboard
       ratings={ratings}
-      grades={grades}
+      grades={filteredGrades}
       tab={tab}
       onTabChange={setTab}
       course={course}

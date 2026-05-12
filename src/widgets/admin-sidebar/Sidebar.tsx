@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 
 import { groups } from '@/shared/mocks/groups'
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
+import SidebarProfile, { roleAvatars } from '@/shared/ui/SidebarProfile'
 
 const AdminSidebar = () => {
   const navigate = useNavigate()
@@ -45,21 +46,12 @@ const AdminSidebar = () => {
     },
     {
       label: (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <span>Группы</span>
-
+        <div>
           <Select
-            size='small'
+            style={{ width: '250px' }}
+            size='large'
             value={group}
             onChange={handleChange}
-            style={{ width: 120 }}
             options={[
               { value: 'all', label: 'Все' },
               ...groups.map((g) => ({
@@ -75,7 +67,12 @@ const AdminSidebar = () => {
     },
   ]
 
-  return <Sidebar items={items} />
+  return (
+    <Sidebar
+      items={items}
+      headerContent={<SidebarProfile avatar={roleAvatars.admin} fullName='Шарапова Диана Рустамовна' />}
+    />
+  )
 }
 
 export default AdminSidebar

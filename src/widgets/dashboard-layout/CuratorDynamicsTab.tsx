@@ -192,9 +192,8 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
   if (error) return <Alert message={error} type='error' showIcon />
 
   return (
-    <div className={styles.dwWidget}>
+    <div>
       <h2 className={styles.dwTitle}>Статистика моей группы</h2>
-      <h3 className={styles.dwSubtitle}>Динамика успеваемости</h3>
 
       <div className={styles.filtersRow}>
         <Select
@@ -214,6 +213,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
       </div>
 
       <Table
+        className={styles.dashboardContainer}
         dataSource={tableData}
         columns={columns}
         pagination={false}

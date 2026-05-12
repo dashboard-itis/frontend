@@ -1,5 +1,7 @@
-import { Table, Typography } from 'antd'
+import { Table } from 'antd'
 import React, { useEffect, useState } from 'react'
+
+import styles from './DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
 
@@ -7,8 +9,6 @@ import { getUsers } from '@/shared/api/users'
 
 import type { User } from '@/shared/api/api'
 import type { StudentGrade } from '@/shared/types/dashboard'
-
-const { Title } = Typography
 
 export const AdminGradesTab: React.FC = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
@@ -63,10 +63,11 @@ export const AdminGradesTab: React.FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto' }}>
-      <Title level={3}>Текущие оценки</Title>
+    <div>
+      <h2 className={styles.dwTitle}>Текущие оценки</h2>
 
       <Table
+        className={styles.dashboardContainer}
         dataSource={filteredGrades.map((g) => ({
           key: `${g.id}-${g.student_id}`,
           studentId: g.student_id,

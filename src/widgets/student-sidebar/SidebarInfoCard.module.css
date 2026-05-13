@@ -3,16 +3,23 @@
   padding: 12px;
   margin-bottom: 12px;
   border-radius: 14px;
-  background: var(--color-border);
+  background: var(--color-bg-secondary);
   box-sizing: border-box;
 }
 
 .label {
-  font-size: 14px;
+  font-size: 21px;
+  font-family: var(--font-subtitle);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
   margin-bottom: 6px;
+  text-align: center;
 }
 
 .value {
-  font-size: var(--font-size-subtitle);
+  font-size: 48px;
+  font-family: var(--font-subtitle);
+  text-align: center;
   font-weight: bold;
+  color: var(--color-accent);
 }

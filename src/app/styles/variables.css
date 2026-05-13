@@ -1,7 +1,7 @@
 :root {
   /* Цветовая гамма */
-  --color-bg-primary: #ffffce; /* тёплый светлый фон */
-  --color-bg-secondary: #cac425; /* горчичный/жёлтый */
+  --color-bg-primary: #e1e158; /* горчичный/жёлтый */
+  --color-bg-secondary: #fffed7; /* тёплый светлый фон */
   --color-accent: #8c84ff; /* мягкий фиолетовый */
   --color-dark: #222223; /* почти чёрный для текста */
   --color-error: #f8705e; /* красный для предупреждений */
@@ -21,8 +21,8 @@
   --font-body: 'PT Sans', sans-serif;
 
   /* Размеры шрифтов */
-  --font-size-h1: 48px;
-  --font-size-h2: 36px;
+  --font-size-h1: 64px;
+  --font-size-h2: 48px;
   --font-size-h3: 28px;
   --font-size-h4: 24px;
   --font-size-subtitle: 20px;

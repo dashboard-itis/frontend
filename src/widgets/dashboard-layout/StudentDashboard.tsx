@@ -1,8 +1,10 @@
 import { Table, Typography, Select } from 'antd'
 import React from 'react'
 
+import styles from './DashboardWidget.module.css'
+
 import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
-const { Title, Text } = Typography
+const { Text } = Typography
 
 interface StudentDashboardProps {
   ratings: RatingStudent[]
@@ -35,11 +37,13 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
   // const courses = [...new Set(grades.map((g) => g.course_name))]
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto' }}>
-      <Title level={3}>Студент</Title>
+    <div>
+      <h2 className={styles.dwTitle}>Студент</h2>
 
       {/* переключение */}
       <Select
+        className={styles.customSelect}
+        size='large'
         value={tab}
         onChange={(value) => onTabChange(value)}
         style={{ width: 200, marginBottom: 20 }}
@@ -52,9 +56,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* Рейтинг */}
       {tab === 'stats' && (
         <>
-          <Title level={4}>Рейтинг</Title>
-
           <Table
+            className={styles.dashboardContainer}
             dataSource={mappedRatings}
             columns={[
               { title: 'Место', dataIndex: 'rank', key: 'rank' },
@@ -72,7 +75,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
 
       {/* Оценки */}
       {tab === 'grades' && (
-        <>
+        <div>
           {/*<Title level={4}>Оценки</Title>*/}
 
           {/*<Select*/}
@@ -84,6 +87,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           {/*/>*/}
 
           <Table
+            className={styles.dashboardContainer}
             dataSource={grades.map((g) => ({
               key: g.id,
               course: g.course_name,
@@ -97,7 +101,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
             ]}
             pagination={false}
           />
-        </>
+        </div>
       )}
     </div>
   )

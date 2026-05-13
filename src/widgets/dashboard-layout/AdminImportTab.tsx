@@ -1,8 +1,9 @@
-import { Card, Button, Upload, Typography, message } from 'antd'
+import { Card, Button, Upload, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 
+import styles from './DashboardWidget.module.css'
+
 const { Dragger } = Upload
-const { Title } = Typography
 
 export const AdminImportTab: React.FC = () => {
   const [file, setFile] = useState<File | null>(null)
@@ -56,39 +57,46 @@ export const AdminImportTab: React.FC = () => {
   const isFileLoaded = !!file
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto' }}>
-      <Title level={3}>Импорт данных</Title>
+    <div className='importCard'>
+      <h2 className={styles.dwTitle}>Импорт данных</h2>
 
-      <Card style={{ marginBottom: 18 }}>
-        <div>Импортируйте файл с оценками (поддерживаются .csv, .xlsx)</div>
+      <div className={styles.dashboardContainer}>
+        <Card>
+          <div>Импортируйте файл с оценками (поддерживаются .csv, .xlsx)</div>
 
-        <Dragger accept='.csv,.xlsx' beforeUpload={handleBeforeUpload} showUploadList={false} style={{ marginTop: 16 }}>
-          <p>Перетащите файл сюда или нажмите</p>
-        </Dragger>
+          <Dragger
+            accept='.csv,.xlsx'
+            beforeUpload={handleBeforeUpload}
+            showUploadList={false}
+            style={{ marginTop: 16 }}
+          >
+            <p>Перетащите файл сюда или нажмите</p>
+          </Dragger>
 
-        {fileName && (
-          <div style={{ marginTop: 10 }}>
-            Последний файл: <b>{fileName}</b>
-            {!file && <span style={{ color: 'red', marginLeft: 8 }}>(нужно выбрать заново)</span>}
-          </div>
-        )}
+          {fileName && (
+            <div style={{ marginTop: 10 }}>
+              Последний файл: <b>{fileName}</b>
+              {!file && <span style={{ color: 'red', marginLeft: 8 }}>(нужно выбрать заново)</span>}
+            </div>
+          )}
 
-        {fileName && (
-          <Button danger style={{ marginTop: 8 }} onClick={handleRemove}>
-            Удалить файл
+          {fileName && (
+            <Button danger style={{ marginTop: 8 }} onClick={handleRemove}>
+              Удалить файл
+            </Button>
+          )}
+
+          <Button type='primary' style={{ marginTop: 16 }} disabled={!isFileLoaded} onClick={handleImport}>
+            Импортировать
           </Button>
-        )}
+        </Card>
 
-        <Button type='primary' style={{ marginTop: 16 }} disabled={!isFileLoaded} onClick={handleImport}>
-          Импортировать
-        </Button>
-      </Card>
-
-      <Card style={{ background: '#f5f6fa', color: '#555' }}>
-        Последний выбранный файл:
-        <br />
-        {fileName ? `Файл: ${fileName}` : 'Нет данных'}
-      </Card>
+        <Card style={{ background: '#f5f6fa', color: '#555' }}>
+          Последний выбранный файл:
+          <br />
+          {fileName ? `Файл: ${fileName}` : 'Нет данных'}
+        </Card>
+      </div>
     </div>
   )
 }

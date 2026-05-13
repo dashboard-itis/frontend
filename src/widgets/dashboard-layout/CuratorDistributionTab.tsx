@@ -130,10 +130,11 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
   ]
 
   return (
-    <div className={styles.dwWidget}>
-      <h2 className={styles.dwTitle}>Статистика моей группы</h2>
-      <h3 className={styles.dwSubtitle}>Рейтинг студентов (по убыванию среднего балла)</h3>
+    <div>
+      <h1 className={styles.dwTitle}>Статистика моей группы</h1>
       <Table
+        style={{ marginTop: '71.46px' }}
+        className={styles.dashboardContainer}
         dataSource={tableData}
         columns={columns}
         pagination={false}

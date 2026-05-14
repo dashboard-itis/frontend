@@ -6,20 +6,13 @@ import { studentGrades } from '../mocks/grades'
 
 import type { StudentGrade } from '@/shared/types/dashboard'
 
-type GradesParams = {
-  course_id?: number
-  semester?: 'SPRING' | 'FALL'
-  page?: number
-  page_size?: number
-}
-
-export const getStudentGrades = async (studentId: number, params?: GradesParams): Promise<StudentGrade[]> => {
+export const getStudentGrades = async (studentId: number): Promise<StudentGrade[]> => {
   //TODO: удалить перед релизом
   if (USE_MOCKS) {
     return studentGrades.filter((grade) => grade.student_id === studentId)
   }
 
-  const res = await api.students.gradesList(studentId, params)
+  const res = await api.api.getStudentGradesApiV1StudentsStudentIdGradesGet(studentId)
 
-  return res.data.results
+  return res.data.items
 }

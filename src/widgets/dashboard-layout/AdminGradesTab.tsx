@@ -7,12 +7,16 @@ import { getStudentGrades } from '@/shared/api/grades'
 
 import { getUsers } from '@/shared/api/users'
 
-import type { User } from '@/shared/api/api'
+import type { UserPublic } from '@/shared/api/api'
 import type { StudentGrade } from '@/shared/types/dashboard'
+
+type DashboardUser = UserPublic & {
+  role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
+}
 
 export const AdminGradesTab: React.FC = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
-  const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState<DashboardUser[]>([])
   const [group, setGroup] = useState<string>('all')
 
   useEffect(() => {
@@ -34,7 +38,9 @@ export const AdminGradesTab: React.FC = () => {
   useEffect(() => {
     const fetchGrades = async () => {
       try {
-        const students = users.filter((u) => u.role === 'STUDENT')
+        const students = users.filter(
+          (u): u is DashboardUser & { id: number } => u.role === 'STUDENT' && typeof u.id === 'number',
+        )
 
         const allGrades = await Promise.all(students.map((student) => getStudentGrades(student.id)))
         const flatGrades = allGrades.flat()

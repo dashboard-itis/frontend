@@ -46,7 +46,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
 
         const studentsWithScores = await Promise.all(
           (ratings as RatingStudent[]).map(async (student) => {
-            const grades = await getStudentGrades(student.student_id, { semester })
+            const grades = await getStudentGrades(student.student_id)
 
             const scores = disciplines.reduce<Record<string, number>>((acc, discipline) => {
               acc[discipline] = 0

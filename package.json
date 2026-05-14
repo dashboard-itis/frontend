@@ -22,8 +22,9 @@
     "lint:css": "stylelint src",
     "lint:css:fix": "npm run lint:css -- --fix",
     "prepare": "husky install",
-    "api:generate": "swagger-typescript-api generate -p openapi.yaml -o src/shared/api -n api.ts"
+    "api:generate": "swagger-typescript-api generate -p openapi.json -o src/shared/api -n api.ts"
   },
+  "proxy": "http://localhost",
   "browserslist": {
     "production": [
       ">0.2%",

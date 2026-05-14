@@ -6,10 +6,16 @@ import styles from './DashboardWidget.module.css'
 import { groups } from '@/shared/mocks/groups'
 import { users as mockUsers } from '@/shared/mocks/users'
 
-import type { User } from '@/shared/api/api'
+import type { UserPublic } from '@/shared/api/api'
+
+//TODO: так как у бэковского юзера нет роли мы добавляем расширение
+type DashboardUser = UserPublic & {
+  role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
+  access?: 'Анонимный' | 'Общий'
+}
 
 export const AdminUsersTab: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState<DashboardUser[]>([])
   const [group, setGroup] = useState<string>('all')
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -27,7 +33,7 @@ export const AdminUsersTab: React.FC = () => {
       } catch {}
     }
 
-    setUsers(mockUsers)
+    setUsers(mockUsers as DashboardUser[])
     setIsLoaded(true)
   }, [])
 

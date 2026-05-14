@@ -51,16 +51,23 @@ const LoginForm = () => {
             С возвращением
             <br />в SECCUR
           </div>
+
           <div className={styles.welcomeSubtitle}>Рады видеть вас снова!</div>
         </div>
       </div>
 
       <div className={styles.rightColumn}>
-        <div className={styles.formContainer}>
+        <form
+          className={styles.formContainer}
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleLogin()
+          }}
+        >
           <h2 className={styles.title}>Вход</h2>
 
           <input
-            className={styles.input}
+            className={styles.LoginInput}
             placeholder='Почта'
             type='email'
             value={email}
@@ -69,7 +76,7 @@ const LoginForm = () => {
           />
 
           <input
-            className={styles.input}
+            className={styles.LoginInput}
             type='password'
             placeholder='Пароль'
             value={password}
@@ -79,7 +86,7 @@ const LoginForm = () => {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          <button className={styles.button} onClick={handleLogin} disabled={isLoading}>
+          <button type='submit' className={styles.button} disabled={isLoading}>
             {isLoading ? 'Загрузка...' : 'Войти'}
           </button>
 
@@ -89,7 +96,7 @@ const LoginForm = () => {
               Зарегистрироваться
             </span>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

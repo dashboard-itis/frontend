@@ -6,25 +6,26 @@ import styles from './DashboardWidget.module.css'
 import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
 const { Text } = Typography
 
+//TODO: пока все поля необязательные из за сырого бэка, потом исправить
 interface StudentDashboardProps {
-  ratings: RatingStudent[]
-  grades: StudentGrade[]
-  tab: 'stats' | 'grades'
-  onTabChange: (tab: 'stats' | 'grades') => void
-  course: string | null
-  onCourseChange: (course: string | null) => void
-  studentId: number
+  ratings?: RatingStudent[]
+  grades?: StudentGrade[]
+  tab?: 'stats' | 'grades'
+  onTabChange?: (tab: 'stats' | 'grades') => void
+  course?: string | null
+  onCourseChange?: (course: string | null) => void
+  studentId?: number
   isAnonymous?: boolean
 }
 
 export const StudentDashboard: React.FC<StudentDashboardProps> = ({
-  ratings,
-  grades,
-  tab,
-  onTabChange,
-  course,
-  onCourseChange,
-  studentId,
+  ratings = [],
+  grades = [],
+  tab = 'stats',
+  onTabChange = () => {},
+  course = null,
+  onCourseChange = () => {},
+  studentId = 0,
   isAnonymous = false,
 }) => {
   const mappedRatings = ratings.map((r, idx) => ({

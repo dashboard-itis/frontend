@@ -68,7 +68,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
 
             return {
               student_id: student.student_id,
-              fullName: student.full_name,
+              anonymized_id: student.anonymized_id,
               averageScore: average,
               scores,
             }
@@ -80,7 +80,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
         const rows = sorted.map((student, idx) => ({
           key: student.student_id,
           rank: idx + 1,
-          fullName: student.fullName,
+          fullName: student.anonymized_id,
           averageScore: student.averageScore,
           ...student.scores,
         }))
@@ -109,7 +109,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
       render: (rank: number) => <strong>{rank}</strong>,
     },
     {
-      title: 'ФИО студента',
+      title: 'Студент',
       dataIndex: 'fullName',
       width: 200,
     },

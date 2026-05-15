@@ -57,7 +57,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
 
     await Promise.all(
       students.map(async (student) => {
-        const grades = await getStudentGrades(student.student_id, params)
+        const grades = await getStudentGrades(student.student_id)
 
         const subjectScores: Record<string, number> = {}
         subjects.forEach((subj) => (subjectScores[subj] = 0))

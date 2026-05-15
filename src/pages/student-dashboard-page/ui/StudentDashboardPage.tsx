@@ -41,6 +41,10 @@ export const StudentDashboardPage = () => {
 
   useEffect(() => {
     getRatings(groupId).then((data) => {
+      if (!data) {
+        setRatings([])
+        return
+      }
       const safeData: RatingStudent[] = data.map((item) => ({
         ...item,
         full_name: item.full_name ?? 'Без имени',

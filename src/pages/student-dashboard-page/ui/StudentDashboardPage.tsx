@@ -10,6 +10,7 @@ import { StudentDashboard } from '@/widgets/dashboard-layout/StudentDashboard'
 export const StudentDashboardPage = () => {
   const [ratings, setRatings] = useState<RatingStudent[]>([])
   const [grades, setGrades] = useState<StudentGrade[]>([])
+  const [loading, setLoading] = useState(true)
 
   const [tab, setTab] = useState<'stats' | 'grades'>(() => {
     return (localStorage.getItem('student_tab') as 'stats' | 'grades') || 'stats'
@@ -40,18 +41,25 @@ export const StudentDashboardPage = () => {
   }, [course])
 
   useEffect(() => {
-    getRatings(groupId).then((data) => {
-      if (!data) {
-        setRatings([])
-        return
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const ratingsData = await getRatings(groupId)
+        if (!ratingsData) {
+          setRatings([])
+        } else {
+          const safeData: RatingStudent[] = ratingsData.map((item) => ({
+            ...item,
+            full_name: item.full_name ?? 'Без имени',
+            anonymized_id: item.anonymized_id ?? '—',
+          }))
+          setRatings(safeData)
+        }
+      } finally {
+        setLoading(false)
       }
-      const safeData: RatingStudent[] = data.map((item) => ({
-        ...item,
-        full_name: item.full_name ?? 'Без имени',
-        anonymized_id: item.anonymized_id ?? '—',
-      }))
-      setRatings(safeData)
-    })
+    }
+    fetchData()
   }, [groupId])
   useEffect(() => {
     if (tab === 'grades') {
@@ -70,6 +78,7 @@ export const StudentDashboardPage = () => {
       onCourseChange={setCourse}
       studentId={studentId}
       isAnonymous={true}
+      loading={loading}
     />
   )
 }

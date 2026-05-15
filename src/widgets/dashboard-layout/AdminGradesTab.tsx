@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Spin, Empty } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import styles from './DashboardWidget.module.css'
@@ -18,9 +18,24 @@ export const AdminGradesTab: React.FC = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
   const [users, setUsers] = useState<DashboardUser[]>([])
   const [group, setGroup] = useState<string>('all')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    getUsers().then(setUsers)
+    const fetchUsersData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const data = await getUsers()
+        setUsers(data)
+      } catch (err) {
+        console.error(err)
+        setError('Не удалось загрузить пользователей')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchUsersData()
   }, [])
 
   useEffect(() => {
@@ -38,6 +53,8 @@ export const AdminGradesTab: React.FC = () => {
   useEffect(() => {
     const fetchGrades = async () => {
       try {
+        setLoading(true)
+        setError(null)
         const students = users.filter(
           (u): u is DashboardUser & { id: number } => u.role === 'STUDENT' && typeof u.id === 'number',
         )
@@ -48,6 +65,9 @@ export const AdminGradesTab: React.FC = () => {
         setGrades(flatGrades)
       } catch (e) {
         console.error(e)
+        setError('Не удалось загрузить оценки')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -69,27 +89,36 @@ export const AdminGradesTab: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2 className={styles.dwTitle}>Текущие оценки</h2>
+    <Spin spinning={loading} tip='Загрузка...'>
+      <div>
+        <h2 className={styles.dwTitle}>Текущие оценки</h2>
 
-      <Table
-        className={styles.dashboardContainer}
-        dataSource={filteredGrades.map((g) => ({
-          key: `${g.id}-${g.student_id}`,
-          studentId: g.student_id,
-          studentName: getStudentName(g.student_id),
-          course: g.course_name,
-          score: g.score,
-        }))}
-        columns={[
-          { title: 'Студент ID', dataIndex: 'studentId' },
-          { title: 'Имя и фамилия', dataIndex: 'studentName' },
-          { title: 'Предмет', dataIndex: 'course' },
-          { title: 'Оценка', dataIndex: 'score' },
-        ]}
-        locale={{ emptyText: 'Нет данных' }}
-        pagination={false}
-      />
-    </div>
+        {error && <div style={{ color: 'red', marginBottom: 16 }}>Ошибка: {error}</div>}
+
+        {filteredGrades.length === 0 ? (
+          <div className={styles.dashboardContainer}>
+            <Empty description='Нет оценок' />
+          </div>
+        ) : (
+          <Table
+            className={styles.dashboardContainer}
+            dataSource={filteredGrades.map((g) => ({
+              key: `${g.id}-${g.student_id}`,
+              studentId: g.student_id,
+              studentName: getStudentName(g.student_id),
+              course: g.course_name,
+              score: g.score,
+            }))}
+            columns={[
+              { title: 'Студент ID', dataIndex: 'studentId' },
+              { title: 'Имя и фамилия', dataIndex: 'studentName' },
+              { title: 'Предмет', dataIndex: 'course' },
+              { title: 'Оценка', dataIndex: 'score' },
+            ]}
+            pagination={false}
+          />
+        )}
+      </div>
+    </Spin>
   )
 }

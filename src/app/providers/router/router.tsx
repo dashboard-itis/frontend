@@ -5,6 +5,7 @@ import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
 
+import { GradesManagement } from '@/pages/admin-sidebar-grades-management-page/ui/AdminGradesManagement'
 import Grades from '@/pages/admin-sidebar-grades-page/ui/Grades'
 import Import from '@/pages/admin-sidebar-import-page/ui/Import'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
@@ -59,6 +60,7 @@ const AppRouter = () => {
             <Route path='users' element={<Users />} />
             <Route path='import' element={<Import />} />
             <Route path='grades' element={<Grades />} />
+            <Route path='grades-management' element={<GradesManagement />} />
           </Route>
 
           {/*студент*/}

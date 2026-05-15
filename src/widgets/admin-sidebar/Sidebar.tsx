@@ -45,6 +45,11 @@ const AdminSidebar = () => {
       onClick: () => navigate('/admin/grades'),
     },
     {
+      label: 'Управление оценками',
+      isActive: location.pathname.includes('grades-management'),
+      onClick: () => navigate('/admin/grades-management'),
+    },
+    {
       label: (
         <div>
           <Select

@@ -250,6 +250,7 @@
 
 .dashboardContainer {
   overflow-y: auto;
+  height: 75vh;
   overflow-x: auto;
   display: flex;
   flex-direction: column;

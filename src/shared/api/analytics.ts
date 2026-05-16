@@ -2,25 +2,21 @@ import { api } from './client'
 
 import { USE_MOCKS } from '../config/config'
 
-import { groupAnalytics, studentAnalytics } from '../mocks/analytics'
+import { groupAnalytics } from '../mocks/analytics'
 
-type AnalyticsParams = {
-  semester?: 'SPRING' | 'FALL'
-  year?: number
-}
-
-export const getGroupAnalytics = async (groupId: number, params?: AnalyticsParams) => {
+export const getGroupAnalytics = async (groupId: number) => {
   if (USE_MOCKS) return groupAnalytics
 
-  const res = await api.groups.analyticsList(groupId, params)
+  const res = await api.api.getGroupAnalyticsApiV1GroupsGroupIdAnalyticsGet(groupId)
 
   return res.data
 }
 
-export const getStudentAnalytics = async (studentId: number, params?: AnalyticsParams) => {
-  if (USE_MOCKS) return studentAnalytics
+//TODO: пока нет в бэке, не удаляю чтобы не забыть добавить и легче поменять на рабочий вариант
+// export const getStudentAnalytics = async (studentId: number, params?: AnalyticsParams) => {
+//   if (USE_MOCKS) return studentAnalytics
 
-  const res = await api.students.analyticsList(studentId, params)
+//   const res = await api.students.analyticsList(studentId, params)
 
-  return res.data
-}
+//   return res.data
+// }

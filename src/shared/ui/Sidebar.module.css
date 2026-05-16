@@ -1,7 +1,6 @@
 .sidebar {
   width: 340px;
   min-width: 340px;
-  height: 100vh;
   min-height: 100vh;
   padding: var(--spacing-xl);
 
@@ -21,44 +20,31 @@
 .items {
   display: flex;
   flex-direction: column;
-
   gap: var(--spacing-sm);
-
+  overflow-y: hidden;
   flex: 1;
-
-  overflow-y: auto;
 }
 
 .bottom {
-  margin-top: auto;
+  padding-top: 10px;
 
   flex-shrink: 0;
 }
 
-/* Базовые стили кнопок сайдбара */
 .sidebarButton {
-  /* Шрифт */
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   font-weight: 500;
-
-  /* Отступы */
   padding: 12px 16px;
-
-  /* Скругление */
   border-radius: 8px;
-
-  /* Переходы для анимации */
   transition: all 0.3s ease;
 }
 
-/* При наведении */
 .sidebarButton:hover {
   background-color: var(--color-bg-secondary);
   transform: translateX(4px);
 }
 
-/* Активная кнопка */
 .sidebarButton.active {
   background-color: var(--color-accent);
   color: white;

@@ -1,4 +1,4 @@
-import { Select, Table, Spin, Alert } from 'antd'
+import { Select, Table, Spin, Alert, Empty } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import styles from './DashboardWidget.module.css'
@@ -57,7 +57,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
 
     await Promise.all(
       students.map(async (student) => {
-        const grades = await getStudentGrades(student.student_id, params)
+        const grades = await getStudentGrades(student.student_id)
 
         const subjectScores: Record<string, number> = {}
         subjects.forEach((subj) => (subjectScores[subj] = 0))
@@ -190,6 +190,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
 
   if (loading && studentsList.length > 0) return <Spin tip='Загрузка...' style={{ width: '100%', margin: '32px 0' }} />
   if (error) return <Alert message={error} type='error' showIcon />
+  if (studentsList.length === 0) return <Alert message='Нет данных студентов' type='info' showIcon />
 
   return (
     <div>
@@ -212,15 +213,19 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
         />
       </div>
 
-      <Table
-        className={styles.dashboardContainer}
-        dataSource={tableData}
-        columns={columns}
-        pagination={false}
-        bordered={false}
-        size='middle'
-        rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
-      />
+      {tableData.length === 0 ? (
+        <Empty description='Нет данных для отображения' />
+      ) : (
+        <Table
+          className={styles.dashboardContainer}
+          dataSource={tableData}
+          columns={columns}
+          pagination={false}
+          bordered={false}
+          size='middle'
+          rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
+        />
+      )}
     </div>
   )
 }

@@ -14,7 +14,8 @@ export interface StudentGrade {
   comment?: string | null
   created_at: string
   //TODO: после добавления бэками этого поля сделать его обязательным
-  course_name?: string
+  course_name?: string | null
+  assignment_title?: string | null
 }
 
 export interface TableRow {

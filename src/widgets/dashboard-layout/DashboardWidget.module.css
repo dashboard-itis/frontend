@@ -250,6 +250,7 @@
 
 .dashboardContainer {
   overflow-y: auto;
+  height: 75vh;
   overflow-x: auto;
   display: flex;
   flex-direction: column;
@@ -271,4 +272,55 @@
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 400;
+}
+
+.actionButton {
+  height: 40px !important;
+  padding: 0 18px !important;
+
+  border-radius: var(--radius-md) !important;
+
+  font-family: var(--font-subtitle);
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.actionButton:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.deleteButton {
+  background: var(--color-error) !important;
+  color: var(--color-text-on-accent) !important;
+}
+
+.importButton {
+  background: var(--color-accent) !important;
+  color: var(--color-text-on-accent) !important;
+}
+
+.buttonsRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.fileInfo {
+  margin-top: 10px;
+}
+
+.warningText {
+  color: var(--color-error);
+  margin-left: 8px;
+}
+
+.lastFileCard {
+  background: var(--color-bg-secondary) !important;
+  color: var(--color-text-primary) !important;
 }

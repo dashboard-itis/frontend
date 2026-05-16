@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
@@ -20,6 +21,11 @@ function CuratorSidebar() {
       label: 'Динамика',
       isActive: location.pathname.includes('dynamics'),
       onClick: () => navigate('/curator/dynamics'),
+    },
+    {
+      label: 'Экспорт отчетов',
+      isActive: false,
+      onClick: () => message.info('Функция экспорта отчетов находится в разработке'),
     },
   ]
 

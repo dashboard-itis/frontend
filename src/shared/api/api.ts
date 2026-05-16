@@ -10,679 +10,445 @@
  * ---------------------------------------------------------------
  */
 
-export interface ErrorResponse {
+/** Body_login_api_v1_auth_login_post */
+export interface BodyLoginApiV1AuthLoginPost {
+  /** Grant Type */
+  grant_type?: string | null
+  /** Username */
+  username: string
   /**
-   * @format date-time
-   * @example "2026-03-12T12:00:00Z"
-   */
-  timestamp: string
-  /** @example 400 */
-  status: number
-  /** @example "INVALID_REQUEST" */
-  error: string
-  /** @example "Malformed request syntax" */
-  message: string
-  /** @example "/users" */
-  path: string
-}
-
-export interface TokenResponse {
-  /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." */
-  access_token: string
-  /** @example "bearer" */
-  token_type: string
-  /** @example 86400 */
-  expires_in: number
-  /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." */
-  refresh_token: string
-  /** @example "student curator" */
-  scope: string
-}
-
-export interface User {
-  /** @example 1 */
-  id: number
-  /**
-   * @format email
-   * @example "student@university.edu"
-   */
-  email: string
-  /** @example "John" */
-  first_name: string
-  /** @example "Doe" */
-  last_name: string
-  /** @example "STUDENT" */
-  role: 'STUDENT' | 'CURATOR' | 'ADMIN'
-  /** @example 3 */
-  group_id?: number | null
-  /**
-   * @format date-time
-   * @example "2026-01-15T10:30:00Z"
-   */
-  created_at: string
-}
-
-export interface CreateUserRequest {
-  /**
-   * @format email
-   * @minLength 5
-   * @maxLength 100
-   * @example "student@university.edu"
-   */
-  email: string
-  /**
+   * Password
    * @format password
-   * @minLength 8
-   * @example "securePass123"
    */
   password: string
   /**
+   * Scope
+   * @default ""
+   */
+  scope?: string
+  /** Client Id */
+  client_id?: string | null
+  /**
+   * Client Secret
+   * @format password
+   */
+  client_secret?: string | null
+}
+
+/** ConfirmAccountRequest */
+export interface ConfirmAccountRequest {
+  /** User Id */
+  user_id: number
+  /**
+   * Code
+   * @minLength 1
+   * @maxLength 100
+   */
+  code: string
+}
+
+/** CourseCreate */
+export interface CourseCreate {
+  /**
+   * Name
+   * @minLength 1
+   * @maxLength 255
+   */
+  name: string
+  /** Description */
+  description?: string | null
+  /** Stream Id */
+  stream_id?: number | null
+  /** Teacher Id */
+  teacher_id?: number | null
+}
+
+/** CoursePublic */
+export interface CoursePublic {
+  /** Id */
+  id?: number | null
+  /**
+   * Created At
+   * @format date-time
+   */
+  created_at?: string
+  /**
+   * Updated At
+   * @format date-time
+   */
+  updated_at?: string
+  /**
+   * Name
+   * @minLength 1
+   * @maxLength 255
+   */
+  name: string
+  /** Description */
+  description?: string | null
+  /** Stream Id */
+  stream_id?: number | null
+  /** Teacher Id */
+  teacher_id?: number | null
+}
+
+/** CourseUpdate */
+export interface CourseUpdate {
+  /** Name */
+  name?: string | null
+  /** Description */
+  description?: string | null
+  /** Stream Id */
+  stream_id?: number | null
+  /** Teacher Id */
+  teacher_id?: number | null
+}
+
+/** ErrorResponse */
+export interface ErrorResponse {
+  /** Code */
+  code: string
+  /** Message */
+  message: string
+  /** Details */
+  details?: Record<string, any> | any[] | null
+}
+
+/** GroupAnalytics */
+export interface GroupAnalytics {
+  /** Group Id */
+  group_id: number
+  /** Average Score */
+  average_score: number
+  /** Submission Rate */
+  submission_rate: number
+  /** Attendance Rate */
+  attendance_rate: number
+  /** Distribution */
+  distribution: Record<string, number>
+  /** Trend */
+  trend: TrendPoint[]
+}
+
+/** GroupCreate */
+export interface GroupCreate {
+  /**
+   * Name
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+  /** Year */
+  year?: number | null
+}
+
+/** GroupPublic */
+export interface GroupPublic {
+  /** Id */
+  id?: number | null
+  /**
+   * Created At
+   * @format date-time
+   */
+  created_at?: string
+  /**
+   * Updated At
+   * @format date-time
+   */
+  updated_at?: string
+  /**
+   * Name
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+  /** Year */
+  year?: number | null
+}
+
+/** GroupUpdate */
+export interface GroupUpdate {
+  /** Name */
+  name?: string | null
+  /** Year */
+  year?: number | null
+}
+
+/** LogoutResponse */
+export interface LogoutResponse {
+  /** Success */
+  success: boolean
+}
+
+/** MessageResponse */
+export interface MessageResponse {
+  /** Success */
+  success: boolean
+  /** Message */
+  message: string
+}
+
+/** PaginatedResponse[CoursePublic] */
+export interface PaginatedResponseCoursePublic {
+  /** Items */
+  items: CoursePublic[]
+  /** Total */
+  total: number
+  /** Skip */
+  skip: number
+  /** Limit */
+  limit: number
+}
+
+/** PaginatedResponse[GroupPublic] */
+export interface PaginatedResponseGroupPublic {
+  /** Items */
+  items: GroupPublic[]
+  /** Total */
+  total: number
+  /** Skip */
+  skip: number
+  /** Limit */
+  limit: number
+}
+
+/** PaginatedResponse[StudentGradeResponse] */
+export interface PaginatedResponseStudentGradeResponse {
+  /** Items */
+  items: StudentGradeResponse[]
+  /** Total */
+  total: number
+  /** Skip */
+  skip: number
+  /** Limit */
+  limit: number
+}
+
+/** PaginatedResponse[UserPublic] */
+export interface PaginatedResponseUserPublic {
+  /** Items */
+  items: UserPublic[]
+  /** Total */
+  total: number
+  /** Skip */
+  skip: number
+  /** Limit */
+  limit: number
+}
+
+/** PasswordResetConfirmRequest */
+export interface PasswordResetConfirmRequest {
+  /** User Id */
+  user_id: number
+  /**
+   * Code
+   * @minLength 1
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * Password
+   * @minLength 8
+   */
+  password: string
+  /**
+   * Password Confirm
+   * @minLength 8
+   */
+  password_confirm: string
+}
+
+/** PasswordResetRequest */
+export interface PasswordResetRequest {
+  /**
+   * Email
+   * @format email
+   */
+  email: string
+}
+
+/** RegisterRequest */
+export interface RegisterRequest {
+  /**
+   * Email
+   * @format email
+   */
+  email: string
+  /**
+   * Password
+   * @minLength 8
+   */
+  password: string
+  /**
+   * First Name
    * @minLength 1
    * @maxLength 50
-   * @example "John"
    */
   first_name: string
   /**
+   * Last Name
    * @minLength 1
    * @maxLength 50
-   * @example "Doe"
    */
   last_name: string
-  /** @example "STUDENT" */
-  role: 'STUDENT' | 'CURATOR' | 'ADMIN'
-  /** @example 3 */
+  /** Group Id */
   group_id?: number | null
 }
 
-export interface UpdateUserRequest {
-  /**
-   * @format email
-   * @example "student@university.edu"
-   */
-  email?: string
-  /**
-   * @format password
-   * @minLength 8
-   * @example "newSecurePass123"
-   */
-  password?: string
-  /**
-   * @minLength 1
-   * @maxLength 50
-   * @example "John"
-   */
-  first_name?: string
-  /**
-   * @minLength 1
-   * @maxLength 50
-   * @example "Doe"
-   */
-  last_name?: string
-  /** @example "STUDENT" */
-  role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
-  /** @example 3 */
-  group_id?: number | null
+/** RegisterResponse */
+export interface RegisterResponse {
+  /** Success */
+  success: boolean
 }
 
-export interface UserPage {
-  /** @example 150 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: User[]
-}
-
-export interface Group {
-  /** @example 1 */
+/** StudentGradeResponse */
+export interface StudentGradeResponse {
+  /** Id */
   id: number
-  /** @example "CS-2026" */
-  name: string
-  /** @example 2026 */
-  year: number
-  /** @example "Computer Science undergraduate group" */
-  description?: string | null
-  /**
-   * @format date-time
-   * @example "2026-01-15T10:30:00Z"
-   */
-  created_at: string
-}
-
-export interface CreateGroupRequest {
-  /**
-   * @minLength 1
-   * @maxLength 100
-   * @example "CS-2026"
-   */
-  name: string
-  /**
-   * @min 2000
-   * @max 2100
-   * @example 2026
-   */
-  year: number
-  /** @example "Computer Science undergraduate group" */
-  description?: string | null
-}
-
-export interface UpdateGroupRequest {
-  /**
-   * @minLength 1
-   * @maxLength 100
-   * @example "CS-2026"
-   */
-  name?: string
-  /**
-   * @min 2000
-   * @max 2100
-   * @example 2026
-   */
-  year?: number
-  /** @example "Updated description" */
-  description?: string | null
-}
-
-export interface GroupPage {
-  /** @example 25 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Group[]
-}
-
-export interface Stream {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  group_id: number
-  /** @example 1 */
-  semester: number
-  /** @example 2026 */
-  year: number
-}
-
-export interface CreateStreamRequest {
-  /** @example 1 */
-  group_id: number
-  /**
-   * @min 1
-   * @max 2
-   * @example 1
-   */
-  semester: number
-  /**
-   * @min 2000
-   * @max 2100
-   * @example 2026
-   */
-  year: number
-}
-
-export interface UpdateStreamRequest {
-  /** @example 1 */
-  group_id?: number
-  /**
-   * @min 1
-   * @max 2
-   * @example 1
-   */
-  semester?: number
-  /**
-   * @min 2000
-   * @max 2100
-   * @example 2026
-   */
-  year?: number
-}
-
-export interface StreamPage {
-  /** @example 8 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Stream[]
-}
-
-export interface Course {
-  /** @example 101 */
-  id: number
-  /** @example "Mathematics 101" */
-  name: string
-  /** @example 1 */
-  stream_id: number
-  /** @example 10 */
-  teacher_id: number
-  /** @example "Introductory course in mathematics" */
-  description?: string | null
-  /**
-   * @format date-time
-   * @example "2026-01-15T10:30:00Z"
-   */
-  created_at: string
-}
-
-export interface CreateCourseRequest {
-  /**
-   * @minLength 1
-   * @maxLength 150
-   * @example "Mathematics 101"
-   */
-  name: string
-  /** @example 1 */
-  stream_id: number
-  /** @example 10 */
-  teacher_id: number
-  /** @example "Introductory course in mathematics" */
-  description?: string | null
-}
-
-export interface UpdateCourseRequest {
-  /**
-   * @minLength 1
-   * @maxLength 150
-   * @example "Mathematics 101 Advanced"
-   */
-  name?: string
-  /** @example 1 */
-  stream_id?: number
-  /** @example 10 */
-  teacher_id?: number
-  /** @example "Advanced mathematics course" */
-  description?: string | null
-}
-
-export interface CoursePage {
-  /** @example 12 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Course[]
-}
-
-export interface Assignment {
-  /** @example 201 */
-  id: number
-  /** @example "Homework 1" */
-  title: string
-  /** @example "Solve exercises 1-10" */
-  description?: string | null
-  /** @example 101 */
-  course_id: number
-  /** @example 10 */
-  teacher_id: number
-  /** @example 100 */
-  max_score: number
-  /** @example 1 */
-  weight?: number | null
-  /**
-   * @format date-time
-   * @example "2026-03-20T23:59:59Z"
-   */
-  due_date: string
-  /**
-   * @format date-time
-   * @example "2026-03-01T10:30:00Z"
-   */
-  created_at: string
-}
-
-export interface CreateAssignmentRequest {
-  /**
-   * @minLength 1
-   * @maxLength 200
-   * @example "Homework 1"
-   */
-  title: string
-  /** @example "Solve exercises 1-10" */
-  description?: string | null
-  /** @example 101 */
-  course_id: number
-  /** @example 10 */
-  teacher_id: number
-  /**
-   * @min 0
-   * @example 100
-   */
-  max_score: number
-  /**
-   * @min 0
-   * @max 1
-   * @example 1
-   */
-  weight?: number | null
-  /**
-   * @format date-time
-   * @example "2026-03-20T23:59:59Z"
-   */
-  due_date: string
-}
-
-export interface UpdateAssignmentRequest {
-  /**
-   * @minLength 1
-   * @maxLength 200
-   * @example "Homework 1 Updated"
-   */
-  title?: string
-  /** @example "Solve exercises 1-15" */
-  description?: string | null
-  /**
-   * @min 0
-   * @example 100
-   */
-  max_score?: number
-  /**
-   * @min 0
-   * @max 1
-   * @example 1
-   */
-  weight?: number | null
-  /**
-   * @format date-time
-   * @example "2026-03-22T23:59:59Z"
-   */
-  due_date?: string
-}
-
-export interface AssignmentPage {
-  /** @example 15 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Assignment[]
-}
-
-export interface Submission {
-  /** @example 301 */
-  id: number
-  /** @example 201 */
-  assignment_id: number
-  /** @example 301 */
+  /** Student Id */
   student_id: number
-  /** @example "Answers to homework" */
-  content?: string
-  /** @example "SUBMITTED" */
-  status: 'PENDING' | 'SUBMITTED' | 'GRADED'
-  /**
-   * @format date-time
-   * @example "2026-03-12T12:50:00Z"
-   */
-  submitted_at: string
-  /** @example 85.5 */
-  grade?: number | null
-}
-
-export interface CreateSubmissionRequest {
-  /** @example 201 */
+  /** Assignment Id */
   assignment_id: number
-  /** @example 301 */
-  student_id: number
-  /**
-   * @minLength 1
-   * @example "Answers to homework"
-   */
-  content: string
-}
-
-export interface UpdateSubmissionRequest {
-  /** @example "Updated answers" */
-  content?: string
-  /** @example "GRADED" */
-  status?: 'PENDING' | 'SUBMITTED' | 'GRADED'
-}
-
-export interface SubmissionPage {
-  /** @example 10 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Submission[]
-}
-
-export interface Grade {
-  /** @example 401 */
-  id: number
-  /** @example 301 */
-  student_id: number
-  /** @example 201 */
-  assignment_id: number
-  /** @example 95 */
+  /** Score */
   score: number
-  /** @example "Excellent work!" */
+  /** Comment */
   comment?: string | null
   /**
+   * Created At
    * @format date-time
-   * @example "2026-03-12T12:55:00Z"
    */
   created_at: string
-}
-
-export interface CreateGradeRequest {
-  /** @example 301 */
-  student_id: number
-  /** @example 201 */
-  assignment_id: number
   /**
-   * @min 0
-   * @max 100
-   * @example 95
-   */
-  score: number
-  /** @example "Good job" */
-  comment?: string | null
-}
-
-export interface UpdateGradeRequest {
-  /**
-   * @min 0
-   * @max 100
-   * @example 98
-   */
-  score: number
-  /** @example "Even better!" */
-  comment?: string | null
-}
-
-export interface GradePage {
-  /** @example 50 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Grade[]
-}
-
-export interface Attendance {
-  /** @example 501 */
-  id: number
-  /** @example 301 */
-  student_id: number
-  /** @example 101 */
-  course_id: number
-  /**
-   * @format date
-   * @example "2026-03-12"
-   */
-  date: string
-  /** @example "PRESENT" */
-  status: 'PRESENT' | 'ABSENT' | 'EXCUSED'
-}
-
-export interface CreateAttendanceRequest {
-  /** @example 301 */
-  student_id: number
-  /** @example 101 */
-  course_id: number
-  /**
-   * @format date
-   * @example "2026-03-12"
-   */
-  date: string
-  /** @example "PRESENT" */
-  status: 'PRESENT' | 'ABSENT' | 'EXCUSED'
-}
-
-export interface UpdateAttendanceRequest {
-  /** @example "EXCUSED" */
-  status?: 'PRESENT' | 'ABSENT' | 'EXCUSED'
-}
-
-export interface AttendancePage {
-  /** @example 25 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: Attendance[]
-}
-
-export interface PrivacyPolicy {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  group_id: number
-  /** @example true */
-  show_rating_to_students: boolean
-  /** @example "ANONYMIZED" */
-  rating_mode: 'FULL' | 'ANONYMIZED'
-  /** @example true */
-  allow_student_stats: boolean
-  /** @example 1 */
-  version: number
-  /**
+   * Updated At
    * @format date-time
-   * @example "2026-03-12T12:00:00Z"
    */
   updated_at: string
+  /** Course Name */
+  course_name?: string | null
+  /** Assignment Title */
+  assignment_title?: string | null
 }
 
-export interface CreatePrivacyPolicyRequest {
-  /** @example 1 */
-  group_id: number
-  /** @example true */
-  show_rating_to_students: boolean
-  /** @example "ANONYMIZED" */
-  rating_mode: 'FULL' | 'ANONYMIZED'
-  /** @example true */
-  allow_student_stats: boolean
-}
-
-export interface UpdatePrivacyPolicyRequest {
-  /** @example true */
-  show_rating_to_students?: boolean
-  /** @example "ANONYMIZED" */
-  rating_mode?: 'FULL' | 'ANONYMIZED'
-  /** @example true */
-  allow_student_stats?: boolean
-}
-
-export interface ImportSource {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  stream_id: number
-  /** @example 101 */
-  course_id: number
-  /** @example "grades_spring_2026.xlsx" */
-  file_name: string
-  /** @example "admin@university.edu" */
-  uploaded_by: string
-  /** @example "COMPLETED" */
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED'
+/** TokenResponse */
+export interface TokenResponse {
+  /** Access Token */
+  access_token: string
+  /** Refresh Token */
+  refresh_token: string
   /**
-   * @format date-time
-   * @example "2026-03-12T10:30:00Z"
+   * Token Type
+   * @default "bearer"
    */
-  uploaded_at: string
+  token_type?: string
+  /** Expires In */
+  expires_in: number
+  /** Scope */
+  scope: string
 }
 
-export interface CreateImportSourceRequest {
-  /** @example 1 */
-  stream_id: number
-  /** @example 101 */
-  course_id: number
+/** TrendPoint */
+export interface TrendPoint {
+  /** Period */
+  period: string
+  /** Average Score */
+  average_score: number
+}
+
+/** UserCreate */
+export interface UserCreate {
   /**
-   * @minLength 1
+   * Email
+   * @format email
    * @maxLength 255
-   * @example "grades_spring_2026.xlsx"
    */
-  file_name: string
-  /** @example "admin@university.edu" */
-  uploaded_by: string
-}
-
-export interface UpdateImportSourceRequest {
-  /** @example "COMPLETED" */
-  status?: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED'
-}
-
-export interface ImportSourcePage {
-  /** @example 5 */
-  count: number
-  /** @example 0 */
-  page: number
-  /** @example 20 */
-  page_size: number
-  results: ImportSource[]
-}
-
-export interface GroupAnalytics {
-  /** @example 1 */
-  group_id: number
-  /** @example 82.5 */
-  average_score: number
-  /** @example 0.95 */
-  submission_rate: number
-  /** @example 0.88 */
-  attendance_rate: number
-  /** @example {"A":5,"B":8,"C":4,"D":2,"F":1} */
-  distribution: Record<string, number>
-}
-
-export interface StudentAnalytics {
-  /** @example 301 */
-  student_id: number
-  /** @example 91.2 */
-  average_score: number
-  /** @example 3 */
-  rank: number
-  /** @example 0.95 */
-  attendance_rate: number
-  /** @example 1 */
-  submission_rate: number
-}
-
-export interface StudentRating {
-  /** @example 301 */
-  student_id: number
-  /** @example 3 */
-  rank: number
-  /** @example 91.2 */
-  average_score: number
+  email: string
   /**
-   * Populated only for curator/admin
-   * @example "John Doe"
+   * First Name
+   * @minLength 1
+   * @maxLength 50
    */
-  full_name?: string | null
+  first_name: string
   /**
-   * Anonymized identifier for students
-   * @example "STU-2026-001"
+   * Last Name
+   * @minLength 1
+   * @maxLength 50
    */
-  anonymized_id?: string | null
+  last_name: string
+  /** Group Id */
+  group_id?: number | null
+  /**
+   * Is Confirmed
+   * @default false
+   */
+  is_confirmed?: boolean
+  /**
+   * Password
+   * @minLength 8
+   */
+  password: string
+}
+
+/** UserPublic */
+export interface UserPublic {
+  /** Id */
+  id?: number | null
+  /**
+   * Created At
+   * @format date-time
+   */
+  created_at?: string
+  /**
+   * Updated At
+   * @format date-time
+   */
+  updated_at?: string
+  /**
+   * Email
+   * @format email
+   * @maxLength 255
+   */
+  email: string
+  /**
+   * First Name
+   * @minLength 1
+   * @maxLength 50
+   */
+  first_name: string
+  /**
+   * Last Name
+   * @minLength 1
+   * @maxLength 50
+   */
+  last_name: string
+  /** Group Id */
+  group_id?: number | null
+  /**
+   * Is Confirmed
+   * @default false
+   */
+  is_confirmed?: boolean
+}
+
+/** UserRolesUpdate */
+export interface UserRolesUpdate {
+  /**
+   * Roles
+   * @minItems 1
+   */
+  roles: string[]
+}
+
+/** UserUpdate */
+export interface UserUpdate {
+  /** Email */
+  email?: string | null
+  /** First Name */
+  first_name?: string | null
+  /** Last Name */
+  last_name?: string | null
+  /** Group Id */
+  group_id?: number | null
+  /** Password */
+  password?: string | null
 }
 
 export type QueryParamsType = Record<string | number, any>
@@ -732,7 +498,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = 'http://localhost:8000/api'
+  public baseUrl: string = 'http://localhost:8000'
   private securityData: SecurityDataType | null = null
   private securityWorker?: ApiConfig<SecurityDataType>['securityWorker']
   private abortControllers = new Map<CancelToken, AbortController>()
@@ -905,81 +671,28 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Academic Performance API
+ * @title Dashboard ITIS
  * @version 1.0.0
- * @baseUrl http://localhost:8000/api
+ * @baseUrl http://localhost:8000
  *
- * API for student academic performance tracking system
+ * API for academic performance analytics dashboard
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  auth = {
+  api = {
     /**
-     * @description OAuth2 password flow for obtaining JWT token with role-based scopes
+     * No description
      *
      * @tags Auth
-     * @name TokenCreate
-     * @summary Get access token
-     * @request POST:/auth/token
-     * @secure
+     * @name RegisterApiV1AuthRegisterPost
+     * @summary Register
+     * @request POST:/api/v1/auth/register
      */
-    tokenCreate: (
-      data: {
-        /** @example "password" */
-        grant_type: 'password'
-        /**
-         * @format email
-         * @example "curator@university.edu"
-         */
-        username: string
-        /**
-         * @format password
-         * @example "securePass123"
-         */
-        password: string
-        /** @example "student curator" */
-        scope?: string
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." */
-          access_token?: string
-          /** @example "bearer" */
-          token_type?: string
-          /** @example 86400 */
-          expires_in?: number
-          /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." */
-          refresh_token?: string
-          /** @example "student curator" */
-          scope?: string
-        },
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/auth/token`,
+    registerApiV1AuthRegisterPost: (data: RegisterRequest, params: RequestParams = {}) =>
+      this.request<RegisterResponse, ErrorResponse>({
+        path: `/api/v1/auth/register`,
         method: 'POST',
         body: data,
-        secure: true,
-        type: ContentType.UrlEncoded,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),
@@ -988,84 +701,164 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Auth
-     * @name RefreshCreate
-     * @summary Refresh access token
-     * @request POST:/auth/refresh
-     * @secure
+     * @name LoginApiV1AuthLoginPost
+     * @summary Login
+     * @request POST:/api/v1/auth/login
      */
-    refreshCreate: (
-      data: {
-        /** @example "refresh_token" */
-        grant_type: 'refresh_token'
-        /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." */
-        refresh_token: string
-      },
-      params: RequestParams = {},
-    ) =>
+    loginApiV1AuthLoginPost: (data: BodyLoginApiV1AuthLoginPost, params: RequestParams = {}) =>
       this.request<TokenResponse, ErrorResponse>({
-        path: `/auth/refresh`,
+        path: `/api/v1/auth/login`,
         method: 'POST',
         body: data,
-        secure: true,
         type: ContentType.UrlEncoded,
         format: 'json',
         ...params,
       }),
-  }
-  users = {
+
     /**
-     * @description Admin only access
+     * No description
      *
-     * @tags Users
-     * @name UsersList
-     * @summary Get users list
-     * @request GET:/users
+     * @tags Auth
+     * @name MeApiV1AuthMeGet
+     * @summary Me
+     * @request GET:/api/v1/auth/me
      * @secure
      */
-    usersList: (
+    meApiV1AuthMeGet: (params: RequestParams = {}) =>
+      this.request<UserPublic, ErrorResponse>({
+        path: `/api/v1/auth/me`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name RefreshApiV1AuthRefreshPost
+     * @summary Refresh
+     * @request POST:/api/v1/auth/refresh
+     */
+    refreshApiV1AuthRefreshPost: (params: RequestParams = {}) =>
+      this.request<TokenResponse, ErrorResponse>({
+        path: `/api/v1/auth/refresh`,
+        method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name ConfirmAccountApiV1AuthConfirmAccountPost
+     * @summary Confirm Account
+     * @request POST:/api/v1/auth/confirm-account
+     */
+    confirmAccountApiV1AuthConfirmAccountPost: (data: ConfirmAccountRequest, params: RequestParams = {}) =>
+      this.request<MessageResponse, ErrorResponse>({
+        path: `/api/v1/auth/confirm-account`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name RequestPasswordResetApiV1AuthPasswordResetRequestPost
+     * @summary Request Password Reset
+     * @request POST:/api/v1/auth/password-reset/request
+     */
+    requestPasswordResetApiV1AuthPasswordResetRequestPost: (data: PasswordResetRequest, params: RequestParams = {}) =>
+      this.request<MessageResponse, ErrorResponse>({
+        path: `/api/v1/auth/password-reset/request`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name ConfirmPasswordResetApiV1AuthPasswordResetConfirmPost
+     * @summary Confirm Password Reset
+     * @request POST:/api/v1/auth/password-reset/confirm
+     */
+    confirmPasswordResetApiV1AuthPasswordResetConfirmPost: (
+      data: PasswordResetConfirmRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<MessageResponse, ErrorResponse>({
+        path: `/api/v1/auth/password-reset/confirm`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name LogoutApiV1AuthLogoutPost
+     * @summary Logout
+     * @request POST:/api/v1/auth/logout
+     */
+    logoutApiV1AuthLogoutPost: (params: RequestParams = {}) =>
+      this.request<LogoutResponse, ErrorResponse>({
+        path: `/api/v1/auth/logout`,
+        method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name GetUsersApiV1UsersGet
+     * @summary Get Users
+     * @request GET:/api/v1/users/
+     * @secure
+     */
+    getUsersApiV1UsersGet: (
       query?: {
         /**
-         * Page number (starting from 0)
+         * Skip
          * @min 0
          * @default 0
-         * @example 0
          */
-        page?: number
+        skip?: number
         /**
-         * Page size
+         * Limit
          * @min 1
          * @max 100
          * @default 20
-         * @example 20
          */
-        page_size?: number
+        limit?: number
+        /** Search */
+        search?: string | null
+        /** Email */
+        email?: string | null
+        /** Role */
+        role?: string | null
+        /** Group Id */
+        group_id?: number | null
       },
       params: RequestParams = {},
     ) =>
-      this.request<
-        UserPage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/users`,
+      this.request<PaginatedResponseUserPublic, ErrorResponse>({
+        path: `/api/v1/users/`,
         method: 'GET',
         query: query,
         secure: true,
@@ -1074,39 +867,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Users
-     * @name UsersCreate
-     * @summary Create new user
-     * @request POST:/users
+     * @name CreateUserApiV1UsersPost
+     * @summary Create User
+     * @request POST:/api/v1/users/
      * @secure
      */
-    usersCreate: (data: CreateUserRequest, params: RequestParams = {}) =>
-      this.request<
-        User,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/users`,
+    createUserApiV1UsersPost: (data: UserCreate, params: RequestParams = {}) =>
+      this.request<UserPublic, ErrorResponse>({
+        path: `/api/v1/users/`,
         method: 'POST',
         body: data,
         secure: true,
@@ -1119,14 +890,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Users
-     * @name UsersDetail
-     * @summary Get user by ID
-     * @request GET:/users/{user_id}
+     * @name GetUserApiV1UsersUserIdGet
+     * @summary Get User
+     * @request GET:/api/v1/users/{user_id}
      * @secure
      */
-    usersDetail: (userId: number, params: RequestParams = {}) =>
-      this.request<User, ErrorResponse>({
-        path: `/users/${userId}`,
+    getUserApiV1UsersUserIdGet: (userId: number, params: RequestParams = {}) =>
+      this.request<UserPublic, ErrorResponse>({
+        path: `/api/v1/users/${userId}`,
         method: 'GET',
         secure: true,
         format: 'json',
@@ -1134,39 +905,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Users
-     * @name UsersUpdate
-     * @summary Update user
-     * @request PUT:/users/{user_id}
+     * @name UpdateUserApiV1UsersUserIdPut
+     * @summary Update User
+     * @request PUT:/api/v1/users/{user_id}
      * @secure
      */
-    usersUpdate: (userId: number, data: UpdateUserRequest, params: RequestParams = {}) =>
-      this.request<
-        User,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/users/${userId}`,
+    updateUserApiV1UsersUserIdPut: (userId: number, data: UserUpdate, params: RequestParams = {}) =>
+      this.request<UserPublic, ErrorResponse>({
+        path: `/api/v1/users/${userId}`,
         method: 'PUT',
         body: data,
         secure: true,
@@ -1176,72 +925,75 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Users
-     * @name UsersDelete
-     * @summary Delete user
-     * @request DELETE:/users/{user_id}
+     * @name DeleteUserApiV1UsersUserIdDelete
+     * @summary Delete User
+     * @request DELETE:/api/v1/users/{user_id}
      * @secure
      */
-    usersDelete: (userId: number, params: RequestParams = {}) =>
+    deleteUserApiV1UsersUserIdDelete: (userId: number, params: RequestParams = {}) =>
       this.request<void, ErrorResponse>({
-        path: `/users/${userId}`,
+        path: `/api/v1/users/${userId}`,
         method: 'DELETE',
         secure: true,
         ...params,
       }),
-  }
-  groups = {
+
     /**
-     * @description Accessible to admins and curators
+     * No description
      *
-     * @tags Groups
-     * @name GroupsList
-     * @summary Get groups list
-     * @request GET:/groups
+     * @tags Users
+     * @name UpdateUserRolesApiV1UsersUserIdRolesPut
+     * @summary Update User Roles
+     * @request PUT:/api/v1/users/{user_id}/roles
      * @secure
      */
-    groupsList: (
+    updateUserRolesApiV1UsersUserIdRolesPut: (userId: number, data: UserRolesUpdate, params: RequestParams = {}) =>
+      this.request<UserPublic, ErrorResponse>({
+        path: `/api/v1/users/${userId}/roles`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Groups
+     * @name GetGroupsApiV1GroupsGet
+     * @summary Get Groups
+     * @request GET:/api/v1/groups/
+     * @secure
+     */
+    getGroupsApiV1GroupsGet: (
       query?: {
         /**
+         * Skip
          * @min 0
          * @default 0
          */
-        page?: number
+        skip?: number
         /**
+         * Limit
          * @min 1
          * @max 100
          * @default 20
          */
-        page_size?: number
+        limit?: number
+        /** Search */
+        search?: string | null
+        /** Name */
+        name?: string | null
       },
       params: RequestParams = {},
     ) =>
-      this.request<
-        GroupPage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups`,
+      this.request<PaginatedResponseGroupPublic, ErrorResponse>({
+        path: `/api/v1/groups/`,
         method: 'GET',
         query: query,
         secure: true,
@@ -1250,39 +1002,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Groups
-     * @name GroupsCreate
-     * @summary Create new group
-     * @request POST:/groups
+     * @name CreateGroupApiV1GroupsPost
+     * @summary Create Group
+     * @request POST:/api/v1/groups/
      * @secure
      */
-    groupsCreate: (data: CreateGroupRequest, params: RequestParams = {}) =>
-      this.request<
-        Group,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups`,
+    createGroupApiV1GroupsPost: (data: GroupCreate, params: RequestParams = {}) =>
+      this.request<GroupPublic, ErrorResponse>({
+        path: `/api/v1/groups/`,
         method: 'POST',
         body: data,
         secure: true,
@@ -1295,14 +1025,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Groups
-     * @name GroupsDetail
-     * @summary Get group by ID
-     * @request GET:/groups/{group_id}
+     * @name GetGroupApiV1GroupsGroupIdGet
+     * @summary Get Group
+     * @request GET:/api/v1/groups/{group_id}
      * @secure
      */
-    groupsDetail: (groupId: number, params: RequestParams = {}) =>
-      this.request<Group, ErrorResponse>({
-        path: `/groups/${groupId}`,
+    getGroupApiV1GroupsGroupIdGet: (groupId: number, params: RequestParams = {}) =>
+      this.request<GroupPublic, ErrorResponse>({
+        path: `/api/v1/groups/${groupId}`,
         method: 'GET',
         secure: true,
         format: 'json',
@@ -1310,39 +1040,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Groups
-     * @name GroupsUpdate
-     * @summary Update group
-     * @request PUT:/groups/{group_id}
+     * @name UpdateGroupApiV1GroupsGroupIdPut
+     * @summary Update Group
+     * @request PUT:/api/v1/groups/{group_id}
      * @secure
      */
-    groupsUpdate: (groupId: number, data: UpdateGroupRequest, params: RequestParams = {}) =>
-      this.request<
-        Group,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}`,
+    updateGroupApiV1GroupsGroupIdPut: (groupId: number, data: GroupUpdate, params: RequestParams = {}) =>
+      this.request<GroupPublic, ErrorResponse>({
+        path: `/api/v1/groups/${groupId}`,
         method: 'PUT',
         body: data,
         secure: true,
@@ -1352,17 +1060,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
      * @tags Groups
-     * @name GroupsDelete
-     * @summary Delete group
-     * @request DELETE:/groups/{group_id}
+     * @name DeleteGroupApiV1GroupsGroupIdDelete
+     * @summary Delete Group
+     * @request DELETE:/api/v1/groups/{group_id}
      * @secure
      */
-    groupsDelete: (groupId: number, params: RequestParams = {}) =>
+    deleteGroupApiV1GroupsGroupIdDelete: (groupId: number, params: RequestParams = {}) =>
       this.request<void, ErrorResponse>({
-        path: `/groups/${groupId}`,
+        path: `/api/v1/groups/${groupId}`,
         method: 'DELETE',
         secure: true,
         ...params,
@@ -1371,53 +1079,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags Streams
-     * @name StreamsList
-     * @summary Get group streams list
-     * @request GET:/groups/{group_id}/streams
+     * @tags Courses
+     * @name GetCoursesApiV1CoursesGet
+     * @summary Get Courses
+     * @request GET:/api/v1/courses/
      * @secure
      */
-    streamsList: (
-      groupId: number,
+    getCoursesApiV1CoursesGet: (
       query?: {
         /**
+         * Skip
          * @min 0
          * @default 0
          */
-        page?: number
+        skip?: number
         /**
+         * Limit
          * @min 1
          * @max 100
-         * @default 20
+         * @default 100
          */
-        page_size?: number
+        limit?: number
+        /** Search */
+        search?: string | null
+        /** Name */
+        name?: string | null
+        /** Stream Id */
+        stream_id?: number | null
+        /** Teacher Id */
+        teacher_id?: number | null
       },
       params: RequestParams = {},
     ) =>
-      this.request<
-        StreamPage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/streams`,
+      this.request<PaginatedResponseCoursePublic, ErrorResponse>({
+        path: `/api/v1/courses/`,
         method: 'GET',
         query: query,
         secure: true,
@@ -1426,39 +1121,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
-     * @tags Streams
-     * @name StreamsCreate
-     * @summary Create new stream
-     * @request POST:/groups/{group_id}/streams
+     * @tags Courses
+     * @name CreateCourseApiV1CoursesPost
+     * @summary Create Course
+     * @request POST:/api/v1/courses/
      * @secure
      */
-    streamsCreate: (groupId: number, data: CreateStreamRequest, params: RequestParams = {}) =>
-      this.request<
-        Stream,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/streams`,
+    createCourseApiV1CoursesPost: (data: CourseCreate, params: RequestParams = {}) =>
+      this.request<CoursePublic, ErrorResponse>({
+        path: `/api/v1/courses/`,
         method: 'POST',
         body: data,
         secure: true,
@@ -1468,17 +1141,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Accessible to admins and curators
+     * No description
      *
-     * @tags PrivacyPolicies
-     * @name PrivacyPolicyList
-     * @summary Get group privacy policy
-     * @request GET:/groups/{group_id}/privacy-policy
+     * @tags Courses
+     * @name GetCourseApiV1CoursesCourseIdGet
+     * @summary Get Course
+     * @request GET:/api/v1/courses/{course_id}
      * @secure
      */
-    privacyPolicyList: (groupId: number, params: RequestParams = {}) =>
-      this.request<PrivacyPolicy, ErrorResponse>({
-        path: `/groups/${groupId}/privacy-policy`,
+    getCourseApiV1CoursesCourseIdGet: (courseId: number, params: RequestParams = {}) =>
+      this.request<CoursePublic, ErrorResponse>({
+        path: `/api/v1/courses/${courseId}`,
         method: 'GET',
         secure: true,
         format: 'json',
@@ -1486,81 +1159,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
-     * @tags PrivacyPolicies
-     * @name PrivacyPolicyCreate
-     * @summary Create privacy policy
-     * @request POST:/groups/{group_id}/privacy-policy
+     * @tags Courses
+     * @name UpdateCourseApiV1CoursesCourseIdPut
+     * @summary Update Course
+     * @request PUT:/api/v1/courses/{course_id}
      * @secure
      */
-    privacyPolicyCreate: (groupId: number, data: CreatePrivacyPolicyRequest, params: RequestParams = {}) =>
-      this.request<
-        PrivacyPolicy,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/privacy-policy`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags PrivacyPolicies
-     * @name PrivacyPolicyUpdate
-     * @summary Update privacy policy
-     * @request PUT:/groups/{group_id}/privacy-policy
-     * @secure
-     */
-    privacyPolicyUpdate: (groupId: number, data: UpdatePrivacyPolicyRequest, params: RequestParams = {}) =>
-      this.request<
-        PrivacyPolicy,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/privacy-policy`,
+    updateCourseApiV1CoursesCourseIdPut: (courseId: number, data: CourseUpdate, params: RequestParams = {}) =>
+      this.request<CoursePublic, ErrorResponse>({
+        path: `/api/v1/courses/${courseId}`,
         method: 'PUT',
         body: data,
         secure: true,
@@ -1570,1293 +1179,70 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Admin only access
+     * No description
      *
-     * @tags PrivacyPolicies
-     * @name PrivacyPolicyDelete
-     * @summary Delete privacy policy
-     * @request DELETE:/groups/{group_id}/privacy-policy
+     * @tags Courses
+     * @name DeleteCourseApiV1CoursesCourseIdDelete
+     * @summary Delete Course
+     * @request DELETE:/api/v1/courses/{course_id}
      * @secure
      */
-    privacyPolicyDelete: (groupId: number, params: RequestParams = {}) =>
+    deleteCourseApiV1CoursesCourseIdDelete: (courseId: number, params: RequestParams = {}) =>
       this.request<void, ErrorResponse>({
-        path: `/groups/${groupId}/privacy-policy`,
+        path: `/api/v1/courses/${courseId}`,
         method: 'DELETE',
         secure: true,
         ...params,
       }),
 
     /**
-     * @description Returns aggregated group metrics: - Average score - Grade distribution - Attendance percentage - Dynamics over period
+     * No description
      *
      * @tags Analytics
-     * @name AnalyticsList
-     * @summary Get group analytics
-     * @request GET:/groups/{group_id}/analytics
+     * @name GetGroupAnalyticsApiV1GroupsGroupIdAnalyticsGet
+     * @summary Get Group Analytics
+     * @request GET:/api/v1/groups/{group_id}/analytics
      * @secure
      */
-    analyticsList: (
-      groupId: number,
-      query?: {
-        /**
-         * Filter by semester
-         * @example "FALL"
-         */
-        semester?: 'SPRING' | 'FALL'
-        /**
-         * Filter by year
-         * @example 2026
-         */
-        year?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        GroupAnalytics,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/analytics`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description For curator/admin - full rating with names For students/class representatives - anonymized rating (determined by privacy policy)
-     *
-     * @tags Analytics
-     * @name RatingsList
-     * @summary Get group student ratings
-     * @request GET:/groups/{group_id}/ratings
-     * @secure
-     */
-    ratingsList: (
-      groupId: number,
-      query?: {
-        /** @example "FALL" */
-        semester?: 'SPRING' | 'FALL'
-        /** @example 2026 */
-        year?: number
-        /**
-         * Filter by specific course
-         * @example 101
-         */
-        course_id?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          /** @example 1 */
-          group_id?: number
-          ratings?: StudentRating[]
-        },
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/groups/${groupId}/ratings`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-  }
-  streams = {
-    /**
-     * No description
-     *
-     * @tags Streams
-     * @name StreamsDetail
-     * @summary Get stream by ID
-     * @request GET:/streams/{stream_id}
-     * @secure
-     */
-    streamsDetail: (streamId: number, params: RequestParams = {}) =>
-      this.request<Stream, ErrorResponse>({
-        path: `/streams/${streamId}`,
+    getGroupAnalyticsApiV1GroupsGroupIdAnalyticsGet: (groupId: number, params: RequestParams = {}) =>
+      this.request<GroupAnalytics, ErrorResponse>({
+        path: `/api/v1/groups/${groupId}/analytics`,
         method: 'GET',
         secure: true,
         format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags Streams
-     * @name StreamsUpdate
-     * @summary Update stream
-     * @request PUT:/streams/{stream_id}
-     * @secure
-     */
-    streamsUpdate: (streamId: number, data: UpdateStreamRequest, params: RequestParams = {}) =>
-      this.request<
-        Stream,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/streams/${streamId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags Streams
-     * @name StreamsDelete
-     * @summary Delete stream
-     * @request DELETE:/streams/{stream_id}
-     * @secure
-     */
-    streamsDelete: (streamId: number, params: RequestParams = {}) =>
-      this.request<void, ErrorResponse>({
-        path: `/streams/${streamId}`,
-        method: 'DELETE',
-        secure: true,
         ...params,
       }),
 
     /**
      * No description
-     *
-     * @tags Courses
-     * @name CoursesList
-     * @summary Get stream courses list
-     * @request GET:/streams/{stream_id}/courses
-     * @secure
-     */
-    coursesList: (
-      streamId: number,
-      query?: {
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        CoursePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/streams/${streamId}/courses`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags Courses
-     * @name CoursesCreate
-     * @summary Create new course
-     * @request POST:/streams/{stream_id}/courses
-     * @secure
-     */
-    coursesCreate: (streamId: number, data: CreateCourseRequest, params: RequestParams = {}) =>
-      this.request<
-        Course,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/streams/${streamId}/courses`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags ImportSources
-     * @name ImportSourcesList
-     * @summary Get stream import sources list
-     * @request GET:/streams/{stream_id}/import-sources
-     * @secure
-     */
-    importSourcesList: (
-      streamId: number,
-      query?: {
-        /**
-         * Filter by status
-         * @example "COMPLETED"
-         */
-        status?: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED'
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        ImportSourcePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/streams/${streamId}/import-sources`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags ImportSources
-     * @name ImportSourcesCreate
-     * @summary Create import source
-     * @request POST:/streams/{stream_id}/import-sources
-     * @secure
-     */
-    importSourcesCreate: (streamId: number, data: CreateImportSourceRequest, params: RequestParams = {}) =>
-      this.request<
-        ImportSource,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/streams/${streamId}/import-sources`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-  }
-  courses = {
-    /**
-     * No description
-     *
-     * @tags Courses
-     * @name CoursesDetail
-     * @summary Get course by ID
-     * @request GET:/courses/{course_id}
-     * @secure
-     */
-    coursesDetail: (courseId: number, params: RequestParams = {}) =>
-      this.request<Course, ErrorResponse>({
-        path: `/courses/${courseId}`,
-        method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags Courses
-     * @name CoursesUpdate
-     * @summary Update course
-     * @request PUT:/courses/{course_id}
-     * @secure
-     */
-    coursesUpdate: (courseId: number, data: UpdateCourseRequest, params: RequestParams = {}) =>
-      this.request<
-        Course,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/courses/${courseId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags Courses
-     * @name CoursesDelete
-     * @summary Delete course
-     * @request DELETE:/courses/{course_id}
-     * @secure
-     */
-    coursesDelete: (courseId: number, params: RequestParams = {}) =>
-      this.request<void, ErrorResponse>({
-        path: `/courses/${courseId}`,
-        method: 'DELETE',
-        secure: true,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Assignments
-     * @name AssignmentsList
-     * @summary Get course assignments list
-     * @request GET:/courses/{course_id}/assignments
-     * @secure
-     */
-    assignmentsList: (
-      courseId: number,
-      query?: {
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        AssignmentPage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/courses/${courseId}/assignments`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Assignments
-     * @name AssignmentsCreate
-     * @summary Create new assignment
-     * @request POST:/courses/{course_id}/assignments
-     * @secure
-     */
-    assignmentsCreate: (courseId: number, data: CreateAssignmentRequest, params: RequestParams = {}) =>
-      this.request<
-        Assignment,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/courses/${courseId}/assignments`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description For teachers and curators
-     *
-     * @tags Attendance
-     * @name AttendanceList
-     * @summary Get course attendance
-     * @request GET:/courses/{course_id}/attendance
-     * @secure
-     */
-    attendanceList: (
-      courseId: number,
-      query?: {
-        /**
-         * Filter by date
-         * @format date
-         * @example "2026-03-12"
-         */
-        date?: string
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        AttendancePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/courses/${courseId}/attendance`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-  }
-  assignments = {
-    /**
-     * No description
-     *
-     * @tags Assignments
-     * @name AssignmentsDetail
-     * @summary Get assignment by ID
-     * @request GET:/assignments/{assignment_id}
-     * @secure
-     */
-    assignmentsDetail: (assignmentId: number, params: RequestParams = {}) =>
-      this.request<Assignment, ErrorResponse>({
-        path: `/assignments/${assignmentId}`,
-        method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Assignments
-     * @name AssignmentsUpdate
-     * @summary Update assignment
-     * @request PUT:/assignments/{assignment_id}
-     * @secure
-     */
-    assignmentsUpdate: (assignmentId: number, data: UpdateAssignmentRequest, params: RequestParams = {}) =>
-      this.request<
-        Assignment,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/assignments/${assignmentId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Assignments
-     * @name AssignmentsDelete
-     * @summary Delete assignment
-     * @request DELETE:/assignments/{assignment_id}
-     * @secure
-     */
-    assignmentsDelete: (assignmentId: number, params: RequestParams = {}) =>
-      this.request<void, ErrorResponse>({
-        path: `/assignments/${assignmentId}`,
-        method: 'DELETE',
-        secure: true,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Submissions
-     * @name SubmissionsList
-     * @summary Get assignment submissions list
-     * @request GET:/assignments/{assignment_id}/submissions
-     * @secure
-     */
-    submissionsList: (
-      assignmentId: number,
-      query?: {
-        /**
-         * Filter by student (for curator/admin)
-         * @example 301
-         */
-        student_id?: number
-        /**
-         * Filter by status
-         * @example "SUBMITTED"
-         */
-        status?: 'PENDING' | 'SUBMITTED' | 'GRADED'
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        SubmissionPage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/assignments/${assignmentId}/submissions`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Student can only create their own submission
-     *
-     * @tags Submissions
-     * @name SubmissionsCreate
-     * @summary Create submission
-     * @request POST:/assignments/{assignment_id}/submissions
-     * @secure
-     */
-    submissionsCreate: (assignmentId: number, data: CreateSubmissionRequest, params: RequestParams = {}) =>
-      this.request<
-        Submission,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/assignments/${assignmentId}/submissions`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
      *
      * @tags Grades
-     * @name GradesList
-     * @summary Get assignment grades list
-     * @request GET:/assignments/{assignment_id}/grades
+     * @name GetStudentGradesApiV1StudentsStudentIdGradesGet
+     * @summary Get Student Grades
+     * @request GET:/api/v1/students/{student_id}/grades
      * @secure
      */
-    gradesList: (
-      assignmentId: number,
-      query?: {
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        GradePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/assignments/${assignmentId}/grades`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Grades
-     * @name GradesCreate
-     * @summary Assign grade
-     * @request POST:/assignments/{assignment_id}/grades
-     * @secure
-     */
-    gradesCreate: (assignmentId: number, data: CreateGradeRequest, params: RequestParams = {}) =>
-      this.request<
-        Grade,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/assignments/${assignmentId}/grades`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-  }
-  submissions = {
-    /**
-     * No description
-     *
-     * @tags Submissions
-     * @name SubmissionsDetail
-     * @summary Get submission by ID
-     * @request GET:/submissions/{submission_id}
-     * @secure
-     */
-    submissionsDetail: (submissionId: number, params: RequestParams = {}) =>
-      this.request<Submission, ErrorResponse>({
-        path: `/submissions/${submissionId}`,
-        method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Student can only update their own submission
-     *
-     * @tags Submissions
-     * @name SubmissionsUpdate
-     * @summary Update submission
-     * @request PUT:/submissions/{submission_id}
-     * @secure
-     */
-    submissionsUpdate: (submissionId: number, data: UpdateSubmissionRequest, params: RequestParams = {}) =>
-      this.request<
-        Submission,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/submissions/${submissionId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-  }
-  grades = {
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Grades
-     * @name GradesDetail
-     * @summary Get grade by ID
-     * @request GET:/grades/{grade_id}
-     * @secure
-     */
-    gradesDetail: (gradeId: number, params: RequestParams = {}) =>
-      this.request<Grade, ErrorResponse>({
-        path: `/grades/${gradeId}`,
-        method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Grades
-     * @name GradesUpdate
-     * @summary Update grade
-     * @request PUT:/grades/{grade_id}
-     * @secure
-     */
-    gradesUpdate: (gradeId: number, data: UpdateGradeRequest, params: RequestParams = {}) =>
-      this.request<
-        Grade,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/grades/${gradeId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-  }
-  students = {
-    /**
-     * @description Student can only see their own grades
-     *
-     * @tags Grades
-     * @name GradesList
-     * @summary Get student grades
-     * @request GET:/students/{student_id}/grades
-     * @secure
-     */
-    gradesList: (
+    getStudentGradesApiV1StudentsStudentIdGradesGet: (
       studentId: number,
       query?: {
         /**
-         * Filter by course (optional)
-         * @example 101
-         */
-        course_id?: number
-        /**
-         * Filter by semester (optional)
-         * @example "FALL"
-         */
-        semester?: 'SPRING' | 'FALL'
-        /**
+         * Skip
          * @min 0
          * @default 0
          */
-        page?: number
+        skip?: number
         /**
+         * Limit
          * @min 1
          * @max 100
-         * @default 20
+         * @default 100
          */
-        page_size?: number
+        limit?: number
       },
       params: RequestParams = {},
     ) =>
-      this.request<
-        GradePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/students/${studentId}/grades`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Student can only see their own attendance
-     *
-     * @tags Attendance
-     * @name AttendanceList
-     * @summary Get student attendance
-     * @request GET:/students/{student_id}/attendance
-     * @secure
-     */
-    attendanceList: (
-      studentId: number,
-      query?: {
-        /**
-         * Filter by course (optional)
-         * @example 101
-         */
-        course_id?: number
-        /**
-         * Start date
-         * @format date
-         * @example "2026-03-01"
-         */
-        date_from?: string
-        /**
-         * End date
-         * @format date
-         * @example "2026-03-31"
-         */
-        date_to?: string
-        /**
-         * @min 0
-         * @default 0
-         */
-        page?: number
-        /**
-         * @min 1
-         * @max 100
-         * @default 20
-         */
-        page_size?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        AttendancePage,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/students/${studentId}/attendance`,
-        method: 'GET',
-        query: query,
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Attendance
-     * @name AttendanceCreate
-     * @summary Add attendance record
-     * @request POST:/students/{student_id}/attendance
-     * @secure
-     */
-    attendanceCreate: (studentId: number, data: CreateAttendanceRequest, params: RequestParams = {}) =>
-      this.request<
-        Attendance,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/students/${studentId}/attendance`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Student can only see their own analytics: - Average score - Rating position - Attendance
-     *
-     * @tags Analytics
-     * @name AnalyticsList
-     * @summary Get student analytics
-     * @request GET:/students/{student_id}/analytics
-     * @secure
-     */
-    analyticsList: (
-      studentId: number,
-      query?: {
-        /** @example "FALL" */
-        semester?: 'SPRING' | 'FALL'
-        /** @example 2026 */
-        year?: number
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        StudentAnalytics,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/students/${studentId}/analytics`,
+      this.request<PaginatedResponseStudentGradeResponse, ErrorResponse>({
+        path: `/api/v1/students/${studentId}/grades`,
         method: 'GET',
         query: query,
         secure: true,
@@ -2864,141 +1250,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   }
-  attendance = {
+  health = {
     /**
      * No description
      *
-     * @tags Attendance
-     * @name AttendanceDetail
-     * @summary Get attendance record by ID
-     * @request GET:/attendance/{attendance_id}
-     * @secure
+     * @name HealthHealthGet
+     * @summary Health
+     * @request GET:/health
      */
-    attendanceDetail: (attendanceId: number, params: RequestParams = {}) =>
-      this.request<Attendance, ErrorResponse>({
-        path: `/attendance/${attendanceId}`,
+    healthHealthGet: (params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/health`,
         method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Attendance
-     * @name AttendanceUpdate
-     * @summary Update attendance record
-     * @request PUT:/attendance/{attendance_id}
-     * @secure
-     */
-    attendanceUpdate: (attendanceId: number, data: UpdateAttendanceRequest, params: RequestParams = {}) =>
-      this.request<
-        Attendance,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/attendance/${attendanceId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags Attendance
-     * @name AttendanceDelete
-     * @summary Delete attendance record
-     * @request DELETE:/attendance/{attendance_id}
-     * @secure
-     */
-    attendanceDelete: (attendanceId: number, params: RequestParams = {}) =>
-      this.request<void, ErrorResponse>({
-        path: `/attendance/${attendanceId}`,
-        method: 'DELETE',
-        secure: true,
-        ...params,
-      }),
-  }
-  importSources = {
-    /**
-     * @description Accessible to admins and curators
-     *
-     * @tags ImportSources
-     * @name ImportSourcesDetail
-     * @summary Get import source by ID
-     * @request GET:/import-sources/{import_id}
-     * @secure
-     */
-    importSourcesDetail: (importId: number, params: RequestParams = {}) =>
-      this.request<ImportSource, ErrorResponse>({
-        path: `/import-sources/${importId}`,
-        method: 'GET',
-        secure: true,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Admin only access
-     *
-     * @tags ImportSources
-     * @name ImportSourcesUpdate
-     * @summary Update import status
-     * @request PUT:/import-sources/{import_id}
-     * @secure
-     */
-    importSourcesUpdate: (importId: number, data: UpdateImportSourceRequest, params: RequestParams = {}) =>
-      this.request<
-        ImportSource,
-        | ErrorResponse
-        | {
-            /**
-             * @format date-time
-             * @example "2026-03-12T12:00:00Z"
-             */
-            timestamp: string
-            /** @example 422 */
-            status: number
-            errors: {
-              /** @example "page" */
-              field?: string
-              /** @example "must be greater than or equal to 0" */
-              message?: string
-              /** @example -1 */
-              rejected_value?: any
-            }[]
-            /** @example "/users" */
-            path: string
-          }
-      >({
-        path: `/import-sources/${importId}`,
-        method: 'PUT',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

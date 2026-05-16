@@ -5,6 +5,7 @@ import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
 
+import { GradesManagement } from '@/pages/admin-sidebar-grades-management-page/ui/AdminGradesManagement'
 import Grades from '@/pages/admin-sidebar-grades-page/ui/Grades'
 import Import from '@/pages/admin-sidebar-import-page/ui/Import'
 import Users from '@/pages/admin-sidebar-users-page/ui/Users'
@@ -12,6 +13,7 @@ import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorD
 import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribution'
 import { ForbiddenPage } from '@/pages/forbidden-page/ui/ForbiddenPage'
 import { LoginPage } from '@/pages/login-page/ui/LoginPage'
+import { NotFoundPage } from '@/pages/notfound-page/ui/NotFoundPage'
 import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
 import { StudentDashboardPage } from '@/pages/student-dashboard-page/ui/StudentDashboardPage'
 
@@ -58,6 +60,7 @@ const AppRouter = () => {
             <Route path='users' element={<Users />} />
             <Route path='import' element={<Import />} />
             <Route path='grades' element={<Grades />} />
+            <Route path='grades-management' element={<GradesManagement />} />
           </Route>
 
           {/*студент*/}
@@ -96,6 +99,8 @@ const AppRouter = () => {
           <Route path='/' element={<Navigate to='/login' />} />
 
           <Route path='/403' element={<ForbiddenPage />} />
+
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

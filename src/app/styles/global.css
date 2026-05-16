@@ -24,7 +24,6 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  overflow: hidden;
   height: 100%;
 }
 
@@ -34,10 +33,12 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-bg-secondary);
   line-height: 1.5;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  height: 100%;
+
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
 /* Заголовки — SoyuzGrotesk */
@@ -141,6 +142,7 @@ button {
 }
 
 #root {
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }

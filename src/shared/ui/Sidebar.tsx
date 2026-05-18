@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Sidebar.module.css'
 
 import { useAuth } from '@/shared/hooks/useAuth'
-import SidebarButton from '@/widgets/admin-sidebar/SidebarButton'
+import SidebarButton from '@/shared/ui/SidebarButton'
 
 export type SidebarItem = {
   label: ReactNode //текст кнопки

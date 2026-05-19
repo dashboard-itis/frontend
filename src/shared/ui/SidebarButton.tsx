@@ -14,12 +14,12 @@ function SidebarButton({ text, onClick, active = false, variant = 'default' }: P
     <button
       onClick={onClick}
       className={`
-        ${styles.button}
+        ${styles.sidebarButton}
         ${active ? styles.active : ''}
         ${variant === 'danger' ? styles.danger : ''}
       `}
     >
-      {text}
+      <span className={styles.content}>{text}</span>
     </button>
   )
 }

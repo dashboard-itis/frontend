@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { HiOutlineArrowLeft } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './Sidebar.module.css'
@@ -35,23 +36,34 @@ export const Sidebar = ({ items, headerContent, showLogout = true, onLogout }: S
   }
   return (
     <div className={styles.sidebar}>
-      {headerContent && <div className={styles.header}>{headerContent}</div>}
+      <div>
+        {headerContent && <div className={styles.header}>{headerContent}</div>}
 
-      <div className={styles.items}>
-        {items.map((item, idx) => (
-          <SidebarButton
-            key={idx}
-            text={item.label}
-            active={item.isActive}
-            onClick={item.onClick}
-            variant={item.variant}
-          />
-        ))}
+        <div className={styles.items}>
+          {items.map((item, idx) => (
+            <SidebarButton
+              key={idx}
+              text={item.label}
+              active={item.isActive}
+              onClick={item.onClick}
+              variant={item.variant}
+            />
+          ))}
+        </div>
       </div>
 
       {showLogout && (
         <div className={styles.bottom}>
-          <SidebarButton text='Выйти из аккаунта' variant='danger' onClick={handleLogout} />
+          <SidebarButton
+            text={
+              <>
+                <HiOutlineArrowLeft />
+                Выйти
+              </>
+            }
+            variant='danger'
+            onClick={handleLogout}
+          />
         </div>
       )}
     </div>

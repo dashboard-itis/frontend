@@ -1,5 +1,7 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
+import styles from './AcademicTrendChart.module.css'
+
 interface Props {
   data: {
     week: string
@@ -9,21 +11,8 @@ interface Props {
 
 export const AcademicTrendChart = ({ data }: Props) => {
   return (
-    <div
-      style={{
-        background: '#fff',
-        borderRadius: 20,
-        padding: 24,
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Динамика успеваемости
-      </h2>
+    <div className={styles.card}>
+      <h2 className={styles.title}>Динамика успеваемости</h2>
 
       <ResponsiveContainer width='100%' height={320}>
         <AreaChart data={data}>

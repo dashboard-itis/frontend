@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import styles from './StudentDashboard.module.css'
+
 import { getStudentGrades } from '@/shared/api/grades'
 
 import { StudentGrade } from '@/shared/types/dashboard'
@@ -38,29 +40,30 @@ export const StudentDashboard = () => {
   const recentGrades = buildRecentGrades(grades)
 
   return (
-    <div
-      style={{
-        flex: 1,
-        background: '#f5f7fb',
-        minHeight: '100vh',
-        padding: 32,
-      }}
-    >
-      <h1
-        style={{
-          fontSize: 36,
-          fontWeight: 700,
-          marginBottom: 32,
-        }}
-      >
-        Дашборд студента
-      </h1>
+    <div className={styles.page}>
+      <h1 className={styles.title}>Дашборд студента</h1>
 
       <KpiCards analytics={analytics} />
-      <SubjectPerformanceChart data={performanceData} />
-      <AcademicTrendChart data={trendData} />
-      <InsightsPanel insights={insights} />
-      <RecentGrades grades={recentGrades} />
+
+      <div className={styles.row}>
+        <div className={styles.large}>
+          <AcademicTrendChart data={trendData} />
+        </div>
+
+        <div className={styles.small}>
+          <InsightsPanel insights={insights} />
+        </div>
+      </div>
+
+      <div className={styles.row}>
+        <div className={styles.small}>
+          <RecentGrades grades={recentGrades} />
+        </div>
+
+        <div className={styles.large}>
+          <SubjectPerformanceChart data={performanceData} />
+        </div>
+      </div>
     </div>
   )
 }

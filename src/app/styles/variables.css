@@ -1,19 +1,22 @@
 :root {
   /* Цветовая гамма */
-  --color-bg-primary: #e1e158; /* горчичный/жёлтый */
-  --color-bg-secondary: #fffed7; /* тёплый светлый фон */
-  --color-accent: #8c84ff; /* мягкий фиолетовый */
-  --color-dark: #222223; /* почти чёрный для текста */
-  --color-error: #f8705e; /* красный для предупреждений */
+  --color-bg-primary: #162660;
+  --color-bg-secondary: #f5f7fb;
+  --color-accent: #4f6bff;
+  --color-dark: #222223;
+  --color-error: #f8705e;
   --color-bg-table: #f1f5f9;
   --color-table-row-dark: #f9fafb;
   --color-border-table: #e2e8f0;
 
   /* Дополнительные оттенки */
-  --color-text-primary: #222223;
-  --color-text-light: #5a5a5e;
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #6b7280;
   --color-text-on-accent: #ffffff;
   --color-border: #e8e4a0; /* светлый оттенок фона для границ */
+
+  --color-powder-blue: #d0e6fd;
+  --color-warm-beige: #f1e4d1;
 
   /* Шрифты */
   --font-title: 'SoyuzGrotesk', 'Montserrat', sans-serif;

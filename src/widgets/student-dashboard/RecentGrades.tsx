@@ -1,5 +1,7 @@
 import { Card } from 'antd'
 
+import styles from './RecentGrades.module.css'
+
 import { StudentGrade } from '@/shared/types/dashboard'
 
 interface Props {
@@ -8,67 +10,19 @@ interface Props {
 
 export const RecentGrades = ({ grades }: Props) => {
   return (
-    <Card
-      style={{
-        borderRadius: 20,
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-        height: '100%',
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Последние оценки
-      </h2>
+    <Card className={styles.card}>
+      <h2 className={styles.title}>Последние оценки</h2>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 16,
-        }}
-      >
+      <div className={styles.list}>
         {grades.map((grade) => (
-          <div
-            key={grade.id}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 12,
-              borderRadius: 12,
-              background: '#f5f7fb',
-            }}
-          >
+          <div key={grade.id} className={styles.gradeItem}>
             <div>
-              <div
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {grade.course_name}
-              </div>
+              <div className={styles.course}>{grade.course_name}</div>
 
-              <div
-                style={{
-                  fontSize: 12,
-                  color: '#888',
-                }}
-              >
-                {grade.comment}
-              </div>
+              <div className={styles.comment}>{grade.comment}</div>
             </div>
 
-            <div
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-              }}
-            >
-              {grade.score}
-            </div>
+            <div className={styles.score}>{grade.score}</div>
           </div>
         ))}
       </div>

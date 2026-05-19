@@ -1,5 +1,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
+import styles from './SubjectPerformanceChart.module.css'
+
 interface Props {
   data: {
     subject: string
@@ -9,31 +11,20 @@ interface Props {
 
 export const SubjectPerformanceChart = ({ data }: Props) => {
   return (
-    <div
-      style={{
-        background: '#fff',
-        padding: 24,
-        borderRadius: 20,
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Успеваемость по предметам
-      </h2>
-      <ResponsiveContainer width='100%' height={300}>
+    <div className={styles.card}>
+      <h2 className={styles.title}>Успеваемость по предметам</h2>
+
+      <ResponsiveContainer width='100%' height={420}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray='3 3' />
 
           <XAxis dataKey='subject' />
+
           <YAxis domain={[0, 50]} />
 
           <Tooltip />
 
-          <Bar dataKey='average' radius={[8, 8, 0, 0]} />
+          <Bar dataKey='average' fill='#4f6bff' radius={[10, 10, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

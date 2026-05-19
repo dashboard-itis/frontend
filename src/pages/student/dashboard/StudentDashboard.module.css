@@ -1,0 +1,54 @@
+.bottomGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 24px;
+}
+
+.bottomGrid > :nth-child(1) {
+  grid-column: 1 / span 2;
+
+  display: grid;
+
+  grid-template-columns: 1.7fr 1fr;
+
+  gap: 24px;
+}
+
+.bottomGrid > :nth-child(2) {
+  display: none;
+}
+
+.bottomGrid > :nth-child(3) {
+  grid-column: 1 / span 2;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1.7fr;
+
+  gap: 24px;
+}
+
+.bottomGrid > :nth-child(4) {
+  display: none;
+}
+
+.row {
+  display: grid;
+
+  grid-template-columns: 1.7fr 1fr;
+
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.row:last-child {
+  grid-template-columns: 1fr 1.7fr;
+}
+
+.large,
+.small {
+  height: 100%;
+}

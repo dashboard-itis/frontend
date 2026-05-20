@@ -1,6 +1,6 @@
 import { StudentGrade } from '@/shared/types/dashboard'
 
-export const buildSubjectPerfomance = (grades: StudentGrade[]) => {
+export const buildSubjectPerformance = (grades: StudentGrade[]) => {
   const subjectsMap = new Map<string, number[]>()
 
   grades.forEach((g) => {

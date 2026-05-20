@@ -11,7 +11,7 @@ import { buildAcademicTrend } from '@/widgets/student-dashboard/buildAcademicTre
 import { buildInsights } from '@/widgets/student-dashboard/buildInsight'
 import { buildRecentGrades } from '@/widgets/student-dashboard/buildRecentGrades'
 import { buildStudentAnalytics } from '@/widgets/student-dashboard/buildStudentAnalytics'
-import { buildSubjectPerfomance } from '@/widgets/student-dashboard/buildSubjectPerfomance'
+import { buildSubjectPerformance } from '@/widgets/student-dashboard/buildSubjectPerformance'
 import { InsightsPanel } from '@/widgets/student-dashboard/InsightsPanel'
 import { KpiCards } from '@/widgets/student-dashboard/KpiCards'
 import { RecentGrades } from '@/widgets/student-dashboard/RecentGrades'
@@ -34,7 +34,7 @@ export const StudentDashboard = () => {
   }, [])
 
   const analytics = buildStudentAnalytics(grades)
-  const performanceData = buildSubjectPerfomance(grades)
+  const performanceData = buildSubjectPerformance(grades)
   const trendData = buildAcademicTrend()
   const insights = buildInsights(analytics)
   const recentGrades = buildRecentGrades(grades)

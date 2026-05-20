@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import CuratorSidebar from '@/widgets/curator-sidebar/Sidebar'
+import CuratorSidebar from '@/widgets/curator-sidebar/CuratorSidebar'
 
 export const CuratorLayout = () => {
   return (

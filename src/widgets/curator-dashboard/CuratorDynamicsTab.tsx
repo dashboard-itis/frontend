@@ -1,9 +1,10 @@
 import { Select, Table, Spin, Alert, Empty } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import styles from './DashboardWidget.module.css'
+import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
+
 import { getRatings } from '@/shared/api/ratings'
 
 import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
@@ -224,6 +225,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
           bordered={false}
           size='middle'
           rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
+          scroll={{ x: 'max-content' }}
         />
       )}
     </div>

@@ -2,7 +2,8 @@ import { Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 
 import { AdminDashboard } from './AdminDashboard'
-import { CuratorDashboard } from './CuratorDashboard'
+
+import { CuratorDashboard } from '../curator-dashboard/CuratorDashboard'
 
 import { StudentGradesTable } from '@/pages/student/grades/StudentGradesTable'
 

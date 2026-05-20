@@ -9,6 +9,7 @@ export interface RatingStudent {
 export interface StudentGrade {
   id: number
   student_id: number
+  student_name?: string
   assignment_id: number
   score: number
   comment?: string | null

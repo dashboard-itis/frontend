@@ -28,17 +28,13 @@
 .profile {
   display: flex;
   align-items: center;
-
+  background: rgba(255, 255, 255, 0.1);
   gap: 14px;
 }
 
 .avatar {
   width: 52px;
   height: 52px;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.1);
 
   display: flex;
   align-items: center;
@@ -54,4 +50,24 @@
 
   font-size: 16px;
   font-weight: 600;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+}
+
+.menuItem svg {
+  flex-shrink: 0;
+
+  font-size: 20px;
+}
+
+.menuItem span {
+  line-height: 1.2;
+  color: var(--color-bg-secondary);
 }

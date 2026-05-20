@@ -5,19 +5,20 @@ import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
 
-import { GradesManagement } from '@/pages/admin-sidebar-grades-management-page/ui/AdminGradesManagement'
-import Grades from '@/pages/admin-sidebar-grades-page/ui/Grades'
-import Import from '@/pages/admin-sidebar-import-page/ui/Import'
-import Users from '@/pages/admin-sidebar-users-page/ui/Users'
-import { CuratorDashboardPage } from '@/pages/curator-dashboard-page/ui/CuratorDashboardPage'
-import Distribution from '@/pages/curator-sidebar-distribution-page/ui/Distribution'
-import { ForbiddenPage } from '@/pages/forbidden-page/ui/ForbiddenPage'
-import { LoginPage } from '@/pages/login-page/ui/LoginPage'
-import { NotFoundPage } from '@/pages/notfound-page/ui/NotFoundPage'
-import { RegisterPage } from '@/pages/register-page/ui/RegisterPage'
-import { StudentDashboardPage } from '@/pages/student-dashboard-page/ui/StudentDashboardPage'
+import Grades from '@/pages/admin/grades/Grades'
+import { GradesManagement } from '@/pages/admin/grades-management/AdminGradesManagement'
+import Import from '@/pages/admin/import/Import'
+import Users from '@/pages/admin/users/Users'
+import { CuratorDashboardPage } from '@/pages/curator/dashboard/CuratorDashboardPage'
+import Distribution from '@/pages/curator/distribution/Distribution'
+import { ForbiddenPage } from '@/pages/forbidden-page/ForbiddenPage'
+import { LoginPage } from '@/pages/login-page/LoginPage'
+import { NotFoundPage } from '@/pages/notfound-page/NotFoundPage'
+import { RegisterPage } from '@/pages/register-page/RegisterPage'
+import { StudentDashboard } from '@/pages/student/dashboard/StudentDashboard'
+import { StudentGradesPage } from '@/pages/student/grades/StudentGrades'
 
-import StudentPage from '@/pages/student-sidebar-page/ui/StudentPage'
+import StudentPage from '@/pages/student/sidebar/StudentLayout'
 import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
@@ -75,7 +76,8 @@ const AppRouter = () => {
             }
           >
             <Route index element={<Navigate to='dashboard' />} />
-            <Route path='dashboard' element={<StudentDashboardPage />} />
+            <Route path='dashboard' element={<StudentDashboard />} />
+            <Route path='grades' element={<StudentGradesPage />} />
           </Route>
 
           {/*куратор*/}

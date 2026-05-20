@@ -1,0 +1,39 @@
+.card {
+  border-radius: 24px !important;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+
+  border: none !important;
+
+  height: 100%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+
+  margin-bottom: 24px;
+
+  color: #111827;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.item {
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: #f5f7fb;
+
+  line-height: 1.5;
+
+  font-size: 14px;
+
+  color: #374151;
+}

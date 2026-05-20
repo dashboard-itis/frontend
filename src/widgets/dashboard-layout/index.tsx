@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react'
 
 import { AdminDashboard } from './AdminDashboard'
 import { CuratorDashboard } from './CuratorDashboard'
-import { StudentDashboard } from './StudentDashboard'
+
+import { StudentGradesTable } from '@/pages/student/grades/StudentGradesTable'
 
 import type { DashboardWidgetProps } from './dashboard-types'
 
@@ -25,7 +26,7 @@ const DashboardWidgetAntd: React.FC<DashboardWidgetProps> = ({
 
   switch (role) {
     case 'student':
-      return <StudentDashboard isAnonymous={isAnonymous} />
+      return <StudentGradesTable />
     case 'curator':
       return <CuratorDashboard tab={curatorTab as 'distribution' | 'dynamics'} />
     case 'admin':
@@ -36,4 +37,4 @@ const DashboardWidgetAntd: React.FC<DashboardWidgetProps> = ({
 }
 
 export default DashboardWidgetAntd
-export { StudentDashboard, CuratorDashboard, AdminDashboard }
+export { StudentGradesTable, CuratorDashboard, AdminDashboard }

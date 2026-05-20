@@ -18,7 +18,7 @@ interface SidebarProfileProps {
 const SidebarProfile = ({ avatar, fullName }: SidebarProfileProps) => {
   return (
     <div className={styles.profile}>
-      <img src={avatar} alt='Avatar' className={styles.avatar} />
+      {/* <img src={avatar} alt='Avatar' className={styles.avatar} /> */}
       {fullName && <div className={styles.userName}>{fullName}</div>}
     </div>
   )

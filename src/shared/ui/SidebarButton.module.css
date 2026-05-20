@@ -1,0 +1,66 @@
+.sidebarButton {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 16px 18px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 16px;
+
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  color: inherit;
+}
+
+.danger .content {
+  justify-content: center;
+}
+
+.content svg {
+  min-width: 22px;
+
+  font-size: 22px;
+
+  flex-shrink: 0;
+}
+
+.sidebarButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  color: white;
+}
+
+.active {
+  background: #4f6bff;
+
+  color: white;
+
+  box-shadow: 0 10px 24px rgba(79, 107, 255, 0.35);
+}
+
+.danger {
+  background: rgba(239, 68, 68, 0.46);
+
+  color: #fecaca;
+}

@@ -1,13 +1,14 @@
 import { Table, Spin, Empty } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import styles from './DashboardWidget.module.css'
+import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
 
 import { getUsers } from '@/shared/api/users'
 
 import type { UserPublic } from '@/shared/api/api'
+
 import type { StudentGrade } from '@/shared/types/dashboard'
 
 type DashboardUser = UserPublic & {

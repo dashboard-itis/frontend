@@ -1,7 +1,7 @@
-import { AdminDashboard } from '@/widgets/dashboard-layout'
+import { AdminTabs } from '@/widgets/admin-dashboard/AdminTabs'
 
 const Users = () => {
-  return <AdminDashboard tab='users' />
+  return <AdminTabs tab='users' />
 }
 
 export default Users

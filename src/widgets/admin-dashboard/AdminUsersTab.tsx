@@ -1,7 +1,7 @@
 import { Table, Select, Button, Popconfirm, Spin, Empty } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import styles from './DashboardWidget.module.css'
+import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { groups } from '@/shared/mocks/groups'
 import { users as mockUsers } from '@/shared/mocks/users'

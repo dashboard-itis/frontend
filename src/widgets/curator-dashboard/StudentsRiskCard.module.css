@@ -1,0 +1,64 @@
+.card {
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+
+  height: 100%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #111827;
+
+  margin-bottom: 24px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+
+  color: #4f6bff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #111827;
+}

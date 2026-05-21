@@ -1,7 +1,7 @@
 import { Table, Spin, Alert } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import styles from './DashboardWidget.module.css'
+import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
 
@@ -131,18 +131,23 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
 
   return (
     <div>
-      <h1 className={styles.dwTitle}>Статистика моей группы</h1>
-      <Table
-        style={{ marginTop: '71.46px' }}
-        className={styles.dashboardContainer}
-        dataSource={tableData}
-        columns={columns}
-        pagination={false}
-        bordered={false}
-        size='middle'
-        scroll={{ x: 'max-content' }}
-        rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
-      />
+      <h1 className={styles.dwTitle} style={{ marginBottom: 'var(--spacing-sm)' }}>
+        Статистика моей группы
+      </h1>
+      <div className={styles.tableWrapper}>
+        <div style={{ minWidth: 1200 }}>
+          <Table
+            className={styles.dashboardContainer}
+            dataSource={tableData}
+            columns={columns}
+            pagination={false}
+            bordered={false}
+            size='middle'
+            scroll={{ x: 1200 }}
+            rowClassName={(_, index) => (index % 2 === 0 ? styles.tableRowLight : styles.tableRowDark)}
+          />
+        </div>
+      </div>
     </div>
   )
 }

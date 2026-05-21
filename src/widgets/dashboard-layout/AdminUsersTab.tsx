@@ -7,6 +7,7 @@ import { groups } from '@/shared/mocks/groups'
 import { users as mockUsers } from '@/shared/mocks/users'
 
 import type { UserPublic } from '@/shared/api/api'
+
 //TODO: так как у бэковского юзера нет роли мы добавляем расширение
 type DashboardUser = UserPublic & {
   role?: 'STUDENT' | 'CURATOR' | 'ADMIN'

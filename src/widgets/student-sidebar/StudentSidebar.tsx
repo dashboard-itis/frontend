@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './StudentSidebar.module.css'
 
-import { Sidebar } from '@/shared/ui/Sidebar'
+import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
 
 const StudentSidebar = () => {
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ const StudentSidebar = () => {
     </div>
   )
 
-  const items = [
+  const items: SidebarItem[] = [
     {
       label: (
         <>

@@ -11,6 +11,7 @@ import Import from '@/pages/admin/import/Import'
 import Users from '@/pages/admin/users/Users'
 import { CuratorDashboardPage } from '@/pages/curator/dashboard/CuratorDashboardPage'
 import Distribution from '@/pages/curator/distribution/Distribution'
+import { CuratorLayout } from '@/pages/curator/layout/CuratorLayout'
 import { ForbiddenPage } from '@/pages/forbidden-page/ForbiddenPage'
 import { LoginPage } from '@/pages/login-page/LoginPage'
 import { NotFoundPage } from '@/pages/notfound-page/NotFoundPage'
@@ -18,12 +19,11 @@ import { RegisterPage } from '@/pages/register-page/RegisterPage'
 import { StudentDashboard } from '@/pages/student/dashboard/StudentDashboard'
 import { StudentGradesPage } from '@/pages/student/grades/StudentGrades'
 
-import StudentPage from '@/pages/student/sidebar/StudentLayout'
+import StudentPage from '@/pages/student/layout/StudentLayout'
 import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
-import { CuratorLayout } from '@/widgets/curator-layout/CuratorLayout'
-import { CuratorDynamicsTab } from '@/widgets/dashboard-layout/CuratorDynamicsTab'
+import { CuratorDynamicsTab } from '@/widgets/curator-dashboard/CuratorDynamicsTab'
 
 const AppRouter = () => {
   return (

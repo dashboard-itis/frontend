@@ -82,6 +82,18 @@ export const AdminDashboardPage = () => {
 
     fetchTrend()
   }, [selectedGroup])
+  const groupOptions = [
+    {
+      value: null,
+      label: 'Не выбрано',
+    },
+    ...groups
+      .filter((group) => group.id != null)
+      .map((group) => ({
+        value: String(group.id),
+        label: group.name,
+      })),
+  ]
 
   const analytics = buildAdminAnalytics(grades, ratings, groups)
 
@@ -93,25 +105,7 @@ export const AdminDashboardPage = () => {
 
       <div className={styles.chartCard}>
         <div className={styles.chartHeader}>
-          <Select
-            className={styles.select}
-            value={selectedGroup}
-            onChange={setSelectedGroup}
-            options={[
-              {
-                value: 'none',
-                label: 'Не выбрано',
-              },
-
-              ...groups
-                .filter((g) => g.id != null)
-                .map((group) => ({
-                  value: String(group.id),
-
-                  label: group.name,
-                })),
-            ]}
-          />
+          <Select className={styles.select} value={selectedGroup} onChange={setSelectedGroup} options={groupOptions} />
         </div>
 
         <AcademicTrendChart data={trendData} />

@@ -8,11 +8,11 @@ import { AdminUsersTab } from './AdminUsersTab'
 
 type AdminTab = 'users' | 'import' | 'grades' | 'groups'
 
-interface AdminDashboardProps {
+interface AdminTabsProps {
   tab?: AdminTab
 }
 
-export const AdminDashboard: React.FC<AdminDashboardProps> = ({ tab = 'users' }) => {
+export const AdminTabs: React.FC<AdminTabsProps> = ({ tab = 'users' }) => {
   if (tab === 'import') return <AdminImportTab />
   if (tab === 'grades') return <AdminGradesTab />
   // if (tab === 'groups') return <AdminGroupsTab />

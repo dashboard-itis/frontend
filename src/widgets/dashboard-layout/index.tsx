@@ -1,7 +1,7 @@
 import { Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 
-import { AdminDashboard } from './AdminDashboard'
+import { AdminTabs } from '../admin-dashboard/AdminTabs'
 
 import { CuratorDashboard } from '../curator-dashboard/CuratorDashboard'
 
@@ -31,11 +31,11 @@ const DashboardWidgetAntd: React.FC<DashboardWidgetProps> = ({
     case 'curator':
       return <CuratorDashboard tab={curatorTab as 'distribution' | 'dynamics'} />
     case 'admin':
-      return <AdminDashboard tab={adminTab as 'users' | 'import'} />
+      return <AdminTabs tab={adminTab as 'users' | 'import'} />
     default:
       return null
   }
 }
 
 export default DashboardWidgetAntd
-export { StudentGradesTable, CuratorDashboard, AdminDashboard }
+export { StudentGradesTable, CuratorDashboard, AdminTabs }

@@ -5,9 +5,11 @@ import { PrivateRoute } from './ProtectedRoute'
 
 import { RoleRoute } from './RoleRoute'
 
+import { AdminDashboardPage } from '@/pages/admin/dashboard/AdminDashboardPage'
 import Grades from '@/pages/admin/grades/Grades'
 import { GradesManagement } from '@/pages/admin/grades-management/AdminGradesManagement'
 import Import from '@/pages/admin/import/Import'
+import { AdminLayout } from '@/pages/admin/layout/AdminLayout'
 import Users from '@/pages/admin/users/Users'
 import { CuratorDashboardPage } from '@/pages/curator/dashboard/CuratorDashboardPage'
 import Distribution from '@/pages/curator/distribution/Distribution'
@@ -22,7 +24,6 @@ import { StudentGradesPage } from '@/pages/student/grades/StudentGrades'
 import StudentPage from '@/pages/student/layout/StudentLayout'
 import { AuthProvider } from '@/shared/context/AuthProvider'
 
-import { AdminLayout } from '@/widgets/admin-layout/AdminLayout'
 import { CuratorDynamicsTab } from '@/widgets/curator-dashboard/CuratorDynamicsTab'
 
 const AppRouter = () => {
@@ -57,7 +58,8 @@ const AppRouter = () => {
               </PrivateRoute>
             }
           >
-            {/* <Route index element={<Navigate to='dashboard' />} /> */}
+            <Route index element={<Navigate to='dashboard' />} />
+            <Route path='dashboard' element={<AdminDashboardPage />} />
             <Route path='users' element={<Users />} />
             <Route path='import' element={<Import />} />
             <Route path='grades' element={<Grades />} />

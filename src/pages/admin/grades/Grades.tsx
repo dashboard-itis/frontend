@@ -1,7 +1,7 @@
-import { AdminDashboard } from '@/widgets/dashboard-layout'
+import { AdminTabs } from '@/widgets/admin-dashboard/AdminTabs'
 
 const Grades = () => {
-  return <AdminDashboard tab='grades' />
+  return <AdminTabs tab='grades' />
 }
 
 export default Grades

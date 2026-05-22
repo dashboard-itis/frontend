@@ -1,7 +1,7 @@
 import { Card, Button, Upload, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import styles from './DashboardWidget.module.css'
+import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 const { Dragger } = Upload
 

@@ -10,7 +10,8 @@ x-back-common: &back-common
 
 services:
   db:
-    image: postgres:18
+    image: postgres:18-bookworm
+    platform: linux/amd64
     env_file:
       - .env
     environment:

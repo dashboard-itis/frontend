@@ -1,4 +1,3 @@
-// TODO: это авторизация с привязанным бэком, пока закомментировано, потому что работаем на моках
 import { api } from './client'
 
 export type AuthResponse = {

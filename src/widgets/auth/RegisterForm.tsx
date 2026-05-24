@@ -128,7 +128,7 @@ const RegisterForm = () => {
 
             {error && <div className={styles.error}>{error}</div>}
 
-            <button type='submit' className={styles.button} onClick={handleRegister} disabled={isLoading}>
+            <button type='submit' className={styles.button} disabled={isLoading}>
               {isLoading ? 'Загрузка...' : 'Зарегистрироваться'}
             </button>
 

@@ -22,7 +22,7 @@ const ConfirmAccountPage = () => {
 
       if (!userId || !code) {
         setStatus('error')
-        setErrorMessage('Неккоректная ссылка подтверждения')
+        setErrorMessage('Некорректная ссылка подтверждения')
         return
       }
 

@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react'
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
+import { getGroups } from '@/shared/api/groups'
 import { getUsers } from '@/shared/api/users'
 import { hasUserRole } from '@/shared/lib/roles'
 
+import type { GroupPublic } from '@/shared/api/api'
 import type { UserPublic } from '@/shared/api/api'
 import type { StudentGrade } from '@/shared/types/dashboard'
 
@@ -14,6 +16,7 @@ export const AdminGradesTab: React.FC = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
   const [users, setUsers] = useState<UserPublic[]>([])
   const [group, setGroup] = useState<string>('all')
+  const [groups, setGroups] = useState<GroupPublic[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,8 +25,10 @@ export const AdminGradesTab: React.FC = () => {
       try {
         setLoading(true)
         setError(null)
-        const data = await getUsers()
-        setUsers(data)
+        const [usersData, groupsData] = await Promise.all([getUsers(), getGroups()])
+
+        setUsers(usersData)
+        setGroups(groupsData)
       } catch (err) {
         console.error(err)
         setError('Не удалось загрузить пользователей')
@@ -111,7 +116,9 @@ export const AdminGradesTab: React.FC = () => {
                 render: (_, record) => {
                   const user = users.find((u) => u.id === record.studentId)
 
-                  return user?.group_id ?? '—'
+                  const group = groups.find((g) => g.id === user?.group_id)
+
+                  return group?.name || '—'
                 },
               },
               { title: 'Имя и фамилия', dataIndex: 'studentName' },

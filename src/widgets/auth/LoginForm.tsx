@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 
 import { useAuth } from '@/shared/hooks/useAuth'
+import { getAuthErrorMessage } from '@/shared/lib/getAuthErrorMessage'
 
 const LoginForm = () => {
   const navigate = useNavigate()
-  const { login, roles } = useAuth()
+  const { login } = useAuth()
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -16,25 +17,21 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     setError('')
+
     if (!email.trim() || !password.trim()) {
       setError('Введите почту и пароль')
       return
     }
+
     setIsLoading(true)
+
     try {
       await login(email, password)
-      if (roles.includes('ADMIN')) {
-        navigate('/admin')
-      } else if (roles.includes('CURATOR')) {
-        navigate('/curator')
-      } else if (roles.includes('STUDENT')) {
-        navigate('/student')
-      } else {
-        navigate('/login')
-      }
+
+      navigate('/admin')
     } catch (e: unknown) {
       if (e instanceof Error) {
-        setError(e.message)
+        setError(getAuthErrorMessage(e.message))
       } else {
         setError('Ошибка при входе')
       }
@@ -45,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftColumn}>
+      <div className={`${styles.leftColumn} ${styles.lightColumn}`}>
         <div className={styles.welcomeBlock}>
           <div className={styles.welcomeTitle}>
             С возвращением
@@ -56,18 +53,20 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <div className={styles.rightColumn}>
+      <div className={`${styles.rightColumn} ${styles.darkColumn}`}>
         <form
           className={styles.formContainer}
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
-            handleLogin()
+            await handleLogin()
           }}
         >
           <h2 className={styles.title}>Вход</h2>
 
           <input
-            className={styles.LoginInput}
+            className={`${styles.input} ${styles.darkInput}`}
+            name='email'
+            autoComplete='email'
             placeholder='Почта'
             type='email'
             value={email}
@@ -76,7 +75,9 @@ const LoginForm = () => {
           />
 
           <input
-            className={styles.LoginInput}
+            className={`${styles.input} ${styles.darkInput}`}
+            name='password'
+            autoComplete='current-password'
             type='password'
             placeholder='Пароль'
             value={password}

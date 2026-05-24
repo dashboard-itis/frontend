@@ -300,6 +300,16 @@ export interface RegisterResponse {
   success: boolean
 }
 
+/** StudentAnalytics */
+export interface StudentAnalytics {
+  /** Student Id */
+  student_id: number
+  /** Average Score */
+  average_score: number
+  /** Trend */
+  trend: TrendPoint[]
+}
+
 /** StudentGradeResponse */
 export interface StudentGradeResponse {
   /** Id */
@@ -426,6 +436,8 @@ export interface UserPublic {
    * @default false
    */
   is_confirmed?: boolean
+  /** Roles */
+  roles?: string[]
 }
 
 /** UserRolesUpdate */
@@ -745,6 +757,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<TokenResponse, ErrorResponse>({
         path: `/api/v1/auth/refresh`,
         method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name ConfirmAccountLinkApiV1AuthConfirmAccountGet
+     * @summary Confirm Account Link
+     * @request GET:/api/v1/auth/confirm-account
+     */
+    confirmAccountLinkApiV1AuthConfirmAccountGet: (
+      query: {
+        /** User Id */
+        user_id: number
+        /** Code */
+        code: string
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<MessageResponse, ErrorResponse>({
+        path: `/api/v1/auth/confirm-account`,
+        method: 'GET',
+        query: query,
         format: 'json',
         ...params,
       }),
@@ -1204,10 +1241,50 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/v1/groups/{group_id}/analytics
      * @secure
      */
-    getGroupAnalyticsApiV1GroupsGroupIdAnalyticsGet: (groupId: number, params: RequestParams = {}) =>
+    getGroupAnalyticsApiV1GroupsGroupIdAnalyticsGet: (
+      groupId: number,
+      query?: {
+        /**
+         * Trend Period
+         * @default "semester"
+         */
+        trend_period?: 'week' | 'month' | 'semester'
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GroupAnalytics, ErrorResponse>({
         path: `/api/v1/groups/${groupId}/analytics`,
         method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Analytics
+     * @name GetStudentAnalyticsApiV1StudentsStudentIdAnalyticsGet
+     * @summary Get Student Analytics
+     * @request GET:/api/v1/students/{student_id}/analytics
+     * @secure
+     */
+    getStudentAnalyticsApiV1StudentsStudentIdAnalyticsGet: (
+      studentId: number,
+      query?: {
+        /**
+         * Trend Period
+         * @default "semester"
+         */
+        trend_period?: 'week' | 'month' | 'semester'
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<StudentAnalytics, ErrorResponse>({
+        path: `/api/v1/students/${studentId}/analytics`,
+        method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params,

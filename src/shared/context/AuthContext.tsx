@@ -7,7 +7,7 @@ type AuthContextValue = {
   roles: Role[]
   isAuth: boolean
 
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<Role[]>
   register: (data: {
     email: string
     password: string

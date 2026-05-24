@@ -11,6 +11,7 @@ import { GradesManagement } from '@/pages/admin/grades-management/AdminGradesMan
 import Import from '@/pages/admin/import/Import'
 import { AdminLayout } from '@/pages/admin/layout/AdminLayout'
 import Users from '@/pages/admin/users/Users'
+import ConfirmAccountPage from '@/pages/confirm-account/ConfirmAccountPage'
 import { CuratorDashboardPage } from '@/pages/curator/dashboard/CuratorDashboardPage'
 import Distribution from '@/pages/curator/distribution/Distribution'
 import { CuratorLayout } from '@/pages/curator/layout/CuratorLayout'
@@ -25,7 +26,6 @@ import StudentPage from '@/pages/student/layout/StudentLayout'
 import { AuthProvider } from '@/shared/context/AuthProvider'
 
 import { CuratorDynamicsTab } from '@/widgets/curator-dashboard/CuratorDynamicsTab'
-
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -98,7 +98,7 @@ const AppRouter = () => {
             <Route path='dynamics' element={<CuratorDynamicsTab groupId={1} />} />
             <Route path='dashboard' element={<CuratorDashboardPage />} />
           </Route>
-
+          <Route path='/confirm-account' element={<ConfirmAccountPage />} />
           {/* Редирект с корневого пути */}
           <Route path='/' element={<Navigate to='/login' />} />
 

@@ -26,5 +26,6 @@ yarn-error.log*
 .idea/
 
 openapi.yaml
+openapi.json
 
 compose/.env

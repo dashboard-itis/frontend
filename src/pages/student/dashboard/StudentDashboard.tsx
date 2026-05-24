@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import styles from './StudentDashboard.module.css'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { getStudentGrades } from '@/shared/api/grades'
 
 import { StudentGrade } from '@/shared/types/dashboard'
@@ -20,12 +21,12 @@ import { SubjectPerformanceChart } from '@/widgets/student-dashboard/SubjectPerf
 export const StudentDashboard = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
 
-  // TODO: заменить на id из auth
-  const studentId = 1
-
   useEffect(() => {
     const fetchGrades = async () => {
-      const data = await getStudentGrades(studentId)
+      const currentUser = await getCurrentUser()
+      if (currentUser.id == null) return
+
+      const data = await getStudentGrades(currentUser.id)
 
       setGrades(data)
     }

@@ -6,16 +6,22 @@ import { HiChartBar, HiOutlineUpload, HiOutlineUsers } from 'react-icons/hi'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { groups } from '@/shared/mocks/groups'
+import { getCurrentUser } from '@/shared/api/auth'
+import { getGroups } from '@/shared/api/groups'
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
 
 import styles from '@/widgets/student-sidebar/StudentSidebar.module.css'
+
+import type { GroupPublic, UserPublic } from '@/shared/api/api'
 
 const AdminSidebar = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const [group, setGroup] = useState<string>('all')
+  const [groups, setGroups] = useState<GroupPublic[]>([])
+  const [user, setUser] = useState<UserPublic | null>(null)
+
   useEffect(() => {
     const saved = localStorage.getItem('selectedGroup')
 
@@ -25,6 +31,40 @@ const AdminSidebar = () => {
       localStorage.setItem('selectedGroup', 'all')
       setGroup('all')
     }
+  }, [])
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const data = await getGroups()
+        setGroups(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchGroups()
+
+    window.addEventListener('groupsChanged', fetchGroups)
+
+    return () => window.removeEventListener('groupsChanged', fetchGroups)
+  }, [])
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getCurrentUser()
+        setUser(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchUser()
+
+    window.addEventListener('userChanged', fetchUser)
+
+    return () => window.removeEventListener('userChanged', fetchUser)
   }, [])
 
   const handleChange = (value: string) => {
@@ -46,7 +86,7 @@ const AdminSidebar = () => {
           <HiOutlineUsers />
         </div>
 
-        <div className={styles.name}>Шарапова Диана</div>
+        <div className={styles.name}>{user ? `${user.first_name} ${user.last_name}` : 'Пользователь'}</div>
       </div>
     </div>
   )
@@ -131,11 +171,13 @@ const AdminSidebar = () => {
                 label: 'Все группы',
               },
 
-              ...groups.map((g) => ({
-                value: String(g.id),
+              ...groups
+                .filter((g): g is GroupPublic & { id: number } => g.id != null)
+                .map((g) => ({
+                  value: String(g.id),
 
-                label: g.name,
-              })),
+                  label: g.name,
+                })),
             ]}
           />
         </div>

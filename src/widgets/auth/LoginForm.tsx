@@ -26,9 +26,24 @@ const LoginForm = () => {
     setIsLoading(true)
 
     try {
-      await login(email, password)
+      const roles = await login(email, password)
 
-      navigate('/admin')
+      if (roles.includes('ADMIN')) {
+        navigate('/admin')
+        return
+      }
+
+      if (roles.includes('STUDENT')) {
+        navigate('/student')
+        return
+      }
+
+      if (roles.includes('CURATOR')) {
+        navigate('/curator')
+        return
+      }
+
+      navigate('/403')
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError(getAuthErrorMessage(e.message))

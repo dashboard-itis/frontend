@@ -113,6 +113,62 @@ export interface ErrorResponse {
   details?: Record<string, any> | any[] | null
 }
 
+/** GradeCreate */
+export interface GradeCreate {
+  /** Student Id */
+  student_id: number
+  /** Assignment Id */
+  assignment_id: number
+  /**
+   * Score
+   * @min 0
+   * @max 100
+   */
+  score: number
+  /** Comment */
+  comment?: string | null
+}
+
+/** GradePublic */
+export interface GradePublic {
+  /** Id */
+  id?: number | null
+  /**
+   * Created At
+   * @format date-time
+   */
+  created_at?: string
+  /**
+   * Updated At
+   * @format date-time
+   */
+  updated_at?: string
+  /** Student Id */
+  student_id: number
+  /** Assignment Id */
+  assignment_id: number
+  /**
+   * Score
+   * @min 0
+   * @max 100
+   */
+  score: number
+  /** Comment */
+  comment?: string | null
+}
+
+/** GradeUpdate */
+export interface GradeUpdate {
+  /** Student Id */
+  student_id?: number | null
+  /** Assignment Id */
+  assignment_id?: number | null
+  /** Score */
+  score?: number | null
+  /** Comment */
+  comment?: string | null
+}
+
 /** GroupAnalytics */
 export interface GroupAnalytics {
   /** Group Id */
@@ -1287,6 +1343,117 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query: query,
         secure: true,
         format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
+     * @name GetGradesApiV1GradesGet
+     * @summary Get Grades
+     * @request GET:/api/v1/grades
+     * @secure
+     */
+    getGradesApiV1GradesGet: (
+      query?: {
+        /**
+         * Skip
+         * @min 0
+         * @default 0
+         */
+        skip?: number
+        /**
+         * Limit
+         * @min 1
+         * @max 100
+         * @default 100
+         */
+        limit?: number
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PaginatedResponseStudentGradeResponse, ErrorResponse>({
+        path: `/api/v1/grades`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
+     * @name CreateGradeApiV1GradesPost
+     * @summary Create Grade
+     * @request POST:/api/v1/grades
+     * @secure
+     */
+    createGradeApiV1GradesPost: (data: GradeCreate, params: RequestParams = {}) =>
+      this.request<GradePublic, ErrorResponse>({
+        path: `/api/v1/grades`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
+     * @name GetGradeApiV1GradesGradeIdGet
+     * @summary Get Grade
+     * @request GET:/api/v1/grades/{grade_id}
+     * @secure
+     */
+    getGradeApiV1GradesGradeIdGet: (gradeId: number, params: RequestParams = {}) =>
+      this.request<StudentGradeResponse, ErrorResponse>({
+        path: `/api/v1/grades/${gradeId}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
+     * @name UpdateGradeApiV1GradesGradeIdPut
+     * @summary Update Grade
+     * @request PUT:/api/v1/grades/{grade_id}
+     * @secure
+     */
+    updateGradeApiV1GradesGradeIdPut: (gradeId: number, data: GradeUpdate, params: RequestParams = {}) =>
+      this.request<GradePublic, ErrorResponse>({
+        path: `/api/v1/grades/${gradeId}`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
+     * @name DeleteGradeApiV1GradesGradeIdDelete
+     * @summary Delete Grade
+     * @request DELETE:/api/v1/grades/{grade_id}
+     * @secure
+     */
+    deleteGradeApiV1GradesGradeIdDelete: (gradeId: number, params: RequestParams = {}) =>
+      this.request<void, ErrorResponse>({
+        path: `/api/v1/grades/${gradeId}`,
+        method: 'DELETE',
+        secure: true,
         ...params,
       }),
 

@@ -4,20 +4,15 @@ import React, { useEffect, useState } from 'react'
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 import { getStudentGrades } from '@/shared/api/grades'
-
 import { getUsers } from '@/shared/api/users'
+import { hasUserRole } from '@/shared/lib/roles'
 
 import type { UserPublic } from '@/shared/api/api'
-
 import type { StudentGrade } from '@/shared/types/dashboard'
-
-type DashboardUser = UserPublic & {
-  role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
-}
 
 export const AdminGradesTab: React.FC = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
-  const [users, setUsers] = useState<DashboardUser[]>([])
+  const [users, setUsers] = useState<UserPublic[]>([])
   const [group, setGroup] = useState<string>('all')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -57,7 +52,7 @@ export const AdminGradesTab: React.FC = () => {
         setLoading(true)
         setError(null)
         const students = users.filter(
-          (u): u is DashboardUser & { id: number } => u.role === 'STUDENT' && typeof u.id === 'number',
+          (u): u is UserPublic & { id: number } => hasUserRole(u, 'STUDENT') && u.id != null,
         )
 
         const allGrades = await Promise.all(students.map((student) => getStudentGrades(student.id)))
@@ -77,7 +72,7 @@ export const AdminGradesTab: React.FC = () => {
     }
   }, [users])
 
-  const students = users.filter((u) => u.role === 'STUDENT')
+  const students = users.filter((u) => hasUserRole(u, 'STUDENT'))
   const filteredStudents = group === 'all' ? students : students.filter((u) => String(u.group_id) === group)
 
   const studentIds = filteredStudents.map((u) => u.id)
@@ -111,7 +106,14 @@ export const AdminGradesTab: React.FC = () => {
               score: g.score,
             }))}
             columns={[
-              { title: 'Студент ID', dataIndex: 'studentId' },
+              {
+                title: 'Группа',
+                render: (_, record) => {
+                  const user = users.find((u) => u.id === record.studentId)
+
+                  return user?.group_id ?? '—'
+                },
+              },
               { title: 'Имя и фамилия', dataIndex: 'studentName' },
               { title: 'Предмет', dataIndex: 'course' },
               { title: 'Оценка', dataIndex: 'score' },

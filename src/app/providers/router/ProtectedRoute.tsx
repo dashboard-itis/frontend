@@ -8,7 +8,11 @@ interface Props {
 }
 
 export const PrivateRoute = ({ children }: Props): ReactElement => {
-  const { isAuth } = useAuth()
+  const { isAuth, isLoading } = useAuth()
+
+  if (isLoading) {
+    return <></>
+  }
 
   if (!isAuth) {
     return <Navigate to='/login' />

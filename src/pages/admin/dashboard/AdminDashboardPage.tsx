@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import styles from './AdminDashboardPage.module.css'
 
 import { getGroupAnalytics } from '@/shared/api/analytics'
-import { GroupPublic } from '@/shared/api/api'
+import { GroupPublic, UserPublic } from '@/shared/api/api'
 
 import { getStudentGrades } from '@/shared/api/grades'
 import { getGroups } from '@/shared/api/groups'
-import { getRatings } from '@/shared/api/ratings'
+import { getUsers } from '@/shared/api/users'
+import { hasUserRole } from '@/shared/lib/roles'
 
-import { RatingStudent, StudentGrade } from '@/shared/types/dashboard'
+import { StudentGrade } from '@/shared/types/dashboard'
 
 import { KpiCards } from '@/widgets/admin-dashboard/AdminKpiCards'
 import { buildAdminAnalytics } from '@/widgets/admin-dashboard/model/builders/buildAdminAnalytics'
@@ -18,8 +19,6 @@ import { AcademicTrendChart } from '@/widgets/student-dashboard/AcademicTrendCha
 
 export const AdminDashboardPage = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
-
-  const [ratings, setRatings] = useState<RatingStudent[]>([])
 
   const [groups, setGroups] = useState<GroupPublic[]>([])
 
@@ -33,30 +32,14 @@ export const AdminDashboardPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const groupsData = await getGroups()
+      const [groupsData, usersData] = await Promise.all([getGroups(), getUsers()])
 
       setGroups(groupsData)
 
-      const allRatings = await Promise.all(
-        groupsData
-          .filter(
-            (
-              group,
-            ): group is GroupPublic & {
-              id: number
-            } => group.id != null,
-          )
-          .map((group) => getRatings(group.id)),
-      )
-
-      const ratingsFlat = allRatings.flat().filter((student): student is RatingStudent => student !== undefined)
-
-      setRatings(ratingsFlat)
-
       const allGrades = await Promise.all(
-        ratingsFlat.map(async (student) => {
-          return await getStudentGrades(student.student_id)
-        }),
+        usersData
+          .filter((user): user is UserPublic & { id: number } => hasUserRole(user, 'STUDENT') && user.id != null)
+          .map((student) => getStudentGrades(student.id)),
       )
 
       setGrades(allGrades.flat())
@@ -84,7 +67,7 @@ export const AdminDashboardPage = () => {
   }, [selectedGroup])
   const groupOptions = [
     {
-      value: null,
+      value: 'none',
       label: 'Не выбрано',
     },
     ...groups
@@ -95,7 +78,7 @@ export const AdminDashboardPage = () => {
       })),
   ]
 
-  const analytics = buildAdminAnalytics(grades, ratings, groups)
+  const analytics = buildAdminAnalytics(grades, groups)
 
   return (
     <div className={styles.page}>

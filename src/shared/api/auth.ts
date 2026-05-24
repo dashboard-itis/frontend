@@ -38,3 +38,9 @@ export const confirmAccount = async (user_id: number, code: string) => {
 
   return response.data
 }
+
+export const getCurrentUser = async () => {
+  const response = await api.api.meApiV1AuthMeGet()
+
+  return response.data
+}

@@ -1,49 +1,52 @@
-import { Table, Select, Button, Popconfirm, Spin, Empty } from 'antd'
+import { Table, Select, Button, Popconfirm, Spin, Empty, message, Modal, Input, InputNumber } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
-import { groups } from '@/shared/mocks/groups'
-import { users as mockUsers } from '@/shared/mocks/users'
+import { createGroup, getGroups } from '@/shared/api/groups'
+import { deleteUser, getUsers, updateUser, updateUserRoles } from '@/shared/api/users'
+import { getPrimaryUserRole, hasUserRole } from '@/shared/lib/roles'
 
-import type { UserPublic } from '@/shared/api/api'
+import type { GroupPublic, UserPublic } from '@/shared/api/api'
+import type { Role } from '@/shared/types/role'
 
-//TODO: так как у бэковского юзера нет роли мы добавляем расширение
-type DashboardUser = UserPublic & {
-  role?: 'STUDENT' | 'CURATOR' | 'ADMIN'
-  access?: 'Анонимный' | 'Общий'
-}
+const roleOptions: { value: Role; label: string }[] = [
+  { value: 'STUDENT', label: 'Студент' },
+  { value: 'CURATOR', label: 'Куратор' },
+]
 
 export const AdminUsersTab: React.FC = () => {
-  const [users, setUsers] = useState<DashboardUser[]>([])
+  const [users, setUsers] = useState<UserPublic[]>([])
+  const [groups, setGroups] = useState<GroupPublic[]>([])
   const [group, setGroup] = useState<string>('all')
-  const [isLoaded, setIsLoaded] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [updatingUserId, setUpdatingUserId] = useState<number | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
+  const [groupName, setGroupName] = useState('')
+  const [groupYear, setGroupYear] = useState<number | null>(null)
+  const [creatingGroup, setCreatingGroup] = useState(false)
 
-  useEffect(() => {
-    const saved = localStorage.getItem('users')
+  const loadData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
 
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setUsers(parsed)
-          setIsLoaded(true)
-          setLoading(false)
-          return
-        }
-      } catch {}
+      const [usersData, groupsData] = await Promise.all([getUsers(), getGroups()])
+
+      setUsers(usersData)
+      setGroups(groupsData)
+    } catch (err) {
+      console.error(err)
+      setError('Не удалось загрузить пользователей')
+    } finally {
+      setLoading(false)
     }
-
-    setUsers(mockUsers as DashboardUser[])
-    setIsLoaded(true)
-    setLoading(false)
-  }, [])
+  }
 
   useEffect(() => {
-    if (!isLoaded) return
-    localStorage.setItem('users', JSON.stringify(users))
-  }, [users, isLoaded])
+    loadData()
+  }, [])
 
   useEffect(() => {
     const updateGroup = () => {
@@ -58,16 +61,112 @@ export const AdminUsersTab: React.FC = () => {
 
   const filteredUsers = group === 'all' ? users : users.filter((u) => String(u.group_id) === group)
 
-  const getGroupName = (id: number | null) => {
+  const getGroupName = (id?: number | null) => {
     if (!id) return '-'
     return groups.find((g) => g.id === id)?.name || '-'
+  }
+
+  const groupOptions = [
+    { value: 'none', label: 'Без группы' },
+    ...groups
+      .filter((item): item is GroupPublic & { id: number } => item.id != null)
+      .map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      })),
+  ]
+
+  const handleCreateGroup = async () => {
+    const name = groupName.trim()
+
+    if (!name) {
+      message.error('Введите название группы')
+      return
+    }
+
+    try {
+      setCreatingGroup(true)
+      const createdGroup = await createGroup({ name, year: groupYear })
+
+      setGroups((prev) => [...prev, createdGroup])
+      setGroupName('')
+      setGroupYear(null)
+      setIsGroupModalOpen(false)
+      window.dispatchEvent(new Event('groupsChanged'))
+      message.success('Группа добавлена')
+    } catch (err) {
+      console.error(err)
+      message.error('Не удалось добавить группу')
+    } finally {
+      setCreatingGroup(false)
+    }
+  }
+
+  const handleChangeGroup = async (user: UserPublic, value: string) => {
+    if (user.id == null) return
+
+    const groupId = value === 'none' ? null : Number(value)
+
+    try {
+      setUpdatingUserId(user.id)
+      const updatedUser = await updateUser(user.id, { group_id: groupId })
+
+      setUsers((prev) => prev.map((item) => (item.id === user.id ? updatedUser : item)))
+      message.success('Группа обновлена')
+    } catch (err) {
+      console.error(err)
+      message.error('Не удалось обновить группу')
+    } finally {
+      setUpdatingUserId(null)
+    }
+  }
+
+  const handleChangeRole = async (user: UserPublic, value: Role) => {
+    if (user.id == null) return
+
+    try {
+      setUpdatingUserId(user.id)
+      const updatedUser = await updateUserRoles(user.id, [value.toLowerCase()])
+
+      setUsers((prev) => prev.map((item) => (item.id === user.id ? updatedUser : item)))
+      message.success('Роль обновлена')
+    } catch (err) {
+      console.error(err)
+      message.error('Не удалось обновить роль')
+    } finally {
+      setUpdatingUserId(null)
+    }
+  }
+
+  const handleDeleteUser = async (userId?: number | null) => {
+    if (userId == null) return
+
+    try {
+      setUpdatingUserId(userId)
+      await deleteUser(userId)
+      setUsers((prev) => prev.filter((user) => user.id !== userId))
+    } catch (err) {
+      console.error(err)
+      message.error('Не удалось удалить пользователя')
+    } finally {
+      setUpdatingUserId(null)
+    }
   }
 
   return (
     <Spin spinning={loading} tip='Загрузка...'>
       <div>
-        <h2 className={styles.dwTitle}>управление пользователями</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <h2 className={styles.dwTitle}>управление пользователями</h2>
+
+          <Button type='primary' onClick={() => setIsGroupModalOpen(true)}>
+            Добавить группу
+          </Button>
+        </div>
+
         <div className={styles.dashboardContainer}>
+          {error && <div style={{ color: 'red', marginBottom: 16 }}>Ошибка: {error}</div>}
+
           {filteredUsers.length === 0 ? (
             <Empty description='Нет пользователей' />
           ) : (
@@ -81,52 +180,50 @@ export const AdminUsersTab: React.FC = () => {
                 { title: 'Имя', dataIndex: 'first_name' },
                 {
                   title: 'Группа',
-                  render: (_: any, record: any) => getGroupName(record.group_id),
+                  render: (_: unknown, record: UserPublic) =>
+                    hasUserRole(record, 'STUDENT') ? (
+                      <Select
+                        value={record.group_id == null ? 'none' : String(record.group_id)}
+                        style={{ width: 160 }}
+                        loading={updatingUserId === record.id}
+                        onChange={(value) => handleChangeGroup(record, value)}
+                        options={groupOptions}
+                      />
+                    ) : (
+                      getGroupName(record.group_id)
+                    ),
                 },
                 { title: 'Почта', dataIndex: 'email' },
                 {
-                  title: 'Доступ',
-                  render: (_: any, record: any) => (
-                    <Select
-                      value={record.access || 'Общий'}
-                      style={{ width: 140 }}
-                      onChange={(value) =>
-                        setUsers((prev) => prev.map((u) => (u.id === record.id ? { ...u, access: value } : u)))
-                      }
-                      options={[
-                        { value: 'Анонимный', label: 'Анонимный' },
-                        { value: 'Общий', label: 'Общий' },
-                      ]}
-                    />
-                  ),
-                },
-                {
                   title: 'Роль',
-                  render: (_: any, record: any) => (
-                    <Select
-                      value={record.role}
-                      style={{ width: 140 }}
-                      onChange={(value) =>
-                        setUsers((prev) => prev.map((u) => (u.id === record.id ? { ...u, role: value } : u)))
-                      }
-                      options={[
-                        { value: 'STUDENT', label: 'Студент' },
-                        { value: 'CURATOR', label: 'Куратор' },
-                        { value: 'ADMIN', label: 'Админ' },
-                      ]}
-                    />
-                  ),
+                  render: (_: unknown, record: UserPublic) => {
+                    const currentRole = getPrimaryUserRole(record)
+                    const isAdmin = currentRole === 'ADMIN'
+
+                    return (
+                      <Select
+                        value={currentRole}
+                        style={{ width: 140 }}
+                        disabled={isAdmin}
+                        loading={updatingUserId === record.id}
+                        onChange={(value) => handleChangeRole(record, value)}
+                        options={
+                          isAdmin ? [{ value: 'ADMIN', label: 'Админ', disabled: true }, ...roleOptions] : roleOptions
+                        }
+                      />
+                    )
+                  },
                 },
                 {
                   title: 'Действия',
-                  render: (_: any, record: any) => (
+                  render: (_: unknown, record: UserPublic) => (
                     <Popconfirm
                       title='Удалить пользователя?'
-                      onConfirm={() => setUsers((prev) => prev.filter((u) => u.id !== record.id))}
+                      onConfirm={() => handleDeleteUser(record.id)}
                       okText='Да'
                       cancelText='Нет'
                     >
-                      <Button type='link' danger>
+                      <Button type='link' danger loading={updatingUserId === record.id}>
                         Удалить
                       </Button>
                     </Popconfirm>
@@ -138,6 +235,30 @@ export const AdminUsersTab: React.FC = () => {
             />
           )}
         </div>
+
+        <Modal
+          title='Добавить группу'
+          open={isGroupModalOpen}
+          onOk={handleCreateGroup}
+          onCancel={() => setIsGroupModalOpen(false)}
+          confirmLoading={creatingGroup}
+          okText='Добавить'
+          cancelText='Отмена'
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Input
+              placeholder='Название группы'
+              value={groupName}
+              onChange={(event) => setGroupName(event.target.value)}
+            />
+            <InputNumber
+              placeholder='Год'
+              value={groupYear}
+              onChange={(value) => setGroupYear(typeof value === 'number' ? value : null)}
+              style={{ width: '100%' }}
+            />
+          </div>
+        </Modal>
       </div>
     </Spin>
   )

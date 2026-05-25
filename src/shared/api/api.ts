@@ -117,8 +117,8 @@ export interface ErrorResponse {
 export interface GradeCreate {
   /** Student Id */
   student_id: number
-  /** Assignment Id */
-  assignment_id: number
+  /** Course Id */
+  course_id: number
   /**
    * Score
    * @min 0
@@ -145,8 +145,8 @@ export interface GradePublic {
   updated_at?: string
   /** Student Id */
   student_id: number
-  /** Assignment Id */
-  assignment_id: number
+  /** Course Id */
+  course_id: number
   /**
    * Score
    * @min 0
@@ -161,8 +161,8 @@ export interface GradePublic {
 export interface GradeUpdate {
   /** Student Id */
   student_id?: number | null
-  /** Assignment Id */
-  assignment_id?: number | null
+  /** Course Id */
+  course_id?: number | null
   /** Score */
   score?: number | null
   /** Comment */
@@ -372,8 +372,8 @@ export interface StudentGradeResponse {
   id: number
   /** Student Id */
   student_id: number
-  /** Assignment Id */
-  assignment_id: number
+  /** Course Id */
+  course_id: number
   /** Score */
   score: number
   /** Comment */
@@ -390,8 +390,6 @@ export interface StudentGradeResponse {
   updated_at: string
   /** Course Name */
   course_name?: string | null
-  /** Assignment Title */
-  assignment_title?: string | null
 }
 
 /** TokenResponse */

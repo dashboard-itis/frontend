@@ -124,14 +124,13 @@ export const GradesManagement: React.FC = () => {
     form.setFieldsValue({
       group_id: groupId,
       student_id: grade.student_id,
-      course_name: grade.course_name,
+      course_id: grade.course_id,
       score: grade.score,
       comment: grade.comment,
     })
 
     setIsModalOpen(true)
   }
-  //TODO: зачем то бэки добавили assignment_id и не добавили привязку оценки к предмету на прямую, у нас задания не будет, потом удалю как удалят из спеки
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields()
@@ -139,7 +138,7 @@ export const GradesManagement: React.FC = () => {
       if (editingGrade) {
         const payload: GradeUpdate = {
           student_id: values.student_id,
-          assignment_id: 2,
+          course_id: values.course_id,
           score: values.score,
           comment: values.comment,
         }
@@ -154,7 +153,7 @@ export const GradesManagement: React.FC = () => {
                   score: updated.score,
                   comment: updated.comment,
                   student_id: updated.student_id,
-                  assignment_id: updated.assignment_id,
+                  course_id: updated.course_id,
                 }
               : grade,
           ),
@@ -164,7 +163,7 @@ export const GradesManagement: React.FC = () => {
       } else {
         const payload: GradeCreate = {
           student_id: values.student_id,
-          assignment_id: 2,
+          course_id: values.course_id,
           score: values.score,
           comment: values.comment,
         }
@@ -333,7 +332,7 @@ export const GradesManagement: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item label='Предмет' name='course_name'>
+          <Form.Item label='Предмет' name='course_id' rules={[{ required: true, message: 'Выберите предмет' }]}>
             <Select
               options={courses
                 .filter(
@@ -344,7 +343,7 @@ export const GradesManagement: React.FC = () => {
                   } => course.id != null,
                 )
                 .map((course) => ({
-                  value: course.name,
+                  value: course.id,
                   label: course.name,
                 }))}
             />

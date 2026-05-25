@@ -1,9 +1,8 @@
 export const studentGrades = [
-  // TODO: course_name нет в api.ts, сказать бэкам добавить
   {
     id: 1,
     student_id: 1,
-    assignment_id: 101,
+    course_id: 101,
     score: 20,
     comment: 'Хорошо',
     created_at: '2026-04-10T10:00:00Z',
@@ -12,7 +11,7 @@ export const studentGrades = [
   {
     id: 2,
     student_id: 1,
-    assignment_id: 102,
+    course_id: 102,
     score: 25,
     comment: 'Отлично',
     created_at: '2026-04-17T10:00:00Z',
@@ -21,7 +20,7 @@ export const studentGrades = [
   {
     id: 3,
     student_id: 1,
-    assignment_id: 103,
+    course_id: 103,
     score: 18,
     comment: 'Удовлетворительно',
     created_at: '2026-04-24T10:00:00Z',
@@ -30,7 +29,7 @@ export const studentGrades = [
   {
     id: 4,
     student_id: 1,
-    assignment_id: 104,
+    course_id: 104,
     score: 15,
     comment: 'Удовлетворительно',
     created_at: '2026-04-11T10:00:00Z',
@@ -39,7 +38,7 @@ export const studentGrades = [
   {
     id: 5,
     student_id: 1,
-    assignment_id: 105,
+    course_id: 105,
     score: 30,
     comment: 'Отлично',
     created_at: '2026-04-18T10:00:00Z',
@@ -48,7 +47,7 @@ export const studentGrades = [
   {
     id: 6,
     student_id: 1,
-    assignment_id: 106,
+    course_id: 106,
     score: 22,
     comment: 'Хорошо',
     created_at: '2026-04-25T10:00:00Z',
@@ -57,7 +56,7 @@ export const studentGrades = [
   {
     id: 7,
     student_id: 1,
-    assignment_id: 107,
+    course_id: 107,
     score: 37,
     comment: 'Хорошо',
     created_at: '2026-04-12T10:00:00Z',
@@ -66,7 +65,7 @@ export const studentGrades = [
   {
     id: 8,
     student_id: 1,
-    assignment_id: 108,
+    course_id: 108,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-19T10:00:00Z',
@@ -75,7 +74,7 @@ export const studentGrades = [
   {
     id: 9,
     student_id: 1,
-    assignment_id: 109,
+    course_id: 109,
     score: 28,
     comment: 'Хорошо',
     created_at: '2026-04-13T10:00:00Z',
@@ -84,7 +83,7 @@ export const studentGrades = [
   {
     id: 10,
     student_id: 1,
-    assignment_id: 110,
+    course_id: 110,
     score: 32,
     comment: 'Отлично',
     created_at: '2026-04-20T10:00:00Z',
@@ -93,7 +92,7 @@ export const studentGrades = [
   {
     id: 11,
     student_id: 1,
-    assignment_id: 111,
+    course_id: 111,
     score: 25,
     comment: 'Хорошо',
     created_at: '2026-04-27T10:00:00Z',
@@ -102,7 +101,7 @@ export const studentGrades = [
   {
     id: 12,
     student_id: 1,
-    assignment_id: 112,
+    course_id: 112,
     score: 45,
     comment: 'Отлично',
     created_at: '2026-04-14T10:00:00Z',
@@ -111,7 +110,7 @@ export const studentGrades = [
   {
     id: 13,
     student_id: 1,
-    assignment_id: 113,
+    course_id: 113,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-21T10:00:00Z',
@@ -120,7 +119,7 @@ export const studentGrades = [
   {
     id: 14,
     student_id: 1,
-    assignment_id: 114,
+    course_id: 114,
     score: 37,
     comment: 'Хорошо',
     created_at: '2026-04-15T10:00:00Z',
@@ -129,7 +128,7 @@ export const studentGrades = [
   {
     id: 15,
     student_id: 1,
-    assignment_id: 115,
+    course_id: 115,
     score: 20,
     comment: 'Удовлетворительно',
     created_at: '2026-04-22T10:00:00Z',
@@ -138,7 +137,7 @@ export const studentGrades = [
   {
     id: 16,
     student_id: 1,
-    assignment_id: 116,
+    course_id: 116,
     score: 44,
     comment: 'Отлично',
     created_at: '2026-04-16T10:00:00Z',
@@ -147,7 +146,7 @@ export const studentGrades = [
   {
     id: 17,
     student_id: 1,
-    assignment_id: 117,
+    course_id: 117,
     score: 38,
     comment: 'Хорошо',
     created_at: '2026-04-23T10:00:00Z',
@@ -156,7 +155,7 @@ export const studentGrades = [
   {
     id: 18,
     student_id: 2,
-    assignment_id: 201,
+    course_id: 201,
     score: 30,
     comment: 'Хорошо',
     created_at: '2026-04-10T10:00:00Z',
@@ -165,7 +164,7 @@ export const studentGrades = [
   {
     id: 19,
     student_id: 2,
-    assignment_id: 202,
+    course_id: 202,
     score: 34,
     comment: 'Хорошо',
     created_at: '2026-04-17T10:00:00Z',
@@ -174,7 +173,7 @@ export const studentGrades = [
   {
     id: 20,
     student_id: 2,
-    assignment_id: 203,
+    course_id: 203,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-11T10:00:00Z',
@@ -183,7 +182,7 @@ export const studentGrades = [
   {
     id: 21,
     student_id: 2,
-    assignment_id: 204,
+    course_id: 204,
     score: 30,
     comment: 'Хорошо',
     created_at: '2026-04-18T10:00:00Z',
@@ -192,7 +191,7 @@ export const studentGrades = [
   {
     id: 22,
     student_id: 2,
-    assignment_id: 205,
+    course_id: 205,
     score: 41,
     comment: 'Отлично',
     created_at: '2026-04-12T10:00:00Z',
@@ -201,7 +200,7 @@ export const studentGrades = [
   {
     id: 23,
     student_id: 2,
-    assignment_id: 206,
+    course_id: 206,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-19T10:00:00Z',
@@ -210,7 +209,7 @@ export const studentGrades = [
   {
     id: 24,
     student_id: 2,
-    assignment_id: 207,
+    course_id: 207,
     score: 25,
     comment: 'Удовлетворительно',
     created_at: '2026-04-13T10:00:00Z',
@@ -219,7 +218,7 @@ export const studentGrades = [
   {
     id: 25,
     student_id: 2,
-    assignment_id: 208,
+    course_id: 208,
     score: 30,
     comment: 'Хорошо',
     created_at: '2026-04-20T10:00:00Z',
@@ -228,7 +227,7 @@ export const studentGrades = [
   {
     id: 26,
     student_id: 2,
-    assignment_id: 209,
+    course_id: 209,
     score: 35,
     comment: 'Хорошо',
     created_at: '2026-04-14T10:00:00Z',
@@ -237,7 +236,7 @@ export const studentGrades = [
   {
     id: 27,
     student_id: 2,
-    assignment_id: 210,
+    course_id: 210,
     score: 33,
     comment: 'Хорошо',
     created_at: '2026-04-21T10:00:00Z',
@@ -246,7 +245,7 @@ export const studentGrades = [
   {
     id: 28,
     student_id: 2,
-    assignment_id: 211,
+    course_id: 211,
     score: 39,
     comment: 'Хорошо',
     created_at: '2026-04-15T10:00:00Z',
@@ -255,7 +254,7 @@ export const studentGrades = [
   {
     id: 29,
     student_id: 2,
-    assignment_id: 212,
+    course_id: 212,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-22T10:00:00Z',
@@ -264,7 +263,7 @@ export const studentGrades = [
   {
     id: 30,
     student_id: 2,
-    assignment_id: 213,
+    course_id: 213,
     score: 34,
     comment: 'Хорошо',
     created_at: '2026-04-16T10:00:00Z',
@@ -273,7 +272,7 @@ export const studentGrades = [
   {
     id: 31,
     student_id: 2,
-    assignment_id: 214,
+    course_id: 214,
     score: 38,
     comment: 'Хорошо',
     created_at: '2026-04-23T10:00:00Z',
@@ -282,7 +281,7 @@ export const studentGrades = [
   {
     id: 32,
     student_id: 3,
-    assignment_id: 301,
+    course_id: 301,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-10T10:00:00Z',
@@ -291,7 +290,7 @@ export const studentGrades = [
   {
     id: 33,
     student_id: 3,
-    assignment_id: 302,
+    course_id: 302,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-17T10:00:00Z',
@@ -300,7 +299,7 @@ export const studentGrades = [
   {
     id: 34,
     student_id: 3,
-    assignment_id: 303,
+    course_id: 303,
     score: 47,
     comment: 'Отлично',
     created_at: '2026-04-11T10:00:00Z',
@@ -309,7 +308,7 @@ export const studentGrades = [
   {
     id: 35,
     student_id: 3,
-    assignment_id: 304,
+    course_id: 304,
     score: 47,
     comment: 'Отлично',
     created_at: '2026-04-18T10:00:00Z',
@@ -318,7 +317,7 @@ export const studentGrades = [
   {
     id: 36,
     student_id: 3,
-    assignment_id: 305,
+    course_id: 305,
     score: 49,
     comment: 'Отлично',
     created_at: '2026-04-12T10:00:00Z',
@@ -327,7 +326,7 @@ export const studentGrades = [
   {
     id: 37,
     student_id: 3,
-    assignment_id: 306,
+    course_id: 306,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-19T10:00:00Z',
@@ -336,7 +335,7 @@ export const studentGrades = [
   {
     id: 38,
     student_id: 3,
-    assignment_id: 307,
+    course_id: 307,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-13T10:00:00Z',
@@ -345,7 +344,7 @@ export const studentGrades = [
   {
     id: 39,
     student_id: 3,
-    assignment_id: 308,
+    course_id: 308,
     score: 47,
     comment: 'Отлично',
     created_at: '2026-04-20T10:00:00Z',
@@ -354,7 +353,7 @@ export const studentGrades = [
   {
     id: 40,
     student_id: 3,
-    assignment_id: 309,
+    course_id: 309,
     score: 49,
     comment: 'Отлично',
     created_at: '2026-04-14T10:00:00Z',
@@ -363,7 +362,7 @@ export const studentGrades = [
   {
     id: 41,
     student_id: 3,
-    assignment_id: 310,
+    course_id: 310,
     score: 49,
     comment: 'Отлично',
     created_at: '2026-04-21T10:00:00Z',
@@ -372,7 +371,7 @@ export const studentGrades = [
   {
     id: 42,
     student_id: 3,
-    assignment_id: 311,
+    course_id: 311,
     score: 46,
     comment: 'Отлично',
     created_at: '2026-04-15T10:00:00Z',
@@ -381,7 +380,7 @@ export const studentGrades = [
   {
     id: 43,
     student_id: 3,
-    assignment_id: 312,
+    course_id: 312,
     score: 46,
     comment: 'Отлично',
     created_at: '2026-04-22T10:00:00Z',
@@ -390,7 +389,7 @@ export const studentGrades = [
   {
     id: 44,
     student_id: 3,
-    assignment_id: 313,
+    course_id: 313,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-16T10:00:00Z',
@@ -399,7 +398,7 @@ export const studentGrades = [
   {
     id: 45,
     student_id: 3,
-    assignment_id: 314,
+    course_id: 314,
     score: 48,
     comment: 'Отлично',
     created_at: '2026-04-23T10:00:00Z',
@@ -408,7 +407,7 @@ export const studentGrades = [
   {
     id: 16,
     student_id: 4,
-    assignment_id: 315,
+    course_id: 315,
     score: 18,
     comment: 'Требуется улучшение',
     created_at: '2026-04-24T10:00:00Z',
@@ -417,7 +416,7 @@ export const studentGrades = [
   {
     id: 17,
     student_id: 4,
-    assignment_id: 316,
+    course_id: 316,
     score: 22,
     comment: 'Удовлетворительно',
     created_at: '2026-04-24T11:00:00Z',
@@ -426,7 +425,7 @@ export const studentGrades = [
   {
     id: 18,
     student_id: 4,
-    assignment_id: 317,
+    course_id: 317,
     score: 35,
     comment: 'Хорошо',
     created_at: '2026-04-24T12:00:00Z',
@@ -436,7 +435,7 @@ export const studentGrades = [
   {
     id: 19,
     student_id: 5,
-    assignment_id: 318,
+    course_id: 318,
     score: 42,
     comment: 'Отлично',
     created_at: '2026-04-25T10:00:00Z',
@@ -445,7 +444,7 @@ export const studentGrades = [
   {
     id: 20,
     student_id: 5,
-    assignment_id: 319,
+    course_id: 319,
     score: 38,
     comment: 'Хорошо',
     created_at: '2026-04-25T11:00:00Z',
@@ -454,7 +453,7 @@ export const studentGrades = [
   {
     id: 21,
     student_id: 5,
-    assignment_id: 320,
+    course_id: 320,
     score: 40,
     comment: 'Отлично',
     created_at: '2026-04-25T12:00:00Z',

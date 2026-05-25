@@ -181,7 +181,7 @@ export const AdminUsersTab: React.FC = () => {
                 {
                   title: 'Группа',
                   render: (_: unknown, record: UserPublic) =>
-                    hasUserRole(record, 'STUDENT') ? (
+                    hasUserRole(record, 'STUDENT') || hasUserRole(record, 'CURATOR') ? (
                       <Select
                         value={record.group_id == null ? 'none' : String(record.group_id)}
                         style={{ width: 160 }}

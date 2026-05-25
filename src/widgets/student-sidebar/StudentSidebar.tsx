@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import { HiChartBar } from 'react-icons/hi'
 
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
@@ -7,11 +9,21 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './StudentSidebar.module.css'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
+
+import type { UserPublic } from '@/shared/api/api'
 
 const StudentSidebar = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const [user, setUser] = useState<UserPublic | null>(null)
+
+  useEffect(() => {
+    getCurrentUser()
+      .then(setUser)
+      .catch(() => setUser(null))
+  }, [])
 
   const headerContent = (
     <div className={styles.header}>
@@ -26,7 +38,7 @@ const StudentSidebar = () => {
           <PiStudentBold />
         </div>
 
-        <div className={styles.name}>Иванов Петров</div>
+        <div className={styles.name}>{user ? `${user.first_name} ${user.last_name}` : 'Пользователь'}</div>
       </div>
     </div>
   )

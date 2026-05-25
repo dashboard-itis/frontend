@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
+import { getCourses } from '@/shared/api/courses'
+
 import { getStudentGrades } from '@/shared/api/grades'
 
 import { getRatings } from '@/shared/api/ratings'
@@ -18,16 +20,6 @@ interface CuratorDynamicsTabProps {
   groupId: number
 }
 
-const subjects = [
-  'ОРИС',
-  'Курс по выбору',
-  'Инновационная экономика',
-  'Английский',
-  'Финансовая грамотность',
-  'ТВИС',
-  'Командная разработка',
-]
-
 const semesterMapping: Record<number, { semester: 'SPRING' | 'FALL'; year: number; label: string }> = {
   1: { semester: 'FALL', year: 2024, label: 'Осень 2024 (1 семестр)' },
   2: { semester: 'SPRING', year: 2025, label: 'Весна 2025 (2 семестр)' },
@@ -41,48 +33,54 @@ const semesterMapping: Record<number, { semester: 'SPRING' | 'FALL'; year: numbe
 
 const DEFAULT_SEMESTER = 4
 
+const fetchScores = async (students: { student_id: number; full_name: string }[], _params: Params, names: string[]) => {
+  const scoresMap = new Map<number, Record<string, number>>()
+
+  await Promise.all(
+    students.map(async (student) => {
+      const grades = await getStudentGrades(student.student_id)
+
+      const subjectScores: Record<string, number> = {}
+      names.forEach((subj) => (subjectScores[subj] = 0))
+
+      grades.forEach((grade: StudentGrade) => {
+        const course = grade.course_name
+
+        if (course && names.includes(course)) {
+          subjectScores[course] += grade.score
+        }
+      })
+
+      scoresMap.set(student.student_id, subjectScores)
+    }),
+  )
+
+  return scoresMap
+}
+
 export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [studentsList, setStudentsList] = useState<{ student_id: number; full_name: string }[]>([])
+  const [courseNames, setCourseNames] = useState<string[]>([])
 
   const [currentSemesterScores, setCurrentSemesterScores] = useState<Map<number, Record<string, number>>>(new Map())
 
   const [selectedSemesterScores, setSelectedSemesterScores] = useState<Map<number, Record<string, number>>>(new Map())
 
-  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0]) // по умолчанию первый предмет
+  const [selectedSubject, setSelectedSubject] = useState<string>('')
   const [selectedSemester, setSelectedSemester] = useState<number>(DEFAULT_SEMESTER)
-
-  const fetchScores = async (students: { student_id: number; full_name: string }[], params: Params) => {
-    const scoresMap = new Map<number, Record<string, number>>()
-
-    await Promise.all(
-      students.map(async (student) => {
-        const grades = await getStudentGrades(student.student_id)
-
-        const subjectScores: Record<string, number> = {}
-        subjects.forEach((subj) => (subjectScores[subj] = 0))
-
-        grades.forEach((grade: StudentGrade) => {
-          const course = grade.course_name
-
-          if (course && subjects.includes(course)) {
-            subjectScores[course] += grade.score
-          }
-        })
-
-        scoresMap.set(student.student_id, subjectScores)
-      }),
-    )
-
-    return scoresMap
-  }
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const params = semesterMapping[DEFAULT_SEMESTER]
-        const ratings = await getRatings(groupId, params)
+        const [ratings, courses] = await Promise.all([getRatings(groupId, params), getCourses()])
+
+        const names = courses.map((c) => c.name)
+        setCourseNames(names)
+        if (names.length > 0) setSelectedSubject(names[0])
+
         const students = (ratings as RatingStudent[]).map((s) => ({
           student_id: s.student_id,
           full_name: s.full_name,
@@ -99,12 +97,12 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
   // текущий сем
   useEffect(() => {
     const run = async () => {
-      if (studentsList.length === 0) return
+      if (studentsList.length === 0 || courseNames.length === 0) return
 
       setLoading(true)
       try {
         const params = semesterMapping[DEFAULT_SEMESTER]
-        const result = await fetchScores(studentsList, params)
+        const result = await fetchScores(studentsList, params, courseNames)
         setCurrentSemesterScores(result)
       } catch (err) {
         console.error(err)
@@ -115,18 +113,17 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
     }
 
     run()
-  }, [studentsList])
+  }, [studentsList, courseNames])
 
   // выбранный сем
-
   useEffect(() => {
     const run = async () => {
-      if (studentsList.length === 0) return
+      if (studentsList.length === 0 || courseNames.length === 0) return
 
       setLoading(true)
       try {
         const params = semesterMapping[selectedSemester]
-        const result = await fetchScores(studentsList, params)
+        const result = await fetchScores(studentsList, params, courseNames)
         setSelectedSemesterScores(result)
       } catch (err) {
         console.error(err)
@@ -137,7 +134,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
     }
 
     run()
-  }, [studentsList, selectedSemester])
+  }, [studentsList, selectedSemester, courseNames])
 
   const tableData = studentsList
     .map((student) => {
@@ -187,7 +184,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
     label: data.label,
   }))
 
-  const subjectOptions = subjects.map((s) => ({ value: s, label: s }))
+  const subjectOptions = courseNames.map((s) => ({ value: s, label: s }))
 
   if (loading && studentsList.length > 0) return <Spin tip='Загрузка...' style={{ width: '100%', margin: '32px 0' }} />
   if (error) return <Alert message={error} type='error' showIcon />
@@ -201,7 +198,7 @@ export const CuratorDynamicsTab: React.FC<CuratorDynamicsTabProps> = ({ groupId 
         <Select
           placeholder='Выберите предмет'
           className={styles.subjectSelect}
-          value={selectedSubject}
+          value={selectedSubject || undefined}
           onChange={setSelectedSubject}
           options={subjectOptions}
         />

@@ -1,11 +1,16 @@
+import { Spin } from 'antd'
 import { useEffect, useState } from 'react'
 
 import styles from './CuratorDashboardPage.module.css'
 
+import { getCurrentUser } from '@/shared/api/auth'
+
 import { getStudentGrades } from '@/shared/api/grades'
+
 import { getRatings } from '@/shared/api/ratings'
 
 import { StudentGrade } from '@/shared/types/dashboard'
+
 import { CuratorKpiCards } from '@/widgets/curator-dashboard/CuratorKpiCards'
 import { GradeDistributionChart } from '@/widgets/curator-dashboard/GradeDistributionChart'
 import { buildCuratorAnalytics } from '@/widgets/curator-dashboard/models/builders/buildCuratorAnalytics'
@@ -19,26 +24,34 @@ import { AcademicTrendChart } from '@/widgets/student-dashboard/AcademicTrendCha
 
 export const CuratorDashboardPage = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
-
-  // TODO: заменить на id группы куратора
-  const groupId = 1
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchGrades = async () => {
-      const ratings = (await getRatings(groupId)) || []
+      try {
+        const currentUser = await getCurrentUser()
+        const groupId = currentUser.group_id
+        if (!groupId) return
 
-      const allGrades = await Promise.all(
-        ratings.map(async (student) => {
-          const grades = await getStudentGrades(student.student_id)
+        const ratings = (await getRatings(groupId)) || []
 
-          return grades.map((grade) => ({
-            ...grade,
-            student_id: student.student_id,
-            student_name: student.full_name,
-          }))
-        }),
-      )
-      setGrades(allGrades.flat())
+        const allGrades = await Promise.all(
+          ratings.map(async (student) => {
+            const studentGrades = await getStudentGrades(student.student_id)
+
+            return studentGrades.map((grade) => ({
+              ...grade,
+              student_id: student.student_id,
+              student_name: student.full_name,
+            }))
+          }),
+        )
+        setGrades(allGrades.flat())
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchGrades()
   }, [])
@@ -48,6 +61,10 @@ export const CuratorDashboardPage = () => {
   const curatorAnalytics = buildCuratorAnalytics(grades)
   const groupTrendData = buildGroupTrend(grades)
   const weakSubjectsData = buildWeakSubjectsChart(grades)
+
+  if (loading) {
+    return <Spin style={{ display: 'block', margin: '80px auto' }} />
+  }
 
   return (
     <div className={styles.page}>

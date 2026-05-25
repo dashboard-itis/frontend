@@ -3,21 +3,13 @@ import React, { useEffect, useState } from 'react'
 
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
+import { getCourses } from '@/shared/api/courses'
+
 import { getStudentGrades } from '@/shared/api/grades'
 
 import { getRatings } from '@/shared/api/ratings'
 
 import { RatingStudent, StudentGrade, TableRow } from '@/shared/types/dashboard'
-
-const disciplines = [
-  'ОРИС',
-  'Курс по выбору',
-  'Инновационная экономика',
-  'Английский',
-  'Финансовая грамотность',
-  'ТВИС',
-  'Командная разработка',
-]
 
 interface CuratorDistributionTabProps {
   groupId: number
@@ -33,12 +25,17 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tableData, setTableData] = useState<TableRow[]>([])
+  const [courseNames, setCourseNames] = useState<string[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const ratings = await getRatings(groupId, { semester, year })
+        const [ratings, courses] = await Promise.all([getRatings(groupId, { semester, year }), getCourses()])
+
+        const names = courses.map((c) => c.name)
+        setCourseNames(names)
+
         if (!ratings || ratings.length === 0) {
           setTableData([])
           return
@@ -48,7 +45,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
           (ratings as RatingStudent[]).map(async (student) => {
             const grades = await getStudentGrades(student.student_id)
 
-            const scores = disciplines.reduce<Record<string, number>>((acc, discipline) => {
+            const scores = names.reduce<Record<string, number>>((acc, discipline) => {
               acc[discipline] = 0
               return acc
             }, {})
@@ -56,7 +53,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
             const total = grades.reduce((sum, grade: StudentGrade) => {
               const course = grade.course_name
 
-              if (course && disciplines.includes(course)) {
+              if (course && names.includes(course)) {
                 scores[course] += grade.score
                 return sum + grade.score
               }
@@ -64,7 +61,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
               return sum
             }, 0)
 
-            const average = disciplines.length > 0 ? Math.round(total / disciplines.length) : 0
+            const average = names.length > 0 ? Math.round(total / names.length) : 0
 
             return {
               student_id: student.student_id,
@@ -75,7 +72,6 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
           }),
         )
 
-        // по убыванию
         const sorted = [...studentsWithScores].sort((a, b) => b.averageScore - a.averageScore)
         const rows = sorted.map((student, idx) => ({
           key: student.student_id,
@@ -120,7 +116,7 @@ export const CuratorDistributionTab: React.FC<CuratorDistributionTabProps> = ({
       align: 'center' as const,
       render: (avg: number) => <strong className={styles.averageScore}>{avg}</strong>,
     },
-    ...disciplines.map((d) => ({
+    ...courseNames.map((d) => ({
       title: d,
       dataIndex: d,
       key: d,

@@ -23,8 +23,8 @@ import { StudentDashboard } from '@/pages/student/dashboard/StudentDashboard'
 import { StudentGradesPage } from '@/pages/student/grades/StudentGrades'
 
 import StudentPage from '@/pages/student/layout/StudentLayout'
+import WaitingGroupPage from '@/pages/waiting-group/WaitingGroupPage'
 import { AuthProvider } from '@/shared/context/AuthProvider'
-
 import { CuratorDynamicsTab } from '@/widgets/curator-dashboard/CuratorDynamicsTab'
 const AppRouter = () => {
   return (
@@ -98,6 +98,7 @@ const AppRouter = () => {
             <Route path='dynamics' element={<CuratorDynamicsTab groupId={1} />} />
             <Route path='dashboard' element={<CuratorDashboardPage />} />
           </Route>
+          <Route path='/waiting-group' element={<WaitingGroupPage />} />
           <Route path='/confirm-account' element={<ConfirmAccountPage />} />
           {/* Редирект с корневого пути */}
           <Route path='/' element={<Navigate to='/login' />} />

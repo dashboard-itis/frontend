@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './Auth.module.css'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { getAuthErrorMessage } from '@/shared/lib/getAuthErrorMessage'
 
@@ -34,6 +35,13 @@ const LoginForm = () => {
       }
 
       if (roles.includes('STUDENT')) {
+        const currentUser = await getCurrentUser()
+
+        if (!currentUser.group_id) {
+          navigate('/waiting-group')
+          return
+        }
+
         navigate('/student')
         return
       }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './Auth.module.css'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { getAuthErrorMessage } from '@/shared/lib/getAuthErrorMessage'
 
@@ -26,9 +27,31 @@ const LoginForm = () => {
     setIsLoading(true)
 
     try {
-      await login(email, password)
+      const roles = await login(email, password)
 
-      navigate('/admin')
+      if (roles.includes('ADMIN')) {
+        navigate('/admin')
+        return
+      }
+
+      if (roles.includes('STUDENT')) {
+        const currentUser = await getCurrentUser()
+
+        if (!currentUser.group_id) {
+          navigate('/waiting-group')
+          return
+        }
+
+        navigate('/student')
+        return
+      }
+
+      if (roles.includes('CURATOR')) {
+        navigate('/curator')
+        return
+      }
+
+      navigate('/403')
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError(getAuthErrorMessage(e.message))

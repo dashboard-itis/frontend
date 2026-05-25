@@ -1,4 +1,5 @@
 import { message } from 'antd'
+import { useEffect, useState } from 'react'
 
 import { HiChartBar, HiOutlineDownload, HiOutlineUserGroup, HiTrendingUp } from 'react-icons/hi'
 
@@ -6,14 +7,23 @@ import { MdOutlineSpaceDashboard } from 'react-icons/md'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { Sidebar, type SidebarItem } from '@/shared/ui/Sidebar'
 
 import styles from '@/widgets/student-sidebar/StudentSidebar.module.css'
 
+import type { UserPublic } from '@/shared/api/api'
+
 function CuratorSidebar() {
   const navigate = useNavigate()
-
   const location = useLocation()
+  const [user, setUser] = useState<UserPublic | null>(null)
+
+  useEffect(() => {
+    getCurrentUser()
+      .then(setUser)
+      .catch(() => setUser(null))
+  }, [])
 
   const items: SidebarItem[] = [
     {
@@ -86,7 +96,7 @@ function CuratorSidebar() {
           <HiOutlineUserGroup />
         </div>
 
-        <div className={styles.name}>Сидорина Арина Аркадьевна</div>
+        <div className={styles.name}>{user ? `${user.first_name} ${user.last_name}` : 'Пользователь'}</div>
       </div>
     </div>
   )

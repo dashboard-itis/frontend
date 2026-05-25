@@ -9,10 +9,30 @@ type Props = {
   roles?: Role[]
 }
 
-export const RoleRoute = ({ children, roles }: Props) => {
-  const { roles: userRoles } = useAuth()
+const getStoredRoles = (): Role[] => {
+  const savedRoles = localStorage.getItem('user_roles')
+  if (!savedRoles) return []
 
-  if (roles && !roles.some((role) => userRoles.includes(role))) {
+  try {
+    const parsedRoles = JSON.parse(savedRoles)
+
+    return Array.isArray(parsedRoles) ? parsedRoles : []
+  } catch {
+    return []
+  }
+}
+
+export const RoleRoute = ({ children, roles }: Props) => {
+  const { roles: userRoles, isLoading } = useAuth()
+
+  if (isLoading) {
+    return null
+  }
+
+  const rolesFromStorage = getStoredRoles()
+  const effectiveRoles = userRoles.length > 0 ? userRoles : rolesFromStorage
+
+  if (roles && !roles.some((role) => effectiveRoles.includes(role))) {
     return <Navigate to='/403' />
   }
 

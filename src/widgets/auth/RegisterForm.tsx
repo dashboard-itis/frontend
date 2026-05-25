@@ -53,7 +53,6 @@ const RegisterForm = () => {
         password,
         first_name: firstName,
         last_name: lastName,
-        role: 'STUDENT',
       })
 
       setIsSuccessModalOpen(true)

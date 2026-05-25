@@ -10,13 +10,11 @@ export interface StudentGrade {
   id: number
   student_id: number
   student_name?: string
-  assignment_id: number
+  course_id: number
   score: number
   comment?: string | null
   created_at: string
-  //TODO: после добавления бэками этого поля сделать его обязательным
   course_name?: string | null
-  assignment_title?: string | null
 }
 
 export interface TableRow {

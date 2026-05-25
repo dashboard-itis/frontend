@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { StudentGradesTable } from './StudentGradesTable'
 
+import { getCurrentUser } from '@/shared/api/auth'
 import { getStudentGrades } from '@/shared/api/grades'
 import { StudentGrade } from '@/shared/types/dashboard'
 
@@ -9,15 +10,15 @@ export const StudentGradesPage = () => {
   const [grades, setGrades] = useState<StudentGrade[]>([])
   const [loading, setLoading] = useState(true)
 
-  // TODO: заменить на id из auth
-  const studentId = 1
-
   useEffect(() => {
     const fetchGrades = async () => {
       try {
         setLoading(true)
 
-        const data = await getStudentGrades(studentId)
+        const currentUser = await getCurrentUser()
+        if (currentUser.id == null) return
+
+        const data = await getStudentGrades(currentUser.id)
 
         setGrades(data)
       } finally {
@@ -26,7 +27,7 @@ export const StudentGradesPage = () => {
     }
 
     fetchGrades()
-  }, [studentId])
+  }, [])
 
   return <StudentGradesTable grades={grades} loading={loading} />
 }

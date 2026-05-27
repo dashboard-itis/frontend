@@ -22,7 +22,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine-slim
 
-RUN apk update && apk upgrade --no-cache
+RUN apk update && apk upgrade --no-cache && apk add --no-cache curl
 
 RUN rm /etc/nginx/conf.d/default.conf
 

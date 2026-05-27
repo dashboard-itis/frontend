@@ -1,0 +1,81 @@
+name: front-back-integration
+
+x-back-image: &back-image {{back_image}}
+x-front-image: &front-image {{front_image}}
+
+x-back-base: &back-base
+  image: *back-image
+  platform: linux/amd64
+  restart: on-failure
+  env_file:
+    - .env
+  environment: 
+    DB__HOST: db
+
+x-back-services-base: &back-services-base
+  <<: *back-base
+  restart: on-failure
+
+services:
+  db:
+    image: postgres:18
+    restart: always
+    env_file:
+      - .env
+    environment: 
+      POSTGRES_USER: ${DB__USER}
+      POSTGRES_PASSWORD: ${DB__PASSWORD}
+      POSTGRES_DB: ${DB__NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/18/docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
+  
+  migration:
+    <<: *back-services-base
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["alembic", "upgrade", "head"]
+
+  rbac:
+    <<: *back-services-base
+    depends_on:
+      migration:
+        condition: service_completed_successfully
+    command: ["python", "init.py"]
+
+  api:
+    <<: *back-base
+    restart: always
+    depends_on:
+      rbac:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
+
+  web:
+    image: *front-image
+    restart: always
+    depends_on:
+      api:
+        condition: service_healthy 
+    ports: 
+      - 80:80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
+
+volumes:
+  pgdata:

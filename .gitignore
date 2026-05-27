@@ -29,3 +29,8 @@ openapi.yaml
 openapi.json
 
 compose/.env
+
+ansible/inventory.ini
+inventory.ini
+
+.ansible

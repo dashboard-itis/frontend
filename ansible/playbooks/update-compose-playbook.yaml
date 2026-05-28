@@ -20,7 +20,7 @@
 
     - name: Stop containers
       community.docker.docker_compose_v2:
-        project_src:
+        project_src: .
         state: absent
         remove_orphans: true
       when: file_data.stat.exists
@@ -33,7 +33,7 @@
 
     - name: Parse data
       ansible.builtin.set_fact:
-        compose_data: "{{ yaml_data.content | b64deconde | from_yaml }}"
+        compose_data: "{{ yaml_data.content | b64decode | from_yaml }}"
       when: file_data.stat.exists
 
     - name: Extract backend image

@@ -27,7 +27,7 @@ jobs:
       run: |
         cd ./app
         echo "Install deps"
-        npm i
+        npm i --ignore-scripts
     - name: Run tests
       run: |
         cd ./app

@@ -3,6 +3,9 @@ name: front-back-integration
 x-back-image: &back-image adel160505/dashboard-itis-backend:latest 
 x-front-image: &front-image arinasidr/nginx-front:v3
 
+x-platform: &platform
+  platform: linux/amd64
+
 x-back-base: &back-base
   image: *back-image
   platform: linux/amd64
@@ -14,27 +17,30 @@ x-back-base: &back-base
 
 x-back-services-base: &back-services-base
   <<: *back-base
-  restart: on-failure
+
+x-db-base: &db-base
+  <<: *platform
+  image: postgres:18
+  restart: always
+  env_file:
+    - .env
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+    interval: 10s
+    retries: 5
+    timeout: 5s
+    start_period: 10s
 
 services:
   db:
-    image: postgres:18
-    restart: always
-    env_file:
-      - .env
+    <<: *db-base
     environment: 
       POSTGRES_USER: ${DB__USER}
       POSTGRES_PASSWORD: ${DB__PASSWORD}
       POSTGRES_DB: ${DB__NAME}
     volumes:
       - pgdata:/var/lib/postgresql/18/docker
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-      interval: 10s
-      retries: 5
-      timeout: 5s
-      start_period: 10s
-  
+
   migration:
     <<: *back-services-base
     depends_on:
@@ -68,8 +74,6 @@ services:
     depends_on:
       api:
         condition: service_healthy 
-    ports: 
-      - 80:80
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 10s
@@ -77,5 +81,39 @@ services:
       timeout: 5s
       start_period: 10s
 
+  db_proxy:
+    <<: *db-base
+    environment: 
+      POSTGRES_USER: ${DB__USER}
+      POSTGRES_PASSWORD: ${DB__PASSWORD}
+      POSTGRES_DB: proxy
+    volumes:
+      - proxy_pgdata:/var/lib/postgresql/18/docker
+  
+  proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+    env_file:
+      - .env
+    environment:
+      TZ: 'Russia/Moscow'
+      DB_POSTGRES_HOST: 'db_proxy'
+      DB_POSTGRES_PORT: 5432
+      DB_POSTGRES_USER: ${DB__USER}
+      DB_POSTGRES_PASSWORD: ${DB__PASSWORD}
+      DB_POSTGRES_NAME: proxy
+      INITIAL_ADMIN_EMAIL: ${ADMIN__EMAIL}
+      INITIAL_ADMIN_PASSWORD: ${ADMIN__PASSWORD}
+    volumes:
+      - proxy_data:/data
+      - certificates:/etc/letsencrypt
+
 volumes:
   pgdata:
+  proxy_pgdata:
+  proxy_data:
+  certificates:

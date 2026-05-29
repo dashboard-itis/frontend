@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "release": {
-    "branches": ["main", "ci-cd"],
+    "branches": [
+      "main",
+      "ci-cd"
+    ],
     "tagFormat": "v${version}-gh",
     "plugins": [
       "@semantic-release/commit-analyzer",
@@ -62,6 +65,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^8.0.0",
+    "jest-junit": "^17.0.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.8.1",
     "stylelint": "^17.4.0",

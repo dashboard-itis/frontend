@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+app/node_modules
 /.pnp
 .pnp.js
 
@@ -10,6 +11,7 @@
 
 # production
 /build
+app/build/
 
 # misc
 .DS_Store
@@ -29,3 +31,8 @@ openapi.yaml
 openapi.json
 
 compose/.env
+
+ansible/inventory.ini
+inventory.ini
+
+.ansible

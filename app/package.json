@@ -11,6 +11,7 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
+      ["@semantic-release/npm", { "npmPublish": false }],
       "@semantic-release/github"
     ]
   },
@@ -64,6 +65,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-prettier": "^5.5.5",
+    "@semantic-release/npm": "^12.0.0",
     "husky": "^8.0.0",
     "jest-junit": "^17.0.0",
     "lint-staged": "^15.2.2",

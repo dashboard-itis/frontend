@@ -1,6 +1,7 @@
 import { Card, Button, Upload, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 
+import { importGrades } from '@/shared/api/grades'
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 const { Dragger } = Upload
@@ -8,6 +9,7 @@ const { Dragger } = Upload
 export const AdminImportTab: React.FC = () => {
   const [file, setFile] = useState<File | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('fileName')
@@ -40,18 +42,25 @@ export const AdminImportTab: React.FC = () => {
     setFile(null)
     setFileName(null)
   }
-  // TODO: отправить файл на сервер в handleImport
-  const handleImport = () => {
+  const handleImport = async () => {
     if (!file) {
       message.error('Сначала выберите файл для импорта')
       return
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Импортируем:', file)
+    setLoading(true)
+    try {
+      const result = await importGrades(file)
+      message.success(`Импортировано: ${result.created}, ошибок: ${result.failed}`)
+      if (result.errors && result.errors.length > 0) {
+        result.errors.forEach(e => message.warning(`Строка ${e.row}: ${e.message}`))
+      }
+      handleRemove()
+    } catch {
+      message.error('Ошибка при импорте файла')
+    } finally {
+      setLoading(false)
     }
-    //TODO: поменять на успешный импорт, пока напишем что фича в разработке
-    message.success('Функция находится в разработке!')
   }
 
   const isFileLoaded = !!file
@@ -89,6 +98,7 @@ export const AdminImportTab: React.FC = () => {
               type='primary'
               className={`${styles.actionButton} ${styles.importButton}`}
               disabled={!isFileLoaded}
+              loading={loading}
               onClick={handleImport}
             >
               Импортировать

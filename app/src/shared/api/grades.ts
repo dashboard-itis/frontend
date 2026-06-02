@@ -1,6 +1,6 @@
 import { api } from './client'
 
-import type { GradeCreate, GradePublic, GradeUpdate, StudentGradeResponse } from './api'
+import type { GradeCreate, GradeImportResult, GradePublic, GradeUpdate, StudentGradeResponse } from './api'
 
 export const getGrades = async (): Promise<StudentGradeResponse[]> => {
   const res = await api.api.getGradesApiV1GradesGet()
@@ -34,4 +34,9 @@ export const updateStudentGrade = async (gradeId: number, data: GradeUpdate): Pr
 
 export const deleteStudentGrade = async (gradeId: number): Promise<void> => {
   await api.api.deleteGradeApiV1GradesGradeIdDelete(gradeId)
+}
+
+export const importGrades = async (file: File): Promise<GradeImportResult> => {
+  const res = await api.api.importGradesApiV1GradesImportPost({ file })
+  return res.data
 }

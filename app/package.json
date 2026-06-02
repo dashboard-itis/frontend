@@ -4,7 +4,8 @@
   "private": true,
   "release": {
     "branches": [
-      "main"
+      "main",
+      "ci-cd"
     ],
     "tagFormat": "v${version}-gh",
     "plugins": [

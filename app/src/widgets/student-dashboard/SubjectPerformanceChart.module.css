@@ -1,0 +1,22 @@
+.card {
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+
+  height: 100%;
+
+  min-height: 540px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #111827;
+
+  margin-bottom: 24px;
+}

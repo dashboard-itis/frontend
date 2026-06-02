@@ -1,0 +1,83 @@
+.header {
+  margin-bottom: 40px;
+}
+
+.logo {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+  margin-bottom: 42px;
+}
+
+.logoImage {
+  width: 42px;
+  height: 42px;
+
+  object-fit: contain;
+}
+
+.logoText {
+  font-size: 30px;
+  font-weight: 700;
+
+  color: white;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  gap: 14px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-size: 24px;
+}
+
+.name {
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+}
+
+.menuItem svg {
+  flex-shrink: 0;
+
+  font-size: 20px;
+}
+
+.menuItem span {
+  line-height: 1.2;
+  color: var(--color-bg-secondary);
+}
+
+.selectWrapper {
+  margin-top: 18px;
+
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+}

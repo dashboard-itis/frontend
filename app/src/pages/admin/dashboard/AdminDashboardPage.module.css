@@ -1,0 +1,55 @@
+.page {
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+
+  color: #111827;
+
+  margin: 0;
+}
+
+.chartCard {
+  position: relative;
+}
+
+.chartHeader {
+  position: absolute;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 10;
+}
+
+.select {
+  width: 220px;
+}
+
+.select :global(.ant-select-selector) {
+  height: 44px !important;
+
+  border-radius: 14px !important;
+
+  border: 1px solid #e5e7eb !important;
+
+  box-shadow: none !important;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px !important;
+}
+
+.select :global(.ant-select-selection-item) {
+  line-height: 42px !important;
+
+  font-weight: 500;
+
+  color: #374151;
+}

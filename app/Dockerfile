@@ -18,7 +18,7 @@ COPY *.json craco.config.js /app/
 COPY src /app/src
 COPY public /app/public
 
-RUN NODE_OPTIONS=--max_old_space_size=2048 npm run build
+RUN GENERATE_SOURCEMAP=false npm run build
 
 FROM nginx:stable-alpine-slim
 

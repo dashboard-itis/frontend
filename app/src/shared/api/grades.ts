@@ -1,6 +1,6 @@
 import { api } from './client'
 
-import type { GradeCreate, GradeExportItem, GradeImportResult, GradePublic, GradeUpdate, StudentGradeResponse } from './api'
+import type { GradeCreate, GradeImportResult, GradePublic, GradeUpdate, StudentGradeResponse } from './api'
 
 export const getGrades = async (): Promise<StudentGradeResponse[]> => {
   const res = await api.api.getGradesApiV1GradesGet()
@@ -45,7 +45,7 @@ export const exportGrades = async (params?: {
   student_id?: number
   course_id?: number
   group_id?: number
-}): Promise<GradeExportItem[]> => {
+}): Promise<string> => {
   const res = await api.api.exportGradesApiV1GradesExportGet(params)
-  return res.data
+  return res.data as unknown as string
 }

@@ -25,12 +25,8 @@ export const CuratorExportPage = () => {
     }
     setLoading(true)
     try {
-      const data = await exportGrades({ group_id: groupId })
-      if (!data.length) {
-        message.warning('Нет данных для экспорта')
-        return
-      }
-      const ws = XLSX.utils.json_to_sheet(data)
+      const csv = await exportGrades({ group_id: groupId })
+      const ws = XLSX.read(csv, { type: 'string' }).Sheets['Sheet1'] ?? XLSX.utils.aoa_to_sheet(csv.trim().split('\n').map(r => r.split(',')))
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Grades')
       XLSX.writeFile(wb, 'grades_export.xlsx')

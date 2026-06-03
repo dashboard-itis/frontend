@@ -40,3 +40,8 @@ export const importGrades = async (file: File): Promise<GradeImportResult> => {
   const res = await api.api.importGradesApiV1GradesImportPost({ file })
   return res.data
 }
+
+export const exportGrades = async (params?: { student_id?: number; course_id?: number }): Promise<Blob> => {
+  const res = await api.api.exportGradesApiV1GradesExportGet(params, { format: 'blob' } as any)
+  return res.data as unknown as Blob
+}

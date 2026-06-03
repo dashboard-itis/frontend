@@ -48,8 +48,16 @@ export const AdminImportTab: React.FC = () => {
     setExportLoading(true)
     try {
       const csv = await exportGrades()
-      const workbook = XLSX.read(csv, { type: 'string' })
-      const ws = workbook.Sheets[workbook.SheetNames[0]]
+      const lines = csv.trim().split('\n')
+      const headers = lines[0].split(',')
+      const rows = lines.slice(1).map(line => {
+        const values = line.split(',')
+        return headers.reduce((obj, header, i) => {
+          obj[header] = values[i]
+          return obj
+        }, {} as Record<string, string>)
+      })
+      const ws = XLSX.utils.json_to_sheet(rows)
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Grades')
       XLSX.writeFile(wb, 'grades_export.xlsx')

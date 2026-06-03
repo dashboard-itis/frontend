@@ -46,6 +46,6 @@ export const exportGrades = async (params?: {
   course_id?: number
   group_id?: number
 }): Promise<string> => {
-  const res = await api.api.exportGradesApiV1GradesExportGet(params)
+  const res = await api.api.exportGradesApiV1GradesExportGet(params, { format: 'text' } as any)
   return res.data as unknown as string
 }

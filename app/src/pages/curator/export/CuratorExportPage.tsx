@@ -26,7 +26,8 @@ export const CuratorExportPage = () => {
     setLoading(true)
     try {
       const csv = await exportGrades({ group_id: groupId })
-      const ws = XLSX.read(csv, { type: 'string' }).Sheets['Sheet1'] ?? XLSX.utils.aoa_to_sheet(csv.trim().split('\n').map(r => r.split(',')))
+      const workbook = XLSX.read(csv, { type: 'string' })
+      const ws = workbook.Sheets[workbook.SheetNames[0]]
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Grades')
       XLSX.writeFile(wb, 'grades_export.xlsx')

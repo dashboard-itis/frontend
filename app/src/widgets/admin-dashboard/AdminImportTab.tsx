@@ -1,5 +1,6 @@
 import { Card, Button, Upload, message } from 'antd'
 import React, { useEffect, useState } from 'react'
+import * as XLSX from 'xlsx'
 
 import { importGrades, exportGrades } from '@/shared/api/grades'
 import styles from '../dashboard-layout/DashboardWidget.module.css'
@@ -46,13 +47,15 @@ export const AdminImportTab: React.FC = () => {
   const handleExport = async () => {
     setExportLoading(true)
     try {
-      const blob = await exportGrades()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'grades_export.xlsx'
-      a.click()
-      URL.revokeObjectURL(url)
+      const data = await exportGrades()
+      if (!data.length) {
+        message.warning('Нет данных для экспорта')
+        return
+      }
+      const ws = XLSX.utils.json_to_sheet(data)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'Grades')
+      XLSX.writeFile(wb, 'grades_export.xlsx')
     } catch {
       message.error('Ошибка при экспорте данных')
     } finally {

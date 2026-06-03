@@ -135,6 +135,26 @@ export interface GradeCreate {
   comment?: string | null;
 }
 
+/** GradeExportItem */
+export interface GradeExportItem {
+  /** Student Email */
+  student_email: string;
+  /** Student Last Name */
+  student_last_name: string;
+  /** Student First Name */
+  student_first_name: string;
+  /** Group Id */
+  group_id?: number | null;
+  /** Group Name */
+  group_name?: string | null;
+  /** Course Name */
+  course_name: string;
+  /** Score */
+  score: number;
+  /** Comment */
+  comment?: string | null;
+}
+
 /** GradeImportError */
 export interface GradeImportError {
   /** Row */
@@ -1555,10 +1575,12 @@ export class Api<
         student_id?: number | null;
         /** Course Id */
         course_id?: number | null;
+        /** Group Id */
+        group_id?: number | null;
       },
       params: RequestParams = {},
     ) =>
-      this.request<any, ErrorResponse>({
+      this.request<GradeExportItem[], ErrorResponse>({
         path: `/api/v1/grades/export`,
         method: "GET",
         query: query,

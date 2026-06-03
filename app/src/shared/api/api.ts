@@ -1544,6 +1544,33 @@ export class Api<
      * No description
      *
      * @tags Grades
+     * @name ExportGradesApiV1GradesExportGet
+     * @summary Export Grades
+     * @request GET:/api/v1/grades/export
+     * @secure
+     */
+    exportGradesApiV1GradesExportGet: (
+      query?: {
+        /** Student Id */
+        student_id?: number | null;
+        /** Course Id */
+        course_id?: number | null;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<any, ErrorResponse>({
+        path: `/api/v1/grades/export`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Grades
      * @name GetGradeApiV1GradesGradeIdGet
      * @summary Get Grade
      * @request GET:/api/v1/grades/{grade_id}

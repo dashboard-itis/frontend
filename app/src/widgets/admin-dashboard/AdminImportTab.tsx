@@ -1,7 +1,7 @@
 import { Card, Button, Upload, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import { importGrades } from '@/shared/api/grades'
+import { importGrades, exportGrades } from '@/shared/api/grades'
 import styles from '../dashboard-layout/DashboardWidget.module.css'
 
 const { Dragger } = Upload
@@ -10,6 +10,7 @@ export const AdminImportTab: React.FC = () => {
   const [file, setFile] = useState<File | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [exportLoading, setExportLoading] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('fileName')
@@ -42,6 +43,23 @@ export const AdminImportTab: React.FC = () => {
     setFile(null)
     setFileName(null)
   }
+  const handleExport = async () => {
+    setExportLoading(true)
+    try {
+      const blob = await exportGrades()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'grades_export.xlsx'
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      message.error('Ошибка при экспорте данных')
+    } finally {
+      setExportLoading(false)
+    }
+  }
+
   const handleImport = async () => {
     if (!file) {
       message.error('Сначала выберите файл для импорта')
@@ -102,6 +120,14 @@ export const AdminImportTab: React.FC = () => {
               onClick={handleImport}
             >
               Импортировать
+            </Button>
+
+            <Button
+              className={styles.actionButton}
+              loading={exportLoading}
+              onClick={handleExport}
+            >
+              Экспортировать
             </Button>
           </div>
         </Card>

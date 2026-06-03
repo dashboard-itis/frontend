@@ -14,6 +14,7 @@ import Users from '@/pages/admin/users/Users'
 import ConfirmAccountPage from '@/pages/confirm-account/ConfirmAccountPage'
 import { CuratorDashboardPage } from '@/pages/curator/dashboard/CuratorDashboardPage'
 import Distribution from '@/pages/curator/distribution/Distribution'
+import { CuratorExportPage } from '@/pages/curator/export/CuratorExportPage'
 import { CuratorLayout } from '@/pages/curator/layout/CuratorLayout'
 import { ForbiddenPage } from '@/pages/forbidden-page/ForbiddenPage'
 import { LoginPage } from '@/pages/login-page/LoginPage'
@@ -96,6 +97,7 @@ const AppRouter = () => {
             <Route path='distribution' element={<Distribution />} />
             <Route path='dynamics' element={<Distribution />} />
             <Route path='dashboard' element={<CuratorDashboardPage />} />
+            <Route path='export' element={<CuratorExportPage />} />
           </Route>
           <Route path='/waiting-group' element={<WaitingGroupPage />} />
           <Route path='/confirm-account' element={<ConfirmAccountPage />} />

@@ -54,6 +54,7 @@ export const AdminImportTab: React.FC = () => {
       XLSX.utils.book_append_sheet(wb, ws, 'Grades')
       XLSX.writeFile(wb, 'grades_export.xlsx')
     } catch {
+      console.error('Export error:', e)
       message.error('Ошибка при экспорте данных')
     } finally {
       setExportLoading(false)

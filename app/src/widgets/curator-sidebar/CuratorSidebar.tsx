@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { HiChartBar, HiOutlineDownload, HiOutlineUserGroup, HiTrendingUp } from 'react-icons/hi'
@@ -77,9 +76,9 @@ function CuratorSidebar() {
         </div>
       ),
 
-      isActive: false,
+      isActive: location.pathname === '/curator/export',
 
-      onClick: () => message.info('Функция экспорта отчетов находится в разработке'),
+      onClick: () => navigate('/curator/export'),
     },
   ]
 

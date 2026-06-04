@@ -18,7 +18,7 @@ COPY *.json craco.config.js /app/
 COPY src /app/src
 COPY public /app/public
 
-RUN npm run build
+RUN GENERATE_SOURCEMAP=false npm run build
 
 FROM nginx:stable-alpine-slim
 
